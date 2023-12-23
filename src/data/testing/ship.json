@@ -1,0 +1,5 @@
+{
+    "systems": {
+        "hull": {"max_hitpoints": 100}
+    }
+}

@@ -1,12 +1,12 @@
 from typing import Callable
-from .event_manager import EventManager
+from .event_bus import EventBus
 
 # A base class, inherited if event functionalities are required
 class EventSubscriber():
     SUBSCRIPTIONS: dict[str, Callable] = {}
 
     def __init__(self) -> None:
-        self.event_manager = EventManager.get_instance()
+        self.event_manager = EventBus.get_instance()
         self.init_subscriptions()
 
     def init_subscriptions(self):

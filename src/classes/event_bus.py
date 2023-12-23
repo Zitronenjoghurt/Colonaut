@@ -1,17 +1,20 @@
 from .event import Event
 from typing import Callable
 
-class EventManager():
+class EventBus():
     _instance = None
 
     def __init__(self) -> None:
+        if EventBus._instance is not None:
+            raise RuntimeError("Tried to initialize multiple instances of EventBus.")
+        
         self.listeners: dict[str, list[Callable]] = {}
 
     @staticmethod
-    def get_instance() -> 'EventManager':
-        if EventManager._instance is None:
-            EventManager._instance = EventManager()
-        return EventManager._instance
+    def get_instance() -> 'EventBus':
+        if EventBus._instance is None:
+            EventBus._instance = EventBus()
+        return EventBus._instance
     
     def subscribe(self, event_type: str, listener: Callable) -> None:
         if event_type not in self.listeners:

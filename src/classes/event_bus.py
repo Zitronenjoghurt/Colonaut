@@ -18,6 +18,10 @@ class EventBus():
             EventBus._instance = EventBus()
         return EventBus._instance
     
+    @staticmethod
+    def reset_instance() -> None:
+        EventBus._instance = None
+    
     """
     Possible errors:
     - RuntimeError

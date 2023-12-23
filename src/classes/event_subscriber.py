@@ -2,7 +2,7 @@ from typing import Callable
 from .event_bus import EventBus
 
 # A base class, inherited if event functionalities are required
-class EventSubscriber():
+class BaseEventSubscriber():
     SUBSCRIPTIONS: dict[str, Callable] = {}
 
     def __init__(self) -> None:

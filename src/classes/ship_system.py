@@ -43,3 +43,11 @@ class BatterySystem(ShipSystem):
         self.capacity = max_capacity
 
         super().__init__(max_hitpoints=max_hitpoints)
+
+class SolarPanelSystem(ShipSystem):
+    NAME = "solar_panel"
+
+    def __init__(self, max_hitpoints: int, charge_capacity: int) -> None:
+        self.charge_capacity = charge_capacity
+
+        super().__init__(max_hitpoints=max_hitpoints)

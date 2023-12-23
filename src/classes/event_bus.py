@@ -1,6 +1,7 @@
 from typing import Callable
 from .event import Event
 from .response import Response
+from ..constants.custom_exceptions import EventTypeNotSubscribedError
 
 class EventBus():
     _instance = None
@@ -17,14 +18,23 @@ class EventBus():
             EventBus._instance = EventBus()
         return EventBus._instance
     
+    """
+    Possible errors:
+    - RuntimeError
+    """
     def subscribe(self, event_type: str, listener: Callable) -> None:
         if self.listeners.get(event_type, None) is not None:
             raise RuntimeError(f"Subscription on event type {event_type} already exists.")
         self.listeners[event_type] = listener
 
+    """
+    Possible errors:
+    - EventTypeNotSubscribedError
+    - RuntimeError
+    """
     def publish(self, event: Event) -> Response:
         if event.type not in self.listeners:
-            raise ValueError(f"Event type {event.type} has no listener.")
+            raise EventTypeNotSubscribedError(event_type=event.type)
         
         listener = self.listeners[event.type]
         try:

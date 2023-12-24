@@ -1,16 +1,20 @@
-from typing import Callable, Optional
+from typing import Optional
+from .event import Event
 from .event_subscriber import BaseEventSubscriber
 from .response import Response
+from ..constants.custom_exceptions import EventTypeNotSubscribedError
+from ..modules.validator import validate_int
 
 class ShipSystem(BaseEventSubscriber):
     NAME = "default"
 
-    def __init__(self, max_hitpoints: int, hitpoints: Optional[int] = None) -> None:
-        if hitpoints is None:
-            hitpoints = max_hitpoints
+    def __init__(self, max_hp: int, hp: Optional[int] = None) -> None:
+        super().__init__()
+        if hp is None:
+            hp = max_hp
 
-        self.max_hitpoints = max_hitpoints
-        self.hitpoints = hitpoints
+        self.max_hp = max_hp
+        self.hp = hp
 
     """
     Possible errors:
@@ -22,8 +26,8 @@ class ShipSystem(BaseEventSubscriber):
     
     def to_dict(self) -> dict:
         return {
-            "max_hitpoints": self.max_hitpoints,
-            "hitpoints": self.hitpoints
+            "max_hp": self.max_hp,
+            "hp": self.hp
         }
     
     """
@@ -31,25 +35,30 @@ class ShipSystem(BaseEventSubscriber):
     - ValueError
     """
     def damage(self, amount: int) -> Response:
-        if not isinstance(amount, int):
-            raise ValueError("Amount must be of type int.")
-        if amount < 0:
-            raise ValueError("Amount must be greater or equal 0.")
-        self.hitpoints -= amount
+        validate_int(value=amount, value_name="amount", min_value=0)
+        
+        damage = amount
+        initial_hp = self.hp
 
-        if self.hitpoints < 0:
-            self.hitpoints = 0
+        self.hp -= amount
+        if self.hp < 0:
+            damage = initial_hp
+            self.hp = 0
 
+        return Response.create(f"{self.NAME.capitalize()} took {damage} damage.")
+    
+    # Whatever the ship system has to do every jump
+    def work(self) -> Response:
         return Response.create()
     
     def get_name(self) -> str:
         return self.NAME
     
-    def get_max_hitpoints(self) -> int:
-        return self.max_hitpoints
+    def get_max_hp(self) -> int:
+        return self.max_hp
     
-    def get_hitpoints(self) -> int:
-        return self.hitpoints
+    def get_hp(self) -> int:
+        return self.hp
 
 class HullSystem(ShipSystem):
     NAME = "hull"
@@ -57,14 +66,30 @@ class HullSystem(ShipSystem):
 class BatterySystem(ShipSystem):
     NAME = "battery"
 
-    def __init__(self, max_hitpoints: int, max_capacity: int, hitpoints: Optional[int] = None, capacity: Optional[int] = None) -> None:
+    def __init__(self, max_hp: int, max_capacity: int, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
+        self.SUBSCRIPTIONS = {
+            Event.TYPES.BATTERY_CHARGE: self.charge
+        }
         if capacity is None:
             capacity = max_capacity
 
         self.max_capacity = max_capacity
         self.capacity = capacity
 
-        super().__init__(max_hitpoints=max_hitpoints, hitpoints=hitpoints)
+        super().__init__(max_hp=max_hp, hp=hp)
+
+    def charge(self, amount: int) -> Response:
+        validate_int(value=amount, value_name="amount", min_value=0)
+        
+        charge = amount
+        initial_capacity = self.capacity
+
+        self.capacity += amount
+        if self.capacity > self.max_capacity:
+            charge = self.max_capacity - initial_capacity
+            self.capacity = self.max_capacity
+        
+        return Response.create(f"Battery charged by {charge}")
 
     def to_dict(self) -> dict:
         base_dict = super().to_dict()
@@ -73,14 +98,20 @@ class BatterySystem(ShipSystem):
             "capacity": self.capacity
         })
         return base_dict
+    
+    def get_max_capacity(self) -> int:
+        return self.max_capacity
+    
+    def get_capacity(self) -> int:
+        return self.capacity
 
 class SolarPanelSystem(ShipSystem):
     NAME = "solar panel"
 
-    def __init__(self, max_hitpoints: int, charge_capacity: int) -> None:
+    def __init__(self, max_hp: int, charge_capacity: int, hp: Optional[int] = None) -> None:
         self.charge_capacity = charge_capacity
 
-        super().__init__(max_hitpoints=max_hitpoints)
+        super().__init__(max_hp=max_hp, hp=hp)
 
     def to_dict(self) -> dict:
         base_dict = super().to_dict()
@@ -88,6 +119,19 @@ class SolarPanelSystem(ShipSystem):
             "charge_capacity": self.charge_capacity
         })
         return base_dict
+    
+    def work(self) -> Response:
+        charge_event = Event(Event.TYPES.BATTERY_CHARGE, amount=self.charge_capacity)
+
+        try:
+            response = self.publish_event(event=charge_event)
+        except EventTypeNotSubscribedError:
+            return Response.create("Solar panel has no battery to charge.")
+        
+        return response
+    
+    def get_charge_capacity(self) -> int:
+        return self.charge_capacity
     
 class ShipSystemFactory():
     REGISTRY = {

@@ -33,6 +33,15 @@ class EventBus():
 
     """
     Possible errors:
+    - RuntimeError
+    """
+    def unsubscribe(self, event_type: str, listener: Callable) -> None:
+        if self.listeners.get(event_type, None) is None:
+            raise RuntimeError(f"Subscription on event type {event_type} does not exist.")
+        self.listeners.pop(event_type)
+
+    """
+    Possible errors:
     - EventTypeNotSubscribedError
     - RuntimeError
     """

@@ -1,5 +1,7 @@
 {
     "systems": {
-        "hull": {"max_hitpoints": 100}
+        "hull": {"max_hp": 100},
+        "battery": {"max_hp": 100, "capacity": 400, "max_capacity": 500},
+        "solar panel": {"max_hp": 100, "charge_capacity": 20}
     }
 }

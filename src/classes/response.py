@@ -4,6 +4,10 @@ class Response():
     def __init__(self, message: str = "", data = None) -> None:
         self.message = message
         self.data = data
+
+    # Response is true if its not empty
+    def __bool__(self):
+        return len(self.message) > 0 and self.data is not None
     
     def get_message(self) -> str:
         return self.message

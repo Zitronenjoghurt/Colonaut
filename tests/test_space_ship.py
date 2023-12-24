@@ -16,13 +16,13 @@ def space_ship():
 
 def test_init(space_ship: SpaceShip):
     hull: HullSystem = space_ship.get_system("hull").get_data()
-    assert hull.get_hitpoints() == 100
-    assert hull.get_max_hitpoints() == 100
+    assert hull.get_hp() == 100
+    assert hull.get_max_hp() == 100
 
 def test_damage_system(space_ship: SpaceShip):
     damage_event = Event(Event.TYPES.SHIP_DAMAGE_SYSTEM, system_name = "hull", amount = 10)
     space_ship.publish_event(event=damage_event)
 
     hull: HullSystem = space_ship.get_system("hull").get_data()
-    assert hull.get_hitpoints() == 90
-    assert hull.get_max_hitpoints() == 100
+    assert hull.get_hp() == 90
+    assert hull.get_max_hp() == 100

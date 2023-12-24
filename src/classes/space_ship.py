@@ -3,13 +3,14 @@ from .event import Event
 from .response import Response
 from .event_subscriber import BaseEventSubscriber
 from .ship_system import ShipSystem
+from .ship_system_factory import ShipSystemFactory
 from ..constants.custom_exceptions import ShipSystemNotFoundError
 
 class SpaceShip(BaseEventSubscriber):
     def __init__(self, systems: Optional[dict[str, ShipSystem]] = None) -> None:
         self.SUBSCRIPTIONS = {
             Event.TYPES.SHIP_RETRIEVE_SYSTEM: self.get_system,
-            Event.TYPES.SHIP_DAMAGE_SYSTEM: self.on_system_damage
+            Event.TYPES.SHIP_DAMAGE_SYSTEM: self.damage_system
         }
         super().__init__()
         if systems is None:
@@ -24,7 +25,7 @@ class SpaceShip(BaseEventSubscriber):
         
         systems = {}
         for system_name, system_dict in systems_data.items():
-            system = ShipSystem.from_dict(system_name=system_name, data=system_dict)
+            system = ShipSystemFactory.create_from_dict(system_name=system_name, data=system_dict)
             systems[system_name] = system
         return SpaceShip(systems=systems)
 
@@ -43,7 +44,7 @@ class SpaceShip(BaseEventSubscriber):
     - ShipSystemNotFoundError
     - ValueError
     """
-    def on_system_damage(self, system_name: str, amount: int) -> Response:
+    def damage_system(self, system_name: str, amount: int) -> Response:
         system_name = system_name.lower()
         system_response = self.get_system(system_name=system_name)
         system: ShipSystem = system_response.get_data()

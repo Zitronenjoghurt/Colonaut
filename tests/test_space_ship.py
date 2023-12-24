@@ -3,7 +3,7 @@ import pytest
 from src.classes.event import Event
 from src.classes.event_bus import EventBus
 from src.classes.space_ship import SpaceShip
-from src.classes.ship_system import HullSystem
+from src.classes.ship_systems import HullSystem
 from src.modules.utilities import file_to_dict
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))

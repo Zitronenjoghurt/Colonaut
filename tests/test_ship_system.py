@@ -3,18 +3,22 @@ import pytest
 from src.classes.event import Event
 from src.classes.event_bus import EventBus
 from src.classes.space_ship import SpaceShip
-from src.classes.ship_system import ShipSystem, BatterySystem, HullSystem, SolarPanelSystem
-from src.modules.utilities import file_to_dict
+from src.classes.ship_system import ShipSystem
+from src.classes.ship_systems import BatterySystem, HullSystem, SolarPanelSystem
 
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+from src.modules.utilities import file_to_dict
 
 @pytest.fixture
 def setup():
     EventBus.reset_instance()
 
 @pytest.fixture
-def space_ship(setup):
-    ship_file = os.path.join(CURRENT_DIR, '..', 'src', 'data', 'testing', 'ship.json')
+def current_dir():
+    return os.path.dirname(os.path.abspath(__file__))
+
+@pytest.fixture
+def space_ship(setup, current_dir):
+    ship_file = os.path.join(current_dir, '..', 'src', 'data', 'testing', 'ship.json')
     ship_dict = file_to_dict(ship_file)
     return SpaceShip.from_dict(data=ship_dict)
 

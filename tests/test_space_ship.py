@@ -2,6 +2,7 @@ import os
 import pytest
 from src.classes.event import Event
 from src.classes.event_bus import EventBus
+from src.classes.response import Response
 from src.classes.space_ship import SpaceShip
 from src.classes.ship_systems import HullSystem
 from src.modules.utilities import file_to_dict
@@ -14,15 +15,18 @@ def space_ship():
     ship_dict = file_to_dict(ship_file)
     return SpaceShip.from_dict(data=ship_dict)
 
+def assert_response_data(response: Response, expected_data):
+    assert response.get_data() == expected_data
+
 def test_init(space_ship: SpaceShip):
     hull: HullSystem = space_ship.get_system("hull").get_data()
-    assert hull.get_hp() == 100
-    assert hull.get_max_hp() == 100
+    assert_response_data(hull.get_hp(), 100)
+    assert_response_data(hull.get_max_hp(), 100)
 
 def test_damage_system(space_ship: SpaceShip):
     damage_event = Event(Event.TYPES.SHIP_DAMAGE_SYSTEM, system_name = "hull", amount = 10)
     space_ship.publish_event(event=damage_event)
 
     hull: HullSystem = space_ship.get_system("hull").get_data()
-    assert hull.get_hp() == 90
-    assert hull.get_max_hp() == 100
+    assert_response_data(hull.get_hp(), 90)
+    assert_response_data(hull.get_max_hp(), 100)

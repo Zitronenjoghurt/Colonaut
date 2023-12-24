@@ -14,7 +14,7 @@ class SolarPanelSystem(ShipSystem):
         super().__init__(max_hp=max_hp, hp=hp)
 
     def to_dict(self) -> dict:
-        base_dict = super().to_dict()
+        base_dict: dict = super().to_dict().get_data()
         base_dict.update({
             "charge_capacity": self.charge_capacity
         })
@@ -30,5 +30,5 @@ class SolarPanelSystem(ShipSystem):
         
         return response
     
-    def get_charge_capacity(self) -> int:
-        return self.charge_capacity
+    def get_charge_capacity(self) -> Response:
+        return Response.from_data(self.charge_capacity)

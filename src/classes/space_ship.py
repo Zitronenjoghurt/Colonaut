@@ -29,7 +29,7 @@ class SpaceShip(BaseEventSubscriber):
             systems[system_name] = system
         return SpaceShip(systems=systems)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Response:
         systems = {}
         for system in self.systems.values():
             systems[system.NAME] = system.to_dict()
@@ -37,7 +37,7 @@ class SpaceShip(BaseEventSubscriber):
         result = {
             "systems": systems
         }
-        return result
+        return Response.from_data(result)
 
     """
     Possible errors:

@@ -15,11 +15,12 @@ class ShipSystem(BaseEventSubscriber):
         self.max_hp = max_hp
         self.hp = hp
     
-    def to_dict(self) -> dict:
-        return {
+    def to_dict(self) -> Response:
+        data = {
             "max_hp": self.max_hp,
             "hp": self.hp
         }
+        return Response.from_data(data)
     
     """
     Possible errors:
@@ -42,11 +43,11 @@ class ShipSystem(BaseEventSubscriber):
     def work(self) -> Response:
         return Response.create()
     
-    def get_name(self) -> str:
-        return self.NAME
+    def get_name(self) -> Response:
+        return Response.from_data(self.NAME)
     
-    def get_max_hp(self) -> int:
-        return self.max_hp
+    def get_max_hp(self) -> Response:
+        return Response.from_data(self.max_hp)
     
-    def get_hp(self) -> int:
-        return self.hp
+    def get_hp(self) -> Response:
+        return Response.from_data(self.hp)

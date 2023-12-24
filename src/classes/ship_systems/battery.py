@@ -35,18 +35,18 @@ class BatterySystem(ShipSystem):
             charge = self.max_capacity - initial_capacity
             self.capacity = self.max_capacity
         
-        return Response.create(f"Battery charged by {charge}")
+        return Response.from_message(f"Battery charged by {charge}")
 
-    def to_dict(self) -> dict:
-        base_dict = super().to_dict()
+    def to_dict(self) -> Response:
+        base_dict: dict = super().to_dict().get_data()
         base_dict.update({
             "max_capacity": self.max_capacity,
             "capacity": self.capacity
         })
-        return base_dict
+        return Response.from_data(base_dict)
     
-    def get_max_capacity(self) -> int:
-        return self.max_capacity
+    def get_max_capacity(self) -> Response:
+        return Response.from_data(self.max_capacity)
     
-    def get_capacity(self) -> int:
-        return self.capacity
+    def get_capacity(self) -> Response:
+        return Response.from_data(self.capacity)

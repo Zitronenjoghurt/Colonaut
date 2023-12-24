@@ -18,3 +18,11 @@ class Response():
     @staticmethod
     def create(message: str = "", data: Any = None) -> 'Response':
         return Response(message=message, data=data)
+    
+    @staticmethod
+    def from_data(data: Any) -> 'Response':
+        return Response(data=data)
+    
+    @staticmethod
+    def from_message(message: str) -> 'Response':
+        return Response(message=message)

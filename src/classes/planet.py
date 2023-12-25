@@ -14,11 +14,13 @@ class Planet():
         self.radius = radius
         self.density = density
         self.mass = phy.sphere_mass(radius=radius, density=density)
+        self.volume = phy.sphere_volume(radius=radius)
 
         self.mass.validate_of_class("mass")
+        self.volume.validate_of_class("volume")
 
     def __str__(self) -> str:
-        string = f"Temperature: {str(self.temperature)}\nRadius: {str(self.radius)}\nDensity: {str(self.density)}\nMass: {str(self.mass)}"
+        string = f"Temperature: {str(self.temperature)}\nRadius: {str(self.radius)}\nVolume: {str(self.volume)}\nDensity: {str(self.density)}\nMass: {str(self.mass)}"
         return string
         
     @staticmethod

@@ -7,13 +7,15 @@
         "density": "kg/m^3",
         "length": "km",
         "mass": "kg",
-        "volume": "m^3"
+        "volume": "m^3",
+        "time": "s"
     },
     "display_units": {
         "temperature": "°C",
         "density": "g/cm^3",
         "length": "km",
         "mass": "kg",
-        "volume": "m^3"
+        "volume": "m^3",
+        "time": "h"
     }
 }

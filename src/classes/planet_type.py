@@ -1,21 +1,19 @@
 import os
 import random
 from typing import Optional
+from .unit_value import UnitValue
 from ..modules.utilities import file_to_dict
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class PlanetType():
     def __init__(self, min_temperature: float = 0, max_temperature: float = 0, min_radius: float = 0, max_radius: float = 0, min_density: float = 0, max_density: float = 0) -> None:
-        # Temperature in °K
-        self.min_temperature = min_temperature
-        self.max_temperature = max_temperature
-        # Radius in km
-        self.min_radius = min_radius
-        self.max_radius = max_radius
-        # Density in kg/m^3
-        self.min_density = min_density
-        self.max_density = max_density
+        self.min_temperature = UnitValue(min_temperature, "K")
+        self.max_temperature = UnitValue(max_temperature, "K")
+        self.min_radius = UnitValue(min_radius, "km")
+        self.max_radius = UnitValue(max_radius, "km")
+        self.min_density = UnitValue(min_density, "kg/m^3")
+        self.max_density = UnitValue(max_density, "kg/m^3")
 
     @staticmethod
     def from_dict(data: dict) -> 'PlanetType':
@@ -58,13 +56,13 @@ class PlanetType():
         return property_min, property_max
         
     def generate_temperature(self) -> float:
-        random_temperature = random.uniform(self.min_temperature, self.max_temperature)
+        random_temperature = random.uniform(self.min_temperature.value, self.max_temperature.value)
         return round(random_temperature, 2)
     
     def generate_radius(self) -> float:
-        random_radius = random.uniform(self.min_radius, self.max_radius)
+        random_radius = random.uniform(self.min_radius.value, self.max_radius.value)
         return round(random_radius, 2)
     
     def generate_density(self) -> float:
-        random_density = random.uniform(self.min_density, self.max_density)
+        random_density = random.uniform(self.min_density.value, self.max_density.value)
         return round(random_density, 2)

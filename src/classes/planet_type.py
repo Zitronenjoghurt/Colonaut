@@ -1,5 +1,6 @@
 import os
 import random
+import src.modules.physics as phy
 from typing import Optional
 from .config import Config
 from .unit_value import UnitValue
@@ -66,15 +67,30 @@ class PlanetType():
         property_min = property_dict.get("min", default)
         property_max = property_dict.get("max", default)
         return property_min, property_max
+    
+    def generate_planetary_data(self) -> dict[str, UnitValue]:
+        temperature = self.generate_temperature()
+        radius = self.generate_radius()
+        density = self.generate_density()
+        mass = phy.sphere_mass(radius=radius, density=density)
+
+        data = {
+            "temperature": temperature,
+            "radius": radius,
+            "density": density,
+            "mass": mass
+        }
+
+        return data
         
-    def generate_temperature(self) -> float:
+    def generate_temperature(self) -> UnitValue:
         random_temperature = random.uniform(self.min_temperature.value, self.max_temperature.value)
-        return round(random_temperature, 2)
+        return UnitValue(random_temperature, CONFIG.DEFAULT_CONFIG_TEMPERATURE_UNIT)
     
-    def generate_radius(self) -> float:
+    def generate_radius(self) -> UnitValue:
         random_radius = random.uniform(self.min_radius.value, self.max_radius.value)
-        return round(random_radius, 2)
+        return UnitValue(random_radius, CONFIG.DEFAULT_CONFIG_LENGTH_UNIT)
     
-    def generate_density(self) -> float:
+    def generate_density(self) -> UnitValue:
         random_density = random.uniform(self.min_density.value, self.max_density.value)
-        return round(random_density, 2)
+        return UnitValue(random_density, CONFIG.DEFAULT_CONFIG_DENSITY_UNIT)

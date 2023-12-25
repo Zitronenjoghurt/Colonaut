@@ -43,6 +43,14 @@ class UnitValue():
         new_value = conversion_function(self.value)
         return UnitValue(value=new_value, unit=target_unit)
     
+    def to_volume(self) -> 'UnitValue':
+        self.validate_of_class("length")
+
+        new_value = self.value ** 3
+        new_unit = self.unit + "^3"
+
+        return UnitValue(value=new_value, unit=new_unit)
+
     def get_value(self) -> float:
         return round(self.value, CONFIG.DECIMAL_DIGITS)
     

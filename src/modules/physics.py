@@ -1,17 +1,17 @@
-def celcius_to_fahrenheit(celcius):
-    return celcius * 9 / 5 + 32
+import math
+from ..classes.unit_value import UnitValue
 
-def celcius_to_kelvin(celcius):
-    return celcius + 273.15
+def sphere_volume(radius: UnitValue) -> UnitValue:
+    radius_cubed = radius.to_volume()
+    sphere_volume_value = radius_cubed.value * math.pi * (4/3)
 
-def fahrenheit_to_celcius(fahrenheit):
-    return (fahrenheit - 32) * 5 / 9
+    return UnitValue(value=sphere_volume_value, unit=radius_cubed.unit)
 
-def fahrenheit_to_kelvin(fahrenheit):
-    return (fahrenheit - 32) * 5 / 9 + 273.15
+def sphere_mass(radius: UnitValue, density: UnitValue) -> UnitValue:
+    radius.convert("m")
+    density.convert("kg/m^3")
 
-def kelvin_to_celcius(kelvin):
-    return kelvin - 273.15
+    volume = sphere_volume(radius=radius)
 
-def kelvin_to_fahrenheit(kelvin):
-    return (kelvin - 273.15) * 9 / 5 + 32
+    mass = volume.value * density.value
+    return UnitValue(value=mass, unit="kg")

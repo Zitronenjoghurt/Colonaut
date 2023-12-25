@@ -1,6 +1,7 @@
+import re
 import src.modules.validator as validator
 from .config import Config
-from ..constants.physical_units import CONVERSIONS, UNIT_CLASS_MAP
+from ..constants.physical_units import CONVERSIONS, UNIT_CLASS_MAP, CLASS_UNIT_MAP
 
 CONFIG = Config.get_instance()
 
@@ -13,6 +14,51 @@ class UnitValue():
 
     def __str__(self) -> str:
         return f"{str(self.get_value())}{self.unit}"
+    
+    @staticmethod
+    def from_zero(unit_class: str) -> 'UnitValue':
+        validator.validate_physical_unit_class(unit_class=unit_class)
+        class_units = CLASS_UNIT_MAP.get(unit_class, None)
+
+        if class_units is None:
+            raise RuntimeError(f"An error occured while retrieving available units of class {unit_class}")
+
+        return UnitValue(0, class_units[0])
+    
+    @staticmethod
+    def from_any(data) -> 'UnitValue':
+        if isinstance(data, str):
+            return UnitValue.from_string(data)
+        if isinstance(data, dict):
+            return UnitValue.from_dict(data)
+        raise ValueError(f"Cant initialize unit value from given data: {data}")
+    
+    @staticmethod
+    def from_string(string: str) -> 'UnitValue':
+        match_groups = re.match(r"([0-9.e+-]+)([a-zA-Z/^]+[a-zA-Z0-9/^]*)", string)
+        if match_groups:
+            value = float(match_groups.group(1))
+            unit = match_groups.group(2)
+            return UnitValue(value=value, unit=unit)
+        else:
+            raise ValueError(f"Cant initialize unit value from string: invalid format.")
+        
+    @staticmethod
+    def from_dict(data: dict) -> 'UnitValue':
+        value = data.get("value", None)
+        unit = data.get("unit", None)
+
+        if value is None:
+            raise ValueError(f"Cant initialize unit value from dict: no value given.")
+        if unit is None:
+            raise ValueError(f"Cant initialize unit value from dict: no value given.")
+        
+        try:
+            value = float(value)
+        except (ValueError, TypeError):
+            raise ValueError(f"Cant initialize unit value from dict: value cant be converted to float")
+        
+        return UnitValue(value=value, unit=unit)
     
     def validate_of_class(self, unit_class: str) -> None:
         validator.validate_physical_unit_class(unit_class=unit_class)

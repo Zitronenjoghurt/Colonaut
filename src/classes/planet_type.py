@@ -1,6 +1,5 @@
 import os
 import random
-import src.modules.physics as phy
 from typing import Optional
 from .config import Config
 from .unit_value import UnitValue
@@ -72,13 +71,11 @@ class PlanetType():
         temperature = self.generate_temperature()
         radius = self.generate_radius()
         density = self.generate_density()
-        mass = phy.sphere_mass(radius=radius, density=density)
 
         data = {
             "temperature": temperature,
             "radius": radius,
-            "density": density,
-            "mass": mass
+            "density": density
         }
 
         return data

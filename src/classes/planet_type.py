@@ -38,12 +38,12 @@ class PlanetType():
         min_density, max_density = PlanetType.get_min_max(density, 0)
 
         planet_type = PlanetType(
-            min_temperature=UnitValue(min_temperature, CONFIG.DEFAULT_CONFIG_TEMPERATURE_UNIT),
-            max_temperature=UnitValue(max_temperature, CONFIG.DEFAULT_CONFIG_TEMPERATURE_UNIT),
-            min_radius=UnitValue(min_radius, CONFIG.DEFAULT_CONFIG_LENGTH_UNIT),
-            max_radius=UnitValue(max_radius, CONFIG.DEFAULT_CONFIG_LENGTH_UNIT),
-            min_density=UnitValue(min_density, CONFIG.DEFAULT_CONFIG_DENSITY_UNIT),
-            max_density=UnitValue(max_density, CONFIG.DEFAULT_CONFIG_DENSITY_UNIT)
+            min_temperature=UnitValue(min_temperature, CONFIG.CONFIG_UNITS["temperature"]),
+            max_temperature=UnitValue(max_temperature, CONFIG.CONFIG_UNITS["temperature"]),
+            min_radius=UnitValue(min_radius, CONFIG.CONFIG_UNITS["length"]),
+            max_radius=UnitValue(max_radius, CONFIG.CONFIG_UNITS["length"]),
+            min_density=UnitValue(min_density, CONFIG.CONFIG_UNITS["density"]),
+            max_density=UnitValue(max_density, CONFIG.CONFIG_UNITS["density"])
         )
 
         return planet_type
@@ -82,12 +82,12 @@ class PlanetType():
         
     def generate_temperature(self) -> UnitValue:
         random_temperature = random.uniform(self.min_temperature.value, self.max_temperature.value)
-        return UnitValue(random_temperature, CONFIG.DEFAULT_CONFIG_TEMPERATURE_UNIT)
+        return UnitValue(random_temperature, CONFIG.CONFIG_UNITS["temperature"])
     
     def generate_radius(self) -> UnitValue:
         random_radius = random.uniform(self.min_radius.value, self.max_radius.value)
-        return UnitValue(random_radius, CONFIG.DEFAULT_CONFIG_LENGTH_UNIT)
+        return UnitValue(random_radius, CONFIG.CONFIG_UNITS["length"])
     
     def generate_density(self) -> UnitValue:
         random_density = random.uniform(self.min_density.value, self.max_density.value)
-        return UnitValue(random_density, CONFIG.DEFAULT_CONFIG_DENSITY_UNIT)
+        return UnitValue(random_density, CONFIG.CONFIG_UNITS["density"])

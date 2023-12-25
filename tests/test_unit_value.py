@@ -9,6 +9,21 @@ VALUES = [
     {"°K": 233.15, "°C": -40, "°F": -40}
 ]
 
+def test_str():
+    a = UnitValue(1e7, "km")
+    b = UnitValue(1e6, "km")
+    c = UnitValue(1e5, "g/cm^3")
+    d = UnitValue(1e-1, "m^3")
+    e = UnitValue(1e-2, "°C")
+    f = UnitValue(1e-3, "kg")
+
+    assert str(a) == "1.00e+07km"
+    assert str(b) == "1000000.00km"
+    assert str(c) == "100000.00g/cm^3"
+    assert str(d) == "0.10m^3"
+    assert str(e) == "0.01°C"
+    assert str(f) == "1.00e-03kg"
+
 def test_conversion():
     for unit_values in VALUES:
         units = list(unit_values.keys())
@@ -17,7 +32,7 @@ def test_conversion():
             unit_value = UnitValue(value=value, unit=unit)
             for test_unit in test_units:
                 test_value = unit_value.convert(test_unit).get_value()
-                assert test_value == unit_values[test_unit]
+                assert round(test_value, 2) == unit_values[test_unit]
 
 def test_to_volume():
     mm = UnitValue(value=10, unit="mm")

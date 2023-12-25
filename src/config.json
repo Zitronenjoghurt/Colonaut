@@ -1,9 +1,19 @@
 {
     "decimal_digits": 2,
-    "default_config_temperature_unit": "°K",
-    "default_config_density_unit": "kg/m^3",
-    "default_config_length_unit": "km",
-    "display_temperature_unit": "°C",
-    "display_density_unit": "g/cm^3",
-    "display_length_unit": "km"
+    "scientific_notation_upper_treshhold": 1e7,
+    "scientific_notation_lower_treshold": 1e-2,
+    "config_units": {
+        "temperature": "°K",
+        "density": "kg/m^3",
+        "length": "km",
+        "mass": "kg",
+        "volume": "m^3"
+    },
+    "display_units": {
+        "temperature": "°C",
+        "density": "g/cm^3",
+        "length": "km",
+        "mass": "kg",
+        "volume": "m^3"
+    }
 }

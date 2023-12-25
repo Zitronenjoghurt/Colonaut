@@ -13,7 +13,9 @@ class UnitValue():
         self.unit = unit
 
     def __str__(self) -> str:
-        return f"{str(self.get_value())}{self.unit}"
+        unit_class = UNIT_CLASS_MAP.get(self.unit, "")
+        converted_value = self.convert(CONFIG.DISPLAY_UNITS[unit_class])
+        return f"{str(converted_value.get_value_formatted())}{converted_value.get_unit()}"
     
     @staticmethod
     def from_zero(unit_class: str) -> 'UnitValue':
@@ -98,7 +100,14 @@ class UnitValue():
         return UnitValue(value=new_value, unit=new_unit)
 
     def get_value(self) -> float:
-        return round(self.value, CONFIG.DECIMAL_DIGITS)
+        return self.value
+    
+    def get_value_formatted(self) -> str:
+        use_scientific_notation = (abs(self.value) >= CONFIG.SCIENTIFIC_NOTATION_UPPER_TRESHOLD or abs(self.value) < CONFIG.SCIENTIFIC_NOTATION_LOWER_TRESHOLD) and self.value != 0
+        if use_scientific_notation:
+            return f"{self.value:.{CONFIG.DECIMAL_DIGITS}e}"
+        else:
+            return f"{self.value:.{CONFIG.DECIMAL_DIGITS}f}"
     
     def get_unit(self) -> str:
         return self.unit

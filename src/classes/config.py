@@ -1,5 +1,6 @@
 import os
 import src.modules.validator as validator
+from ..constants.physical_units import EXISTING_CLASSES
 from ..modules.utilities import file_to_dict
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -15,22 +16,17 @@ class Config():
         config_data = file_to_dict(CONFIG_FILE_PATH)
 
         self.DECIMAL_DIGITS: int = config_data.get("decimal_digits", 2)
-        self.DEFAULT_CONFIG_TEMPERATURE_UNIT: str = config_data.get("default_config_temperature_unit", "°K")
-        self.DEFAULT_CONFIG_DENSITY_UNIT: str = config_data.get("default_config_density_unit", "kg/m^3")
-        self.DEFAULT_CONFIG_LENGTH_UNIT: str = config_data.get("default_config_length_unit", "km")
-        self.DISPLAY_TEMPERATURE_UNIT: str = config_data.get("display_temperature_unit", "°C")
-        self.DISPLAY_DENSITY_UNIT: str = config_data.get("display_density_unit", "g/cm^3")
-        self.DISPLAY_LENGTH_UNIT: str = config_data.get("display_length_unit", "km")
+        self.SCIENTIFIC_NOTATION_UPPER_TRESHOLD: float = config_data.get("scientific_notation_upper_treshold", 1e7)
+        self.SCIENTIFIC_NOTATION_LOWER_TRESHOLD: float = config_data.get("scientific_notation_lower_treshold", 1e-2)
+        self.CONFIG_UNITS: dict[str, str] = config_data.get("config_units", {})
+        self.DISPLAY_UNITS: dict[str, str] = config_data.get("display_units", {})
 
         try:
             validator.validate_int(self.DECIMAL_DIGITS, "decimal_digits", 0, 10)
-            validator.validate_physical_unit_and_class(self.DEFAULT_CONFIG_TEMPERATURE_UNIT, "temperature")
-            validator.validate_physical_unit_and_class(self.DEFAULT_CONFIG_DENSITY_UNIT, "density")
-            validator.validate_physical_unit_and_class(self.DEFAULT_CONFIG_LENGTH_UNIT, "length")
-            validator.validate_physical_unit_and_class(self.DISPLAY_TEMPERATURE_UNIT, "temperature")
-            validator.validate_physical_unit_and_class(self.DISPLAY_DENSITY_UNIT, "density")
-            validator.validate_physical_unit_and_class(self.DISPLAY_LENGTH_UNIT, "length")
-        except ValueError as e:
+            for unit_class in EXISTING_CLASSES:
+                validator.validate_physical_unit_and_class(self.CONFIG_UNITS[unit_class], unit_class)
+                validator.validate_physical_unit_and_class(self.DISPLAY_UNITS[unit_class], unit_class)
+        except (ValueError, TypeError, KeyError) as e:
             raise RuntimeError(f"An error occured while initializing the config: {e}\nCheck your config at {CONFIG_FILE_PATH}")
 
     @staticmethod

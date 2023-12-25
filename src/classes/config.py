@@ -20,6 +20,7 @@ class Config():
         self.SCIENTIFIC_NOTATION_LOWER_TRESHOLD: float = config_data.get("scientific_notation_lower_treshold", 1e-2)
         self.CONFIG_UNITS: dict[str, str] = config_data.get("config_units", {})
         self.DISPLAY_UNITS: dict[str, str] = config_data.get("display_units", {})
+        self.DISPLAY_UNITS_CONVENIENTLY: list[str] = config_data.get("display_units_conveniently", [])
 
         try:
             validator.validate_int(self.DECIMAL_DIGITS, "decimal_digits", 0, 10)

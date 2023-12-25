@@ -1,3 +1,4 @@
+import math
 import re
 import src.modules.validator as validator
 from .config import Config
@@ -14,7 +15,10 @@ class UnitValue():
 
     def __str__(self) -> str:
         unit_class = UNIT_CLASS_MAP.get(self.unit, "")
-        converted_value = self.convert(CONFIG.DISPLAY_UNITS[unit_class])
+        if unit_class in CONFIG.DISPLAY_UNITS_CONVENIENTLY:
+            converted_value = self.convert_conveniently()
+        else:
+            converted_value = self.convert(CONFIG.DISPLAY_UNITS[unit_class])
         return f"{str(converted_value.get_value_formatted())}{converted_value.get_unit()}"
     
     @staticmethod
@@ -90,6 +94,24 @@ class UnitValue():
         
         new_value = conversion_function(self.value)
         return UnitValue(value=new_value, unit=target_unit)
+    
+    def convert_conveniently(self) -> 'UnitValue':
+        unit_class = UNIT_CLASS_MAP.get(self.unit, "")
+        units = CLASS_UNIT_MAP.get(unit_class, [])
+
+        unit_conversions = {}
+        for unit in units:
+            unit_conversions[unit] = self.convert(unit)
+
+        most_convenient_unit = self.unit
+        smallest_value_above_one = float('inf')
+        for unit, unit_value in unit_conversions.items():
+            value = unit_value.value
+            if value >= 1 and value < smallest_value_above_one:
+                smallest_value_above_one = value
+                most_convenient_unit = unit
+
+        return unit_conversions[most_convenient_unit]
     
     def to_volume(self) -> 'UnitValue':
         self.validate_of_class("length")

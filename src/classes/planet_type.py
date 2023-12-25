@@ -9,14 +9,17 @@ CONFIG = Config.get_instance()
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class PlanetType():
-    def __init__(self, min_temperature: UnitValue, max_temperature: UnitValue, min_radius: UnitValue, max_radius: UnitValue, min_density: UnitValue, max_density: UnitValue) -> None:
-        self.min_temperature = min_temperature
-        self.max_temperature = max_temperature
-        self.min_radius = min_radius
-        self.max_radius = max_radius
-        self.min_density = min_density
-        self.max_density = max_density
-
+    def __init__(self, 
+                 min_temperature: UnitValue, 
+                 max_temperature: UnitValue, 
+                 min_radius: UnitValue, 
+                 max_radius: UnitValue, 
+                 min_density: UnitValue, 
+                 max_density: UnitValue,
+                 min_rot_period: UnitValue,
+                 max_rot_period: UnitValue,
+                 min_orb_period: UnitValue,
+                 max_orb_period: UnitValue) -> None:
         try:
             min_temperature.validate_of_class("temperature")
             max_temperature.validate_of_class("temperature")
@@ -24,18 +27,37 @@ class PlanetType():
             max_radius.validate_of_class("length")
             min_density.validate_of_class("density")
             max_density.validate_of_class("density")
+            min_rot_period.validate_of_class("time")
+            max_rot_period.validate_of_class("time")
+            min_orb_period.validate_of_class("time")
+            max_orb_period.validate_of_class("time")
         except ValueError as e:
             raise ValueError(f"An error occured while initializing planet type: {e}")
-
+        
+        self.min_temperature = min_temperature
+        self.max_temperature = max_temperature
+        self.min_radius = min_radius
+        self.max_radius = max_radius
+        self.min_density = min_density
+        self.max_density = max_density
+        self.min_rot_period = min_rot_period
+        self.max_rot_period = max_rot_period
+        self.min_orb_period = min_orb_period
+        self.max_orb_period = max_orb_period
+        
     @staticmethod
     def from_dict(data: dict) -> 'PlanetType':
         temperature = data.get("temperature", None)
         radius = data.get("radius", None)
         density = data.get("density", None)
+        rot_period = data.get("rotational_period", None)
+        orb_period = data.get("orbital_period", None)
 
         min_temperature, max_temperature = PlanetType.get_min_max(temperature, 0)
         min_radius, max_radius = PlanetType.get_min_max(radius, 0)
         min_density, max_density = PlanetType.get_min_max(density, 0)
+        min_rot_period, max_rot_period = PlanetType.get_min_max(rot_period, 0)
+        min_orb_period, max_orb_period = PlanetType.get_min_max(orb_period, 0)
 
         planet_type = PlanetType(
             min_temperature=UnitValue(min_temperature, CONFIG.CONFIG_UNITS["temperature"]),
@@ -43,7 +65,11 @@ class PlanetType():
             min_radius=UnitValue(min_radius, CONFIG.CONFIG_UNITS["length"]),
             max_radius=UnitValue(max_radius, CONFIG.CONFIG_UNITS["length"]),
             min_density=UnitValue(min_density, CONFIG.CONFIG_UNITS["density"]),
-            max_density=UnitValue(max_density, CONFIG.CONFIG_UNITS["density"])
+            max_density=UnitValue(max_density, CONFIG.CONFIG_UNITS["density"]),
+            min_rot_period=UnitValue(min_rot_period, CONFIG.CONFIG_UNITS["time"]),
+            max_rot_period=UnitValue(max_rot_period, CONFIG.CONFIG_UNITS["time"]),
+            min_orb_period=UnitValue(min_orb_period, CONFIG.CONFIG_UNITS["time"]),
+            max_orb_period=UnitValue(max_orb_period, CONFIG.CONFIG_UNITS["time"])
         )
 
         return planet_type
@@ -68,16 +94,13 @@ class PlanetType():
         return property_min, property_max
     
     def generate_planetary_data(self) -> dict[str, UnitValue]:
-        temperature = self.generate_temperature()
-        radius = self.generate_radius()
-        density = self.generate_density()
-
         data = {
-            "temperature": temperature,
-            "radius": radius,
-            "density": density
+            "temperature": self.generate_temperature(),
+            "radius": self.generate_radius(),
+            "density": self.generate_density(),
+            "rot_period": self.generate_rotational_period(),
+            "orb_period": self.generate_orbital_period()
         }
-
         return data
         
     def generate_temperature(self) -> UnitValue:
@@ -91,3 +114,11 @@ class PlanetType():
     def generate_density(self) -> UnitValue:
         random_density = random.uniform(self.min_density.value, self.max_density.value)
         return UnitValue(random_density, CONFIG.CONFIG_UNITS["density"])
+    
+    def generate_rotational_period(self) -> UnitValue:
+        random_rot_period = random.uniform(self.min_rot_period.value, self.max_rot_period.value)
+        return UnitValue(random_rot_period, CONFIG.CONFIG_UNITS["time"])
+    
+    def generate_orbital_period(self) -> UnitValue:
+        random_orb_period = random.uniform(self.min_orb_period.value, self.max_orb_period.value)
+        return UnitValue(random_orb_period, CONFIG.CONFIG_UNITS["time"])

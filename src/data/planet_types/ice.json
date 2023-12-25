@@ -1,5 +1,7 @@
 {
     "temperature": {"min": 10, "max": 270},
     "radius": {"min": 1000, "max": 20000},
-    "density": {"min": 1000, "max": 2500}
+    "density": {"min": 1000, "max": 2500},
+    "rotational_period": {"min": 1000, "max": 32e7},
+    "orbital_period": {"min": 3000, "max": 31e9}
 }

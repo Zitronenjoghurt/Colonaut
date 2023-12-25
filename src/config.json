@@ -17,5 +17,6 @@
         "mass": "kg",
         "volume": "m^3",
         "time": "h"
-    }
+    },
+    "display_units_conveniently": ["time"]
 }

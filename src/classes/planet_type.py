@@ -1,19 +1,31 @@
 import os
 import random
 from typing import Optional
+from .config import Config
 from .unit_value import UnitValue
 from ..modules.utilities import file_to_dict
 
+CONFIG = Config.get_instance()
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class PlanetType():
-    def __init__(self, min_temperature: float = 0, max_temperature: float = 0, min_radius: float = 0, max_radius: float = 0, min_density: float = 0, max_density: float = 0) -> None:
-        self.min_temperature = UnitValue(min_temperature, "K")
-        self.max_temperature = UnitValue(max_temperature, "K")
-        self.min_radius = UnitValue(min_radius, "km")
-        self.max_radius = UnitValue(max_radius, "km")
-        self.min_density = UnitValue(min_density, "kg/m^3")
-        self.max_density = UnitValue(max_density, "kg/m^3")
+    def __init__(self, min_temperature: UnitValue, max_temperature: UnitValue, min_radius: UnitValue, max_radius: UnitValue, min_density: UnitValue, max_density: UnitValue) -> None:
+        self.min_temperature = min_temperature
+        self.max_temperature = max_temperature
+        self.min_radius = min_radius
+        self.max_radius = max_radius
+        self.min_density = min_density
+        self.max_density = max_density
+
+        try:
+            min_temperature.validate_of_class("temperature")
+            max_temperature.validate_of_class("temperature")
+            min_radius.validate_of_class("length")
+            max_radius.validate_of_class("length")
+            min_density.validate_of_class("density")
+            max_density.validate_of_class("density")
+        except ValueError as e:
+            raise ValueError(f"An error occured while initializing planet type: {e}")
 
     @staticmethod
     def from_dict(data: dict) -> 'PlanetType':
@@ -26,12 +38,12 @@ class PlanetType():
         min_density, max_density = PlanetType.get_min_max(density, 0)
 
         planet_type = PlanetType(
-            min_temperature=min_temperature,
-            max_temperature=max_temperature,
-            min_radius=min_radius,
-            max_radius=max_radius,
-            min_density=min_density,
-            max_density=max_density
+            min_temperature=UnitValue(min_temperature, CONFIG.DEFAULT_CONFIG_TEMPERATURE_UNIT),
+            max_temperature=UnitValue(max_temperature, CONFIG.DEFAULT_CONFIG_TEMPERATURE_UNIT),
+            min_radius=UnitValue(min_radius, CONFIG.DEFAULT_CONFIG_LENGTH_UNIT),
+            max_radius=UnitValue(max_radius, CONFIG.DEFAULT_CONFIG_LENGTH_UNIT),
+            min_density=UnitValue(min_density, CONFIG.DEFAULT_CONFIG_DENSITY_UNIT),
+            max_density=UnitValue(max_density, CONFIG.DEFAULT_CONFIG_DENSITY_UNIT)
         )
 
         return planet_type

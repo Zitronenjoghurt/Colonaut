@@ -1,0 +1,9 @@
+{
+    "decimal_digits": 2,
+    "default_config_temperature_unit": "°K",
+    "default_config_density_unit": "kg/m^3",
+    "default_config_length_unit": "km",
+    "display_temperature_unit": "°C",
+    "display_density_unit": "g/cm^3",
+    "display_length_unit": "km"
+}

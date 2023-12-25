@@ -10,8 +10,8 @@ def ice_type():
 def test_init(ice_type: PlanetType):
     assert ice_type.min_temperature.value == 10
     assert ice_type.max_temperature.value == 270
-    assert ice_type.min_temperature.unit == "K"
-    assert ice_type.max_temperature.unit == "K"
+    assert ice_type.min_temperature.unit == "°K"
+    assert ice_type.max_temperature.unit == "°K"
 
     assert ice_type.min_radius.value == 1000
     assert ice_type.max_radius.value == 20000

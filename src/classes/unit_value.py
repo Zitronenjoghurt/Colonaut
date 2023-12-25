@@ -1,55 +1,31 @@
-import src.modules.physics as phy
+import src.modules.validator as validator
+from .config import Config
+from ..constants.physical_units import CONVERSIONS, UNIT_CLASS_MAP
 
-CLASS_UNITS = {
-    "length": ["mm", "cm", "m", "km"],
-    "mass": ["g", "kg", "t"],
-    "density": ["g/cm^3", "kg/m^3"],
-    "temperature": ["K", "C", "F"]
-}
-
-EXISTING_UNITS = [unit for units in CLASS_UNITS.values() for unit in units]
-UNIT_CLASS = {unit: unit_class for unit_class, units in CLASS_UNITS.items() for unit in units}
-
-# Conversion functions
-def linear_conversion(factor):
-    def convert(value):
-        return value * factor
-    return convert
-
-CONVERSIONS = {
-    "mm": {"cm": linear_conversion(0.1), "m": linear_conversion(0.001), "km": linear_conversion(0.000001)},
-    "cm": {"mm": linear_conversion(10), "m": linear_conversion(0.01), "km": linear_conversion(0.00001)},
-    "m": {"mm": linear_conversion(1000), "cm": linear_conversion(100), "km": linear_conversion(0.001)},
-    "km": {"mm": linear_conversion(1000000), "cm": linear_conversion(100000), "m": linear_conversion(1000)},
-    "g": {"kg": linear_conversion(0.001), "t": linear_conversion(0.000001)},
-    "kg": {"g": linear_conversion(1000), "t": linear_conversion(0.001)},
-    "t": {"g": linear_conversion(1000000), "kg": linear_conversion(1000)},
-    "g/cm^3": {"kg/m^3": linear_conversion(1000)},
-    "kg/m^3": {"g/cm^3": linear_conversion(0.001)},
-    "K": {"C": phy.kelvin_to_celcius, "F": phy.kelvin_to_fahrenheit},
-    "C": {"K": phy.celcius_to_kelvin, "F": phy.celcius_to_fahrenheit},
-    "F": {"K": phy.fahrenheit_to_kelvin, "C": phy.fahrenheit_to_celcius}
-}
+CONFIG = Config.get_instance()
 
 class UnitValue():
     def __init__(self, value: int|float, unit: str) -> None:
-        self.validate_unit(unit=unit)
+        validator.validate_physical_unit(unit=unit)
 
-        self.value = value
+        self.value = float(value)
         self.unit = unit
 
-    @staticmethod
-    def validate_unit(unit: str) -> None:
-        if unit not in EXISTING_UNITS:
-            raise ValueError(f"Unit {unit} does not exist.")
+    def __str__(self) -> str:
+        return f"{str(self.get_value())}{self.unit}"
+    
+    def validate_of_class(self, unit_class: str) -> None:
+        validator.validate_physical_unit_class(unit_class=unit_class)
+        if not UNIT_CLASS_MAP.get(self.unit) == unit_class:
+            raise ValueError(f"{self.unit} is not of class {unit_class}")
 
     def convert(self, target_unit: str) -> 'UnitValue':
         if self.unit == target_unit:
             return self
-        self.validate_unit(unit=target_unit)
+        validator.validate_physical_unit(unit=target_unit)
 
-        self_unit_class = UNIT_CLASS.get(self.unit, None)
-        target_unit_class = UNIT_CLASS.get(target_unit, None)
+        self_unit_class = UNIT_CLASS_MAP.get(self.unit, None)
+        target_unit_class = UNIT_CLASS_MAP.get(target_unit, None)
 
         if not self_unit_class or not target_unit_class:
             raise ValueError("An error occured while retrieving the unit classes for conversion.")
@@ -66,3 +42,9 @@ class UnitValue():
         
         new_value = conversion_function(self.value)
         return UnitValue(value=new_value, unit=target_unit)
+    
+    def get_value(self) -> float:
+        return round(self.value, CONFIG.DECIMAL_DIGITS)
+    
+    def get_unit(self) -> str:
+        return self.unit

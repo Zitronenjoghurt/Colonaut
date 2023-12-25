@@ -8,8 +8,8 @@ def sphere_volume(radius: UnitValue) -> UnitValue:
     return UnitValue(value=sphere_volume_value, unit=radius_cubed.unit)
 
 def sphere_mass(radius: UnitValue, density: UnitValue) -> UnitValue:
-    radius.convert("m")
-    density.convert("kg/m^3")
+    radius = radius.convert("m")
+    density = density.convert("kg/m^3")
 
     volume = sphere_volume(radius=radius)
 

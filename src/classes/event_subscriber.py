@@ -16,7 +16,7 @@ class BaseEventSubscriber():
 
     def unsubcribe_events(self) -> None:
         for event_type, listener in self.SUBSCRIPTIONS.items():
-            self.event_bus.subscribe(event_type=event_type, listener=listener)
+            self.event_bus.unsubscribe(event_type=event_type, listener=listener)
 
     def publish_event(self, event) -> Response:
         return self.event_bus.publish(event=event)

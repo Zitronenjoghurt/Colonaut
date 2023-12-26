@@ -11,6 +11,8 @@ class ShipSystem(BaseEventSubscriber):
 
     def __init__(self, max_hp: int, hp: Optional[int] = None) -> None:
         super().__init__()
+        if max_hp < 1:
+            max_hp = 1
         if hp is None:
             hp = max_hp
 
@@ -54,6 +56,9 @@ class ShipSystem(BaseEventSubscriber):
     def get_hp(self) -> Response:
         return Response.from_data(self.hp)
     
+    def get_hp_ratio(self) -> Response:
+        return Response.from_data(self.hp / self.max_hp)
+    
 class SensorShipSystem(ShipSystem):
     REVEALED_DATA = []
 
@@ -64,9 +69,10 @@ class SensorShipSystem(ShipSystem):
         super().__init__(max_hp, hp)
 
     def work(self) -> Response:
+        hp_ratio = self.get_hp_ratio().get_data()
         data_revealed = random.random()
         data = []
-        if data_revealed < self.reveal_chance:
+        if data_revealed < self.reveal_chance * hp_ratio:
             data = self.REVEALED_DATA
         return Response.from_data(data, Response.TYPES.SCANNER_RESULT)
     

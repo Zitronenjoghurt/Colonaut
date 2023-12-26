@@ -1,10 +1,15 @@
-from .ship_systems import BatterySystem, HullSystem, SolarPanelSystem
+import src.classes.ship_systems as ShipSystems
 
 class ShipSystemFactory():
     REGISTRY = {
-        "hull": HullSystem,
-        "battery": BatterySystem,
-        "solar panel": SolarPanelSystem
+        "accelerometer": ShipSystems.Accelerometer,
+        "battery": ShipSystems.BatterySystem,
+        "hull": ShipSystems.HullSystem,
+        "infrared spectrometer": ShipSystems.InfraredSpectrometer,
+        "laser altimeter": ShipSystems.LaserAltimeter,
+        "neutron densitometer": ShipSystems.NeutronDensitometer,
+        "radio telemetry": ShipSystems.RadioTelemetry,
+        "solar panel": ShipSystems.SolarPanelSystem
     }
 
     """

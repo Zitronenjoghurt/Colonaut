@@ -16,6 +16,7 @@ class SpaceShip(BaseEventSubscriber):
         if systems is None:
             systems = {}
         self.systems: dict[str, ShipSystem] = systems
+        self.scanner_results: list[str] = []
 
     @staticmethod
     def from_dict(data: dict) -> 'SpaceShip':
@@ -38,6 +39,20 @@ class SpaceShip(BaseEventSubscriber):
             "systems": systems
         }
         return Response.from_data(result)
+    
+    def run(self) -> None:
+        self.run_systems()
+    
+    def run_systems(self) -> None:
+        self.scanner_results = []
+        for system in self.systems.values():
+            response = system.work()
+            self.handle_system_response(response)
+    
+    def handle_system_response(self, response: Response) -> None:
+        match response.get_type():
+            case Response.TYPES.SCANNER_RESULT:
+                self.scanner_results.extend(response.get_data())
 
     """
     Possible errors:

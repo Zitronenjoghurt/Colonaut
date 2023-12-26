@@ -26,7 +26,7 @@ class SolarPanelSystem(ShipSystem):
         try:
             response = self.publish_event(event=charge_event)
         except EventTypeNotSubscribedError:
-            return Response.create("Solar panel has no battery to charge.")
+            return Response.create("Solar panel has no battery to charge.", Response.TYPES.SHIP_STATUS_LOG)
         
         return response
     

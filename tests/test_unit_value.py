@@ -18,12 +18,12 @@ def test_str():
     e = UnitValue(1e-2, "°C")
     f = UnitValue(1e-3, "kg")
 
-    assert str(a) == "1.00e+07km"
-    assert str(b) == "1000000.00km"
-    assert str(c) == "100000.00g/cm^3"
-    assert str(d) == "0.10m^3"
+    assert str(a) == "1e+07km"
+    assert str(b) == "1000000km"
+    assert str(c) == "100000g/cm^3"
+    assert str(d) == "0.1m^3"
     assert str(e) == "0.01°C"
-    assert str(f) == "1.00e-03kg"
+    assert str(f) == "1e-03kg"
 
 def test_conversion():
     for unit_values in VALUES:
@@ -34,6 +34,19 @@ def test_conversion():
             for test_unit in test_units:
                 test_value = unit_value.convert(test_unit).get_value()
                 assert round(test_value, 2) == unit_values[test_unit]
+
+def test_convert_conveniently():
+    a = UnitValue(59, "s")
+    b = UnitValue(100, "s")
+    c = UnitValue(4000, "s")
+    d = UnitValue(100000, "s")
+    e = UnitValue(5e9, "s")
+
+    assert str(a) == "59s"
+    assert str(b) == "1.67min"
+    assert str(c) == "1.11h"
+    assert str(d) == "1.16d"
+    assert str(e) == "158.44y"
 
 def test_to_cubed():
     mm = UnitValue(value=10, unit="mm")

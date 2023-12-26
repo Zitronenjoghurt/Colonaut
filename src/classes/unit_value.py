@@ -127,9 +127,13 @@ class UnitValue():
     def get_value_formatted(self) -> str:
         use_scientific_notation = (abs(self.value) >= CONFIG.SCIENTIFIC_NOTATION_UPPER_TRESHOLD or abs(self.value) < CONFIG.SCIENTIFIC_NOTATION_LOWER_TRESHOLD) and self.value != 0
         if use_scientific_notation:
-            return f"{self.value:.{CONFIG.DECIMAL_DIGITS}e}"
+            formatted_value = f"{self.value:.{CONFIG.DECIMAL_DIGITS}e}"
+            decimal_part, exponent_part = formatted_value.split('e')
+            decimal_part = decimal_part.rstrip('0').rstrip('.')
+            return f"{decimal_part}e{exponent_part}"
         else:
-            return f"{self.value:.{CONFIG.DECIMAL_DIGITS}f}"
+            formatted_value = f"{self.value:.{CONFIG.DECIMAL_DIGITS}f}"
+            return formatted_value.rstrip('0').rstrip('.')
     
     def get_unit(self) -> str:
         return self.unit

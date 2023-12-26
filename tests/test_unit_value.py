@@ -35,16 +35,16 @@ def test_conversion():
                 test_value = unit_value.convert(test_unit).get_value()
                 assert round(test_value, 2) == unit_values[test_unit]
 
-def test_to_volume():
+def test_to_cubed():
     mm = UnitValue(value=10, unit="mm")
     cm = UnitValue(value=10, unit="cm")
     m = UnitValue(value=10, unit="m")
     km = UnitValue(value=10, unit="km")
 
-    mm_cubed = mm.to_volume()
-    cm_cubed = cm.to_volume()
-    m_cubed = m.to_volume()
-    km_cubed = km.to_volume()
+    mm_cubed = mm.to_cubed()
+    cm_cubed = cm.to_cubed()
+    m_cubed = m.to_cubed()
+    km_cubed = km.to_cubed()
 
     assert mm_cubed.get_value() == 1000
     assert cm_cubed.get_value() == 1000

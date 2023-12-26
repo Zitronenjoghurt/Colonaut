@@ -113,7 +113,7 @@ class UnitValue():
 
         return unit_conversions[most_convenient_unit]
     
-    def to_volume(self) -> 'UnitValue':
+    def to_cubed(self) -> 'UnitValue':
         self.validate_of_class("length")
 
         new_value = self.value ** 3

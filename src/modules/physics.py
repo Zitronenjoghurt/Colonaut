@@ -2,7 +2,7 @@ import math
 from ..classes.unit_value import UnitValue
 
 def sphere_volume(radius: UnitValue) -> UnitValue:
-    radius_cubed = radius.to_volume()
+    radius_cubed = radius.to_cubed()
     sphere_volume_value = radius_cubed.value * math.pi * (4/3)
 
     return UnitValue(value=sphere_volume_value, unit=radius_cubed.unit)

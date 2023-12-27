@@ -13,12 +13,12 @@ class SolarPanelSystem(ShipSystem):
 
         super().__init__(max_hp=max_hp, hp=hp)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Response:
         base_dict: dict = super().to_dict().get_data()
         base_dict.update({
             "charge_capacity": self.charge_capacity
         })
-        return base_dict
+        return Response.from_data(base_dict)
     
     def work(self) -> Response:
         charge_event = Event(Event.TYPES.BATTERY_CHARGE, amount=self.charge_capacity)

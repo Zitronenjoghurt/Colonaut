@@ -1,6 +1,12 @@
 # VSCode
 .vscode
 
+# Debugging
+test.py
+
+# User-specific data
+game_state.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -78,3 +78,10 @@ class SensorShipSystem(ShipSystem):
     
     def get_revealed_data(self) -> Response:
         return Response.from_data(self.REVEALED_DATA)
+    
+    def to_dict(self) -> Response:
+        base_dict: dict = super().to_dict().get_data()
+        base_dict.update({
+            "reveal_chance": self.reveal_chance
+        })
+        return Response.from_data(base_dict)

@@ -22,3 +22,7 @@ class GameManager(BaseEventSubscriber):
         GameManager._instance = None
         GameState.reset_instance()
         GlobalState.reset_instance()
+
+    def save_state(self) -> None:
+        self.game_state.save()
+        self.global_state.save()

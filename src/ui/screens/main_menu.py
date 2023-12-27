@@ -7,10 +7,16 @@ class MainMenuScreen(Screen):
         super().__init__(screen_manager=screen_manager)
 
     def create_layout(self):
+        title_text = urwid.BigText("COLONAUT", urwid.HalfBlock5x4Font())
+        title_text = urwid.Padding(title_text, 'center', width='clip')
+        divider = urwid.Divider(top=4)
+
         menu_text = ["Start Game", "Options", "Exit"]
         menu_items = [urwid.AttrMap(UIButton(text, self.on_menu_item_selected, width=15), None, focus_map='reversed') for text in menu_text]
 
-        menu_pile = urwid.Pile(menu_items)
+        combined_widgets = [title_text, divider] + menu_items
+
+        menu_pile = urwid.Pile(combined_widgets)
         menu_filler = urwid.Filler(menu_pile, valign='middle')
         return menu_filler
 

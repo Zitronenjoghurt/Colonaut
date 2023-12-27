@@ -1,4 +1,4 @@
-from src.classes.planet import PlanetGenerator
+from src.classes.game_manager import GameManager
 
-planet = PlanetGenerator.generate()
-print(str(planet))
+gm = GameManager.get_instance()
+gm.start()

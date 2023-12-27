@@ -65,6 +65,7 @@ class WeightedSelector(RandomSelector):
             random_value -= weight
             if random_value <= 0:
                 result = value
+                break
 
         if result is None:
             raise RuntimeError("Weighted random selector did not yield any value.")

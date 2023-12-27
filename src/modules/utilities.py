@@ -1,5 +1,6 @@
 import json
 import os
+import pickle
 from pathlib import Path
 
 ROOT_DIR = str(Path(__file__).parent.parent.parent)
@@ -13,9 +14,20 @@ def file_to_dict(file_path: str) -> dict:
         data = json.load(f)
     return data
 
+def bin_file_to_dict(file_path: str) -> dict:
+    with open(file_path, 'rb') as f:
+        data = pickle.load(f)
+    if not isinstance(data, dict):
+        raise RuntimeError("Deserialized data is not a dictionary.")
+    return data
+
 def dict_to_file(file_path: str, data: dict):
     with open(file_path, 'w') as f:
-        json.dump(data, f, indent=4) 
+        json.dump(data, f, indent=4)
+
+def dict_to_bin_file(file_path: str, data: dict):
+    with open(file_path, 'wb') as f:
+        pickle.dump(data, f)
 
 def delete_file(file_path: str) -> None:
     for deletable_file in SAFE_TO_DELETE:

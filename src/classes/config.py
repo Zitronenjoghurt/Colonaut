@@ -8,11 +8,12 @@ CONFIG_FILE_PATH = construct_path("src/config.json")
 DEFAULT = {
     "file_paths": {
         "planet_types": "src/data/planet_types/{type_name}.json",
-        "game_state": "src/game_state.json",
+        "game_state": "src/",
         "default_game_state": "src/data/default_game_state.json",
-        "global_state": "src/global_state.json",
+        "global_state": "src/",
         "default_global_state": "src/data/default_global_state.json"
     },
+    "save_file_mode": "pkl",
     "decimal_digits": 2,
     "scientific_notation_upper_treshhold": 1e7,
     "scientific_notation_lower_treshold": 1e-2,
@@ -35,6 +36,8 @@ DEFAULT = {
     "display_units_conveniently": ["time"]
 }
 
+SAVE_FILE_MODES = ["json", "pkl"]
+
 class Config():
     _instance = None
 
@@ -48,6 +51,10 @@ class Config():
         self.SCIENTIFIC_NOTATION_UPPER_TRESHOLD: float = config_data.get("scientific_notation_upper_treshold", DEFAULT["scientific_notation_upper_treshhold"])
         self.SCIENTIFIC_NOTATION_LOWER_TRESHOLD: float = config_data.get("scientific_notation_lower_treshold", DEFAULT["scientific_notation_lower_treshold"])
         self.DISPLAY_UNITS_CONVENIENTLY: list[str] = config_data.get("display_units_conveniently", DEFAULT["display_units_conveniently"])
+        
+        self.SAVE_FILE_MODE: str = config_data.get("save_file_mode", DEFAULT["save_file_mode"])
+        if self.SAVE_FILE_MODE not in SAVE_FILE_MODES:
+            self.SAVE_FILE_MODE = DEFAULT["save_file_mode"]
         
         self.CONFIG_UNITS: dict[str, str] = config_data.get("config_units", DEFAULT["config_units"])
         for unit_class, unit in DEFAULT["config_units"].items():

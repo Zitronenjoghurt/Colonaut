@@ -5,8 +5,11 @@
 test.py
 
 # User-specific data
-game_state.json
-global_state.json
+game_state.*
+global_state.*
+
+# Other shenanigans
+.DS_store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

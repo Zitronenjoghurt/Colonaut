@@ -5,7 +5,7 @@ CONFIG = Config.get_instance()
 
 class GlobalState(SaveState):
     _instance = None
-    SAVE_FILE_PATH = CONFIG.GLOBAL_STATE_FILE_PATH
+    SAVE_FILE_PATH = CONFIG.GLOBAL_STATE_FILE_PATH + "global_state." + CONFIG.SAVE_FILE_MODE
     DEFAULT_SAVE_FILE_PATH = CONFIG.DEFAULT_GLOBAL_STATE_FILE_PATH
 
     def __init__(self, run_count: int) -> None:

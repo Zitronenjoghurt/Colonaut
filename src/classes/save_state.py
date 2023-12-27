@@ -1,5 +1,18 @@
+from .config import Config
 from .event_subscriber import BaseEventSubscriber
-from ..modules.utilities import file_to_dict, dict_to_file, file_exists, delete_file, construct_path
+from ..modules.utilities import file_to_dict, bin_file_to_dict, dict_to_file, dict_to_bin_file, file_exists, delete_file
+
+CONFIG = Config.get_instance()
+
+LOAD_FUNCTIONS = {
+    "json": file_to_dict,
+    "pkl": bin_file_to_dict
+}
+
+SAVE_FUNCTIONS = {
+    "json": dict_to_file,
+    "pkl": dict_to_bin_file
+}
 
 class SaveState(BaseEventSubscriber):
     SAVE_FILE_PATH = ""
@@ -12,14 +25,14 @@ class SaveState(BaseEventSubscriber):
     @classmethod
     def load_data(cls) -> dict:
         if file_exists(cls.SAVE_FILE_PATH):
-            data = file_to_dict(cls.SAVE_FILE_PATH)
+            data = LOAD_FUNCTIONS[CONFIG.SAVE_FILE_MODE](cls.SAVE_FILE_PATH)
         else:
             data = file_to_dict(cls.DEFAULT_SAVE_FILE_PATH)
         return data
     
     @classmethod
     def save_data(cls, data: dict) -> None:
-        dict_to_file(cls.SAVE_FILE_PATH, data)
+        SAVE_FUNCTIONS[CONFIG.SAVE_FILE_MODE](cls.SAVE_FILE_PATH, data)
 
     @classmethod
     def load(cls) -> 'SaveState':

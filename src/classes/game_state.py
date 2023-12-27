@@ -6,7 +6,7 @@ CONFIG = Config.get_instance()
 
 class GameState(SaveState):
     _instance = None
-    SAVE_FILE_PATH = CONFIG.GAME_STATE_FILE_PATH
+    SAVE_FILE_PATH = CONFIG.GAME_STATE_FILE_PATH + "game_state." + CONFIG.SAVE_FILE_MODE
     DEFAULT_SAVE_FILE_PATH = CONFIG.DEFAULT_GAME_STATE_FILE_PATH
 
     def __init__(self, ship: SpaceShip) -> None:

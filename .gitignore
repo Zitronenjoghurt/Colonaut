@@ -6,6 +6,7 @@ test.py
 
 # User-specific data
 game_state.json
+global_state.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

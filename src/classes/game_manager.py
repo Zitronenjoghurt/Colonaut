@@ -1,5 +1,6 @@
 from .event_subscriber import BaseEventSubscriber
 from .game_state import GameState
+from .global_state import GlobalState
 
 class GameManager(BaseEventSubscriber):
     _instance = None
@@ -8,6 +9,7 @@ class GameManager(BaseEventSubscriber):
         if self._instance is not None:
             raise RuntimeError("Tried to initialize two instances of GameManager.")
         self.game_state = GameState.get_instance()
+        self.global_state = GlobalState.get_instance()
 
     @staticmethod
     def get_instance() -> 'GameManager':
@@ -19,3 +21,4 @@ class GameManager(BaseEventSubscriber):
     def reset_instance() -> None:
         GameManager._instance = None
         GameState.reset_instance()
+        GlobalState.reset_instance()

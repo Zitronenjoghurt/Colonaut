@@ -1,20 +1,19 @@
-import os
-from .event_subscriber import BaseEventSubscriber
+from .config import Config
+from .save_state import SaveState
 from .space_ship import SpaceShip
-from ..modules.utilities import file_to_dict, dict_to_file, file_exists, delete_file
 
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-SAVE_FILE_PATH = os.path.join(CURRENT_DIR, '..', 'game_state.json')
-DEFAULT_SAVE_FILE_PATH = os.path.join(CURRENT_DIR, '..', 'data', 'default_game_state.json')
+CONFIG = Config.get_instance()
 
-class GameState(BaseEventSubscriber):
+class GameState(SaveState):
     _instance = None
+    SAVE_FILE_PATH = CONFIG.GAME_STATE_FILE_PATH
+    DEFAULT_SAVE_FILE_PATH = CONFIG.DEFAULT_GAME_STATE_FILE_PATH
 
     def __init__(self, ship: SpaceShip) -> None:
         if self._instance is not None:
             raise RuntimeError("Tried to initialize two instances of GameState.")
         self.ship = ship
-        self.delete_confirmed = False
+        super().__init__()
 
     @staticmethod
     def get_instance() -> 'GameState':
@@ -28,10 +27,7 @@ class GameState(BaseEventSubscriber):
 
     @staticmethod
     def load() -> 'GameState':
-        if file_exists(SAVE_FILE_PATH):
-            data = file_to_dict(SAVE_FILE_PATH)
-        else:
-            data = file_to_dict(DEFAULT_SAVE_FILE_PATH)
+        data = GameState.load_data()
 
         ship_data = data.get("ship", None)
 
@@ -51,10 +47,4 @@ class GameState(BaseEventSubscriber):
             "ship": ship_data
         }
 
-        dict_to_file(SAVE_FILE_PATH, data)
-
-    def delete(self) -> None:
-        if not self.delete_confirmed:
-            self.delete_confirmed = True
-        else:
-            delete_file(SAVE_FILE_PATH)
+        GameState.save_data(data=data)

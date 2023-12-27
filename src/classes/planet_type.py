@@ -6,7 +6,6 @@ from .unit_value import UnitValue
 from ..modules.utilities import file_to_dict
 
 CONFIG = Config.get_instance()
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class PlanetType():
     def __init__(self, 
@@ -41,7 +40,7 @@ class PlanetType():
 
     @staticmethod
     def create(type_name: str) -> 'PlanetType':
-        file_path = os.path.join(CURRENT_DIR, '..', 'data', 'planet_types', f'{type_name}.json')
+        file_path = CONFIG.PLANET_TYPES_FILE_PATH.format(type_name=type_name)
         
         try:
             type_dict = file_to_dict(file_path=file_path)

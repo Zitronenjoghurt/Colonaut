@@ -55,6 +55,18 @@ class Planet():
 
         return Planet(**retrieved_data)
     
+    def get_data(self) -> list[tuple]:
+        data = [
+            ("Temperature", str(self.temperature)),
+            ("Radius", str(self.radius)),
+            ("Volume", str(self.volume)),
+            ("Density", str(self.density)),
+            ("Mass", str(self.mass)),
+            ("Rotational period", str(self.rot_period)),
+            ("Orbital period", str(self.orb_period))
+        ]
+        return data
+    
     def get_temperature(self) -> UnitValue:
         return self.temperature
     

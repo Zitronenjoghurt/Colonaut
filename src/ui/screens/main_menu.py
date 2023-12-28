@@ -19,11 +19,15 @@ class MainMenuScreen(Screen):
         menu_pile = urwid.Pile(combined_widgets)
         menu_filler = urwid.Filler(menu_pile, valign='middle')
         return menu_filler
-
+    
+    def keypress(self, size, key):
+        if key == "esc":
+            raise urwid.ExitMainLoop()
+        
     def on_menu_item_selected(self, button_label):
         match button_label.label:
             case "Start Game":
-                pass
+                self.manager.set_screen("planet_view")
             case "Options":
                 pass
             case "Exit":

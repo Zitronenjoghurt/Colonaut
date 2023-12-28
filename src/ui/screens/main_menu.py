@@ -1,34 +1,28 @@
-import urwid
-from src.ui.components import UIButton
+import tkinter as tk
+import customtkinter as ctk
 from src.ui.screen import Screen
 
 class MainMenuScreen(Screen):
-    def __init__(self, screen_manager):
-        super().__init__(screen_manager=screen_manager)
+    def __init__(self, ui_system):
+        super().__init__(ui_system=ui_system)
+        self.title_text = ctk.CTkLabel(master=self, text="COLONAUT", font=('Futura', 80))
+        self.title_text.pack(pady=(100, 0))
 
-    def create_layout(self):
-        title_text = urwid.BigText("COLONAUT", urwid.HalfBlock5x4Font())
-        title_text = urwid.Padding(title_text, 'center', width='clip')
-        divider = urwid.Divider(top=4)
+        self.inspired_by = ctk.CTkLabel(master=self, text="inspired by Seedship", font=('Futura', 15))
+        self.inspired_by.pack()
 
-        menu_text = ["Start Game", "Options", "Exit"]
-        menu_items = [urwid.AttrMap(UIButton(text, self.on_menu_item_selected, width=15), None, focus_map='reversed') for text in menu_text]
+        self.btn_start_game = ctk.CTkButton(master=self, text="Start Game", font=("Impact", 20), command=self.start_game)
+        self.btn_start_game.pack(pady=(50, 0))
 
-        combined_widgets = [title_text, divider] + menu_items
+        self.btn_options = ctk.CTkButton(master=self, text="Options", font=("Impact", 20))
+        self.btn_options.pack(pady=(25, 0))
 
-        menu_pile = urwid.Pile(combined_widgets)
-        menu_filler = urwid.Filler(menu_pile, valign='middle')
-        return menu_filler
-    
-    def keypress(self, size, key):
-        if key == "esc":
-            raise urwid.ExitMainLoop()
-        
-    def on_menu_item_selected(self, button_label):
-        match button_label.label:
-            case "Start Game":
-                self.manager.set_screen("planet_view")
-            case "Options":
-                pass
-            case "Exit":
-                raise urwid.ExitMainLoop()
+        self.btn_quit = ctk.CTkButton(master=self, text="Quit", font=("Impact", 20), command=self.ui_system.on_quit)
+        self.btn_quit.pack(pady=(25, 0))
+
+    def start_game(self) -> None:
+        self.ui_system.switch_screen("planet_view")
+
+    def on_keypress(self, event) -> None:
+        if event.keysym == "Escape":
+            self.ui_system.on_quit()

@@ -1,27 +1,21 @@
-import urwid
-from src.ui.components import DataList
+import src.ui.components as Components
 from src.classes.event import Event
 from src.classes.response import Response
 from src.ui.screen import Screen
 
 class PlanetViewScreen(Screen):
-    def __init__(self, screen_manager):
-        data = []
-        self.data_list = DataList(data=data)
-        super().__init__(screen_manager=screen_manager)
-        
-    def create_layout(self):
-        planet_filler = urwid.Filler(self.data_list, valign='middle')
-        return planet_filler
-    
-    def update_planet_data(self, data: list[tuple]) -> None:
-        self.data_list.update_data(new_data=data)
+    def __init__(self, ui_system):
+        super().__init__(ui_system=ui_system)
+        self.data_list = Components.DataList(self, [])
+        self.data_list.pack(side='left', pady=(20, 0), padx=(5, 0))
 
-    def keypress(self, size, key):
-        if key in ('j', 'J'):
-            jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
-            planet_data_response: Response = self.manager.publish_event(jump_event)
-            if planet_data_response.get_type() == Response.TYPES.PLANET_DATA:
-                planet_data = planet_data_response.get_data()
-                self.update_planet_data(planet_data)
-        super().keypress(size=size, key=key)
+    def jump(self) -> None:
+        jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
+        response: Response = self.ui_system.publish_event(jump_event)
+        if response.of_type(Response.TYPES.PLANET_DATA):
+            self.data_list.update_data(response.get_data())
+
+    def on_keypress(self, event) -> None:
+        super().on_keypress(event)
+        if event.keysym in ['j', 'J']:
+            self.jump()

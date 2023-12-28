@@ -1,24 +1,11 @@
-import urwid
+import tkinter as tk
+import customtkinter as ctk
 
-class Screen(urwid.WidgetWrap):
-    def __init__(self, screen_manager):
-        self.manager = screen_manager
-        self.layout = self.create_layout()
-        super().__init__(self.layout)
+class Screen(ctk.CTkFrame):
+    def __init__(self, ui_system):
+        super().__init__(master=ui_system.root, width=ui_system.width, height=ui_system.height)
+        self.ui_system = ui_system
 
-    # This enables the WidgetWrap to be focusable 
-    # and receive keypress and other events
-    def selectable(self):
-        return True
-
-    def create_layout(self):
-        text = urwid.Text(u"404")
-        filler = urwid.Filler(text, valign='top')
-        return filler
-
-    def keypress(self, size, key):
-        if key == "esc":
-            self.manager.go_back()
-        
-    def set_focus(self) -> None:
-        self.layout.focus_position = 0
+    def on_keypress(self, event) -> None:
+        if event.keysym == "Escape":
+            self.ui_system.go_back()

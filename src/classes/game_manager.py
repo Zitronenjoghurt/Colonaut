@@ -40,7 +40,7 @@ class GameManager(BaseEventSubscriber):
         self.global_state.save()
 
     def start(self) -> None:
-        self.ui_system.start("main_menu")
+        self.ui_system.start()
 
     def jump(self) -> Response:
         planet = PlanetGenerator.generate()

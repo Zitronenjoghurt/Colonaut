@@ -1,27 +1,18 @@
-import urwid
+import customtkinter as ctk
 
-class DataList(urwid.Pile):
-    def __init__(self, data):
-        super().__init__(self.create_list(data))
-    
-    def create_list(self, data: list[tuple]):
-        if len(data) == 0:
-            return []
-        
-        rows = []
-        label_width = max(len(label) for label, _ in data) + 2
+class DataList(ctk.CTkFrame):
+    def __init__(self, master, data: list[tuple]):
+        super().__init__(master)
+        self.metrics_label = ctk.CTkLabel(self, anchor='w', font=('Helvetica Neue', 14), justify='left')
+        self.data_label = ctk.CTkLabel(self, anchor='w', font=('Helvetica Neue', 14), justify='left')
+        self.update_data(data)
 
-        for label, value in data:
-            row = urwid.Columns([
-                (label_width, urwid.Text(f'{label}:')),
-                urwid.Text(str(value))
-            ])
-            rows.append(row)
+    def update_data(self, new_data):
+        metrics_text = "\n".join(label+":" for label, _ in new_data)
+        data_text = "\n".join(value for _, value in new_data)
 
-        return rows
-    
-    def update_data(self, new_data: list[tuple]) -> None:
-        new_contents = self.create_list(new_data)
-        self.contents.clear()
-        for widget in new_contents:
-            self.contents.append((widget, self.options('pack')))
+        self.metrics_label.configure(text=metrics_text)
+        self.data_label.configure(text=data_text)
+
+        self.metrics_label.pack(side='left', fill='y', padx=5, pady=5)
+        self.data_label.pack(side='left', fill='y', padx=5, pady=5)

@@ -5,8 +5,8 @@ from ..classes.event_subscriber import BaseEventSubscriber
 
 class UISystem(BaseEventSubscriber):
     def __init__(self) -> None:
-        self.width = 800
-        self.height = 500
+        self.width = 960
+        self.height = 540
 
         self.root = tk.Tk()
         self.root.geometry(f"{self.width}x{self.height}")

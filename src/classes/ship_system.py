@@ -1,10 +1,11 @@
 import random
-
 from typing import Optional
+from .config import Config
 from .event_subscriber import BaseEventSubscriber
 from .response import Response
-
 from ..modules.validator import validate_int
+
+CONFIG = Config.get_instance()
 
 class ShipSystem(BaseEventSubscriber):
     NAME = "default"
@@ -42,6 +43,18 @@ class ShipSystem(BaseEventSubscriber):
             self.hp = 0
 
         return Response.create(f"{self.NAME.capitalize()} took {damage} damage.", Response.TYPES.SHIP_STATUS_LOG)
+    
+    def get_hp_percentage(self) -> Response:
+        if self.max_hp == 0:
+            percentage = 0
+        else:
+            percentage = round(self.hp/self.max_hp, CONFIG.DECIMAL_DIGITS)
+        return Response.from_data(percentage)
+    
+    def get_current_status(self) -> Response:
+        hp_percentage = self.get_hp_percentage().get_data()
+        data = (self.NAME, hp_percentage)
+        return Response.from_data(data=data)
     
     # Whatever the ship system has to do every jump
     def work(self) -> Response:

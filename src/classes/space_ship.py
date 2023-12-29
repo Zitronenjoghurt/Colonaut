@@ -11,7 +11,7 @@ class SpaceShip(BaseEventSubscriber):
         self.SUBSCRIPTIONS = {
             Event.TYPES.SHIP_RETRIEVE_SYSTEM: self.get_system,
             Event.TYPES.SHIP_DAMAGE_SYSTEM: self.damage_system,
-            Event.TYPES.RETRIEVE_SHIP_DATA: self.get_current_status
+            Event.TYPES.RETRIEVE_SHIP_DATA: self.get_status
         }
         super().__init__()
         if systems is None:
@@ -80,8 +80,8 @@ class SpaceShip(BaseEventSubscriber):
         
         return Response.create(data=system)
     
-    def get_current_status(self) -> Response:
-        data = []
-        for system in self.systems.values():
-            data.append(system.get_current_status().get_data())
+    def get_status(self) -> Response:
+        data = {}
+        for system_name, system in self.systems.items():
+            data[system_name.capitalize()] = system.get_status().get_data()
         return Response.from_data(data, Response.TYPES.SHIP_DATA)

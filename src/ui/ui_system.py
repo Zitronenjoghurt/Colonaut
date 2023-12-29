@@ -5,8 +5,8 @@ from ..classes.event_subscriber import BaseEventSubscriber
 
 class UISystem(BaseEventSubscriber):
     def __init__(self) -> None:
-        self.width = 960
-        self.height = 540
+        self.width = 1920
+        self.height = 1080
 
         self.root = tk.Tk()
         self.root.geometry(f"{self.width}x{self.height}")
@@ -28,7 +28,6 @@ class UISystem(BaseEventSubscriber):
         # Show main menu
         self.current_screen = "main_menu"
         self.screens["main_menu"].lift()
-        
         
         super().__init__()
 

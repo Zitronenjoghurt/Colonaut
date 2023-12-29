@@ -45,6 +45,14 @@ class BatterySystem(ShipSystem):
         })
         return Response.from_data(base_dict)
     
+    def get_status(self) -> Response:
+        hp_percentage = self.get_hp_percentage().get_data()
+        data = {
+            "health": hp_percentage,
+            "Capacity": f"{self.capacity}/{self.max_capacity}"
+        }
+        return Response.from_data(data=data)
+    
     def get_max_capacity(self) -> Response:
         return Response.from_data(self.max_capacity)
     

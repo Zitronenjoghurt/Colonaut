@@ -51,9 +51,11 @@ class ShipSystem(BaseEventSubscriber):
             percentage = round(self.hp/self.max_hp, CONFIG.DECIMAL_DIGITS)
         return Response.from_data(percentage)
     
-    def get_current_status(self) -> Response:
+    def get_status(self) -> Response:
         hp_percentage = self.get_hp_percentage().get_data()
-        data = (self.NAME, hp_percentage)
+        data = {
+            "health": hp_percentage
+        }
         return Response.from_data(data=data)
     
     # Whatever the ship system has to do every jump
@@ -88,6 +90,14 @@ class SensorShipSystem(ShipSystem):
         if data_revealed < self.reveal_chance * hp_ratio:
             data = self.REVEALED_DATA
         return Response.from_data(data, Response.TYPES.SCANNER_RESULT)
+    
+    def get_status(self) -> Response:
+        hp_percentage = self.get_hp_percentage().get_data()
+        data = {
+            "health": hp_percentage,
+            "Success rate": str(self.reveal_chance*100)+"%"
+        }
+        return Response.from_data(data=data)
     
     def get_revealed_data(self) -> Response:
         return Response.from_data(self.REVEALED_DATA)

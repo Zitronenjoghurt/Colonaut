@@ -25,7 +25,7 @@ class ShipSystem(BaseEventSubscriber):
             "max_hp": self.max_hp,
             "hp": self.hp
         }
-        return Response.from_data(data)
+        return Response.create(data)
     
     """
     Possible errors:
@@ -42,37 +42,37 @@ class ShipSystem(BaseEventSubscriber):
             damage = initial_hp
             self.hp = 0
 
-        return Response.create(f"{self.NAME.capitalize()} took {damage} damage.", Response.TYPES.SHIP_STATUS_LOG)
+        return Response.create(f"{self.NAME.capitalize()} took {damage} damage.", Response.TYPES.SHIP_STATUS_LOG_ENTRY)
     
     def get_hp_percentage(self) -> Response:
         if self.max_hp == 0:
             percentage = 0
         else:
             percentage = round(self.hp/self.max_hp, CONFIG.DECIMAL_DIGITS)
-        return Response.from_data(percentage)
+        return Response.create(percentage)
     
     def get_status(self) -> Response:
         hp_percentage = self.get_hp_percentage().get_data()
         data = {
             "health": hp_percentage
         }
-        return Response.from_data(data=data)
+        return Response.create(data=data)
     
     # Whatever the ship system has to do every jump
     def work(self) -> Response:
         return Response.create()
     
     def get_name(self) -> Response:
-        return Response.from_data(self.NAME)
+        return Response.create(self.NAME)
     
     def get_max_hp(self) -> Response:
-        return Response.from_data(self.max_hp)
+        return Response.create(self.max_hp)
     
     def get_hp(self) -> Response:
-        return Response.from_data(self.hp)
+        return Response.create(self.hp)
     
     def get_hp_ratio(self) -> Response:
-        return Response.from_data(self.hp / self.max_hp)
+        return Response.create(self.hp / self.max_hp)
     
 class SensorShipSystem(ShipSystem):
     REVEALED_DATA = []
@@ -89,7 +89,7 @@ class SensorShipSystem(ShipSystem):
         data = []
         if data_revealed < self.reveal_chance * hp_ratio:
             data = self.REVEALED_DATA
-        return Response.from_data(data, Response.TYPES.SCANNER_RESULT)
+        return Response.create(data, Response.TYPES.SCANNER_RESULT)
     
     def get_status(self) -> Response:
         hp_percentage = self.get_hp_percentage().get_data()
@@ -97,14 +97,14 @@ class SensorShipSystem(ShipSystem):
             "health": hp_percentage,
             "Success rate": str(self.reveal_chance*100)+"%"
         }
-        return Response.from_data(data=data)
+        return Response.create(data=data)
     
     def get_revealed_data(self) -> Response:
-        return Response.from_data(self.REVEALED_DATA)
+        return Response.create(self.REVEALED_DATA)
     
     def to_dict(self) -> Response:
         base_dict: dict = super().to_dict().get_data()
         base_dict.update({
             "reveal_chance": self.reveal_chance
         })
-        return Response.from_data(base_dict)
+        return Response.create(base_dict)

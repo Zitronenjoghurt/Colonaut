@@ -11,13 +11,14 @@ class SpaceShip(BaseEventSubscriber):
         self.SUBSCRIPTIONS = {
             Event.TYPES.SHIP_RETRIEVE_SYSTEM: self.get_system,
             Event.TYPES.SHIP_DAMAGE_SYSTEM: self.damage_system,
-            Event.TYPES.RETRIEVE_SHIP_DATA: self.get_status
+            Event.TYPES.RETRIEVE_SHIP_STATUS: self.get_status
         }
         super().__init__()
         if systems is None:
             systems = {}
         self.systems: dict[str, ShipSystem] = systems
         self.scanner_results: list[str] = []
+        self.status_log: list[str] = []
 
     @staticmethod
     def from_dict(data: dict) -> 'SpaceShip':
@@ -39,7 +40,7 @@ class SpaceShip(BaseEventSubscriber):
         result = {
             "systems": systems
         }
-        return Response.from_data(result)
+        return Response.create(result)
     
     def run(self) -> None:
         self.run_systems()
@@ -51,9 +52,12 @@ class SpaceShip(BaseEventSubscriber):
             self.handle_system_response(response)
     
     def handle_system_response(self, response: Response) -> None:
-        match response.get_type():
-            case Response.TYPES.SCANNER_RESULT:
-                self.scanner_results.extend(response.get_data())
+        scanner_result = response.get_data(Response.TYPES.SCANNER_RESULT)
+        status_log = response.get_data(Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+        if scanner_result:
+            self.scanner_results.extend(scanner_result)
+        if status_log:
+            self.status_log.extend([status_log])
 
     """
     Possible errors:
@@ -66,7 +70,7 @@ class SpaceShip(BaseEventSubscriber):
         system: ShipSystem = system_response.get_data()
 
         system.damage(amount=amount)
-        return Response.create(message=f"{system_name.capitalize()} took {amount} damage.")
+        return Response.create(f"{system_name.capitalize()} took {amount} damage.")
 
     """
     Possible errors:
@@ -82,6 +86,11 @@ class SpaceShip(BaseEventSubscriber):
     
     def get_status(self) -> Response:
         data = {}
+        
         for system_name, system in self.systems.items():
             data[system_name.capitalize()] = system.get_status().get_data()
-        return Response.from_data(data, Response.TYPES.SHIP_DATA)
+        response = Response.create(data, Response.TYPES.SHIP_DATA)
+
+        response.add_data(self.status_log, Response.TYPES.SHIP_STATUS_LOG)
+        self.status_log = []
+        return response

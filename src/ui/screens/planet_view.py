@@ -24,27 +24,32 @@ class PlanetViewScreen(Screen):
         self.system_dashboard = Components.ShipSystemDashboard(self, {})
         self.system_dashboard.grid(row=0, column=2, rowspan=2, padx=(0,10), sticky="e")
 
-        self.system_console = Components.ShipConsole(self, [])
+        self.system_console = Components.ShipConsole(self)
         self.system_console.grid(row=0, column=1, rowspan=2, pady=125, sticky="nsew")
 
     def update_data(self) -> None:
         planet_data_event = Event(Event.TYPES.RETRIEVE_PLANET_DATA)
-        ship_data_event = Event(Event.TYPES.RETRIEVE_SHIP_DATA)
+        ship_status_event = Event(Event.TYPES.RETRIEVE_SHIP_STATUS)
         planet_data_response: Response = self.ui_system.publish_event(planet_data_event)
-        ship_data_response: Response = self.ui_system.publish_event(ship_data_event)
+        ship_status_response: Response = self.ui_system.publish_event(ship_status_event)
 
-        if planet_data_response.of_type(Response.TYPES.PLANET_DATA):
-            planet_data = planet_data_response.get_data()
+        planet_data = planet_data_response.get_data(Response.TYPES.PLANET_DATA)
+        if planet_data:
             self.data_list.update_data(planet_data)
 
-        if ship_data_response.of_type(Response.TYPES.SHIP_DATA):
-            ship_data = ship_data_response.get_data()
+        ship_data = ship_status_response.get_data(Response.TYPES.SHIP_DATA)
+        if ship_data:
             self.system_dashboard.update_dashboard(ship_data)
 
+        ship_status_log = ship_status_response.get_data(Response.TYPES.SHIP_STATUS_LOG)
+        if ship_status_log:
+            self.system_console.write_texts(ship_status_log)
+
     def jump(self) -> None:
-        jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
-        self.ui_system.publish_event(jump_event)
-        self.update_data()
+        if self.system_console.writing == False:
+            jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
+            self.ui_system.publish_event(jump_event)
+            self.update_data()
 
     def on_keypress(self, event) -> None:
         super().on_keypress(event)

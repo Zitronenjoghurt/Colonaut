@@ -34,8 +34,12 @@ class BatterySystem(ShipSystem):
         if self.capacity > self.max_capacity:
             charge = self.max_capacity - initial_capacity
             self.capacity = self.max_capacity
+
+        message = f"Battery charged by {charge}"
+        if charge == 0:
+            message = "Battery fully charged"
         
-        return Response.from_message(f"Battery charged by {charge}", Response.TYPES.SHIP_STATUS_LOG)
+        return Response.create(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
 
     def to_dict(self) -> Response:
         base_dict: dict = super().to_dict().get_data()
@@ -43,7 +47,7 @@ class BatterySystem(ShipSystem):
             "max_capacity": self.max_capacity,
             "capacity": self.capacity
         })
-        return Response.from_data(base_dict)
+        return Response.create(base_dict)
     
     def get_status(self) -> Response:
         hp_percentage = self.get_hp_percentage().get_data()
@@ -51,10 +55,10 @@ class BatterySystem(ShipSystem):
             "health": hp_percentage,
             "Capacity": f"{self.capacity}/{self.max_capacity}"
         }
-        return Response.from_data(data=data)
+        return Response.create(data=data)
     
     def get_max_capacity(self) -> Response:
-        return Response.from_data(self.max_capacity)
+        return Response.create(self.max_capacity)
     
     def get_capacity(self) -> Response:
-        return Response.from_data(self.capacity)
+        return Response.create(self.capacity)

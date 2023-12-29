@@ -46,6 +46,7 @@ class GameManager(BaseEventSubscriber):
 
     def jump(self) -> Response:
         self.current_planet = PlanetGenerator.generate()
+        self.game_state.ship.run()
         return Response.create()
     
     def retrieve_planet_data(self) -> Response:
@@ -53,4 +54,4 @@ class GameManager(BaseEventSubscriber):
             planet_data = self.current_planet.get_data()
         else:
             planet_data = []
-        return Response.from_data(planet_data, Response.TYPES.PLANET_DATA)
+        return Response.create(planet_data, Response.TYPES.PLANET_DATA)

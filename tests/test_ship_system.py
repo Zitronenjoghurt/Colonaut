@@ -23,8 +23,8 @@ def space_ship(setup, current_dir):
     ship_dict = file_to_dict(ship_file)
     return SpaceShip.from_dict(data=ship_dict)
 
-def assert_response_data(response: Response, expected_data):
-    assert response.get_data() == expected_data
+def assert_response_data(response: Response, expected_data, response_type = None):
+    assert response.get_data(response_type=response_type) == expected_data
 
 def test_default(setup):
     system = ShipSystem(max_hp=100)
@@ -91,7 +91,7 @@ def test_solar_panel(space_ship: SpaceShip):
     assert_response_data(battery.get_capacity(), 400)
 
     response = solar_panel.work()
-    assert response.get_message() == "Battery charged by 20"
+    assert response.get_data(Response.TYPES.SHIP_STATUS_LOG_ENTRY) == "Battery charged by 20"
     assert_response_data(battery.get_capacity(), 420)
 
 def test_sensors(space_ship: SpaceShip):

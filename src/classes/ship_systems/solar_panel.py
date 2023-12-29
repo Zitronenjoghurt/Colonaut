@@ -18,7 +18,7 @@ class SolarPanelSystem(ShipSystem):
         base_dict.update({
             "charge_capacity": self.charge_capacity
         })
-        return Response.from_data(base_dict)
+        return Response.create(base_dict)
     
     def get_status(self) -> Response:
         hp_percentage = self.get_hp_percentage().get_data()
@@ -26,7 +26,7 @@ class SolarPanelSystem(ShipSystem):
             "health": hp_percentage,
             "Power": str(self.charge_capacity)
         }
-        return Response.from_data(data=data)
+        return Response.create(data=data)
     
     def work(self) -> Response:
         charge_event = Event(Event.TYPES.BATTERY_CHARGE, amount=self.charge_capacity)
@@ -34,9 +34,9 @@ class SolarPanelSystem(ShipSystem):
         try:
             response = self.publish_event(event=charge_event)
         except EventTypeNotSubscribedError:
-            return Response.create("Solar panel has no battery to charge.", Response.TYPES.SHIP_STATUS_LOG)
+            return Response.create("Solar panel has no battery to charge.", Response.TYPES.SHIP_STATUS_LOG_ENTRY)
         
         return response
     
     def get_charge_capacity(self) -> Response:
-        return Response.from_data(self.charge_capacity)
+        return Response.create(self.charge_capacity)

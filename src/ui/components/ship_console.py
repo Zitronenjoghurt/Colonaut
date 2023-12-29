@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 class ShipConsole(ctk.CTkFrame):
-    def __init__(self, master, texts: list[str], height=800, width=950):
+    def __init__(self, master, height=800, width=950):
         super().__init__(master=master, height=height, width=width)
         self.pack_propagate(False)
         self.grid_propagate(False)
@@ -16,14 +16,17 @@ class ShipConsole(ctk.CTkFrame):
         scrollbar.pack(side='right', fill='y')
 
         self.console_text.configure(yscrollcommand=scrollbar.set)
-        self.texts = texts
 
-    def write_text(self) -> None:
+        self.writing = False
+        self.char_queue = []
+
+    def write_texts(self, texts: list[str]) -> None:
+        self.writing = True
+
         self.char_queue = []
         self.after_id = None
-        for text in self.texts:
-            self.queue_message(text)
-        self.texts = []
+        for text in texts:
+            self.queue_message("> "+ text)
 
     def append_message(self, message: str):
         self.console_text.configure(state='normal')
@@ -31,7 +34,7 @@ class ShipConsole(ctk.CTkFrame):
         self.console_text.see('end')
         self.console_text.configure(state='disabled')
 
-    def queue_message(self, message: str, delay=1000, char_delay=50):
+    def queue_message(self, message: str, delay=1000, char_delay=25):
         for char in message + '\n':
             self.char_queue.append((char, char_delay))
         self.char_queue.append(('', delay))
@@ -39,6 +42,10 @@ class ShipConsole(ctk.CTkFrame):
 
     def process_queue(self):
         if self.after_id is not None:
+            return
+        
+        if not self.char_queue:
+            self.writing = False
             return
 
         if self.char_queue:

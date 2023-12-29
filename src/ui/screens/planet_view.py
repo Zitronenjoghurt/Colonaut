@@ -24,7 +24,7 @@ class PlanetViewScreen(Screen):
         self.system_dashboard = Components.ShipSystemDashboard(self, {})
         self.system_dashboard.grid(row=0, column=2, rowspan=2, padx=(0,10), sticky="e")
 
-        self.system_console = Components.ShipConsole(self, ["> please turn down your music", "> hello?", "> imma come to the bridge"])
+        self.system_console = Components.ShipConsole(self, [])
         self.system_console.grid(row=0, column=1, rowspan=2, pady=125, sticky="nsew")
 
     def update_data(self) -> None:

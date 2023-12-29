@@ -21,7 +21,7 @@ class Panel(ctk.CTkFrame):
             ctk.CTkLabel(self, text='\n'.join(additional_text)).pack()
 
 class ShipSystemDashboard(ctk.CTkFrame):
-    def __init__(self, master, systems_data, height=750, width=450):
+    def __init__(self, master, systems_data, height=750, width=480):
         super().__init__(master, height=height, width=width)
         self.pack_propagate(False)
         self.grid_propagate(False)
@@ -36,7 +36,7 @@ class ShipSystemDashboard(ctk.CTkFrame):
             additional_data = [(k, v) for k, v in data.items() if k != 'health']
 
             panel = Panel(self, system_name, health, additional_data)
-            panel.grid(row=row, column=column, sticky="nsew")
+            panel.grid(row=row, column=column, sticky="nsew", padx=5, pady=5)
 
             column += 1
             if column >= 3:

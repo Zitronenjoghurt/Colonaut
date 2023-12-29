@@ -4,6 +4,8 @@ class DataList(ctk.CTkFrame):
     def __init__(self, master, data: list[tuple], width=400, height=450):
         super().__init__(master, width=width, height=height)
         self.pack_propagate(False)
+        self.grid_propagate(False)
+        
         self.metrics_label = ctk.CTkLabel(self, anchor='w', font=('Helvetica Neue', 18), justify='left')
         self.data_label = ctk.CTkLabel(self, anchor='w', font=('Helvetica Neue', 18), justify='left')
         self.update_data(data)

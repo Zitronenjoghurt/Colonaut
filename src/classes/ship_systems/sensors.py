@@ -18,4 +18,4 @@ class NeutronDensitometer(SensorShipSystem):
 
 class RadioTelemetry(SensorShipSystem):
     NAME = "radio telemetry"
-    REVEALED_DATA = ["orbital_period", "rotational_period"]
+    REVEALED_DATA = ["orb_period", "rot_period"]

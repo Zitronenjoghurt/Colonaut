@@ -47,9 +47,10 @@ class PlanetViewScreen(Screen):
 
     def jump(self) -> None:
         if self.system_console.writing == False:
+            self.system_console.write_texts(["JUMP SEQUENCE INITIATED...", "SYSTEM CHECKUP COMPLETED", "JUMP DRIVE CHARGED", "3...", "2...", "1...", "JUMP", "WE WILL ARRIVE AT OUR NEXT DESTINATION SHORTLY"])
             jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
             self.ui_system.publish_event(jump_event)
-            self.update_data()
+            self.after(12000, self.update_data)
 
     def on_keypress(self, event) -> None:
         super().on_keypress(event)

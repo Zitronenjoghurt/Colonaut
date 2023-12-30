@@ -4,11 +4,11 @@
             "hull": {"max_hp": 100},
             "battery": {"max_hp": 100, "max_capacity": 500},
             "solar panel": {"max_hp": 100, "charge_capacity": 20},
-            "accelerometer": {"max_hp": 100, "reveal_chance": 1},
-            "infrared spectrometer": {"max_hp": 100, "reveal_chance": 1},
-            "laser altimeter": {"max_hp": 100, "reveal_chance": 1},
-            "neutron densitometer": {"max_hp": 100, "reveal_chance": 1},
-            "radio telemetry": {"max_hp": 100, "reveal_chance": 1}
+            "accelerometer": {"max_hp": 100, "reveal_chance": 0.5},
+            "infrared spectrometer": {"max_hp": 100, "reveal_chance": 0.5},
+            "laser altimeter": {"max_hp": 100, "reveal_chance": 0.5},
+            "neutron densitometer": {"max_hp": 100, "reveal_chance": 0.5},
+            "radio telemetry": {"max_hp": 100, "reveal_chance": 0.5}
         }
     }
 }

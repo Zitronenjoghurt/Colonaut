@@ -42,7 +42,7 @@ class ShipSystem(BaseEventSubscriber):
             damage = initial_hp
             self.hp = 0
 
-        return Response.create(f"{self.NAME.capitalize()} took {damage} damage.", Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+        return Response.create([f"{self.NAME.capitalize()} took {damage} damage."], Response.TYPES.SHIP_STATUS_LOG_ENTRY)
     
     def get_hp_percentage(self) -> Response:
         if self.max_hp == 0:
@@ -87,9 +87,16 @@ class SensorShipSystem(ShipSystem):
         hp_ratio = self.get_hp_ratio().get_data()
         data_revealed = random.random()
         data = []
+
         if data_revealed < self.reveal_chance * hp_ratio:
             data = self.REVEALED_DATA
-        return Response.create(data, Response.TYPES.SCANNER_RESULT)
+            message = f"[SENSOR] {self.NAME.capitalize()}: success"
+        else:
+            message = f"[SENSOR] {self.NAME.capitalize()}: FAILURE"
+
+        response = Response.create(data, Response.TYPES.SCANNER_RESULT)
+        response.add_data([message], Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+        return response
     
     def get_status(self) -> Response:
         hp_percentage = self.get_hp_percentage().get_data()

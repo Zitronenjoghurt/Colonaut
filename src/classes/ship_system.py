@@ -89,7 +89,7 @@ class SensorShipSystem(ShipSystem):
         data_revealed = random.random()
         data = []
 
-        messages = [DisplayText(f"[SENSOR] {self.NAME.capitalize()}: ", newline=False, line_delay=300)]
+        messages = [DisplayText.from_character("sensor") ,DisplayText(f"{self.NAME.capitalize()}: ", newline=False, line_delay=300, line_symbol=False)]
         if data_revealed < self.reveal_chance * hp_ratio:
             data = self.REVEALED_DATA
             messages.append(DisplayText("SUCCESS", tag="success", line_symbol=False))

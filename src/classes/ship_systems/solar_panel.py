@@ -34,13 +34,13 @@ class SolarPanelSystem(ShipSystem):
 
         try:
             battery_message = self.publish_event(event=charge_event).get_data(Response.TYPES.SHIP_STATUS_LOG_ENTRY)
-            message = DisplayText(f"[ENERGY] Solar panels collected {self.charge_capacity} energy units")
+            messages = [DisplayText.from_character("energy"), DisplayText(f"Solar panels collected {self.charge_capacity} energy units", line_symbol=False)]
             if battery_message:
-                message.add_text(battery_message.get_text())
-            return Response.create(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+                messages.extend(battery_message)
+            return Response.create(messages, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
         except EventTypeNotSubscribedError:
-            message = DisplayText("[ENERGY] Solar panel has no battery to charge")
-            return Response.create(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+            messages = [DisplayText.from_character("energy"), DisplayText("Solar panel has no battery to charge", line_symbol=False)]
+            return Response.create(messages, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
     
     def get_charge_capacity(self) -> Response:
         return Response.create(self.charge_capacity)

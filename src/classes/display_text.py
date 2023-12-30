@@ -39,6 +39,10 @@ class DisplayText:
         newline = data.get("newline", None)
         line_symbol = data.get("line_symbol", None)
         return DisplayText(text=text, tag=tag, char_delay=char_delay, line_delay=line_delay, newline=newline, line_symbol=line_symbol)
+    
+    @staticmethod
+    def from_character(character_name: str) -> 'DisplayText':
+        return DisplayText(character_name.upper()+ " ", character_name, newline=False, line_delay=0)
 
     def add_text(self, text: str|list[str]) -> None:
         if isinstance(text, list):

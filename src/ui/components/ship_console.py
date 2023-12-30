@@ -41,7 +41,7 @@ class ShipConsole(ctk.CTkFrame):
 
         for text in display_text.get_text():
             if display_text.do_line_symbol():
-                text = "> " + text
+                self.queue_message("> ", "computer", line_delay=0, newline=False)
             self.queue_message(text , **display_text.get_options())
 
     def append_message(self, message: str, tag: str = "computer"):

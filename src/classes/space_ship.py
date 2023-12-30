@@ -57,7 +57,10 @@ class SpaceShip(BaseEventSubscriber):
         if scanner_result:
             self.scanner_results.extend(scanner_result)
         if status_log:
-            self.status_log.append(status_log)
+            if isinstance(status_log, list):
+                self.status_log.extend(status_log)
+            else:
+                self.status_log.append(status_log)
 
     """
     Possible errors:

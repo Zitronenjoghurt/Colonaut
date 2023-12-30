@@ -89,15 +89,15 @@ class SensorShipSystem(ShipSystem):
         data_revealed = random.random()
         data = []
 
+        messages = [DisplayText(f"[SENSOR] {self.NAME.capitalize()}: ", newline=False, line_delay=300)]
         if data_revealed < self.reveal_chance * hp_ratio:
             data = self.REVEALED_DATA
-            message = f"[SENSOR] {self.NAME.capitalize()}: success"
+            messages.append(DisplayText("SUCCESS", tag="success", line_symbol=False))
         else:
-            message = f"[SENSOR] {self.NAME.capitalize()}: FAILURE"
-        message = DisplayText(message)
+            messages.append(DisplayText("FAILURE", tag="failure", line_symbol=False))
 
         response = Response.create(data, Response.TYPES.SCANNER_RESULT)
-        response.add_data(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+        response.add_data(messages, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
         return response
     
     def get_status(self) -> Response:

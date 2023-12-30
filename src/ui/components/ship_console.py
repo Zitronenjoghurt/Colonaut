@@ -1,3 +1,4 @@
+import tkinter as tk
 import customtkinter as ctk
 from src.classes.display_text import DisplayText
 from ..style_tags import StyleTags
@@ -26,7 +27,10 @@ class ShipConsole(ctk.CTkFrame):
 
     def init_style_tags(self) -> None:
         for config in StyleTags.TAGS:
-            self.console_text.tag_config(**config)
+            font = config.get("font", None)
+            if font:
+                config["font"] = ctk.CTkFont(**font)
+            self.console_text._textbox.tag_config(**config)
 
     def write_texts(self, display_texts: list[DisplayText]) -> None:
         for display_text in display_texts:
@@ -36,7 +40,9 @@ class ShipConsole(ctk.CTkFrame):
         self.writing = True
 
         for text in display_text.get_text():
-            self.queue_message("> " + text, **display_text.get_options())
+            if display_text.do_line_symbol():
+                text = "> " + text
+            self.queue_message(text , **display_text.get_options())
 
     def append_message(self, message: str, tag: str = "computer"):
         self.console_text.configure(state='normal')
@@ -44,8 +50,10 @@ class ShipConsole(ctk.CTkFrame):
         self.console_text.see('end')
         self.console_text.configure(state='disabled')
 
-    def queue_message(self, message: str, tag: str, line_delay=800, char_delay=25):
-        for char in message + '\n':
+    def queue_message(self, message: str, tag: str, line_delay=800, char_delay=25, newline=True):
+        if newline:
+            message += '\n'
+        for char in message:
             self.char_queue.append((char, tag, char_delay))
         self.char_queue.append(('', tag, line_delay))
         self.process_queue()

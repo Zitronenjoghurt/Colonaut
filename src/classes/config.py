@@ -1,4 +1,3 @@
-import os
 import src.modules.validator as validator
 from ..constants.physical_units import EXISTING_CLASSES
 from ..modules.utilities import file_to_dict, construct_path
@@ -33,7 +32,10 @@ DEFAULT = {
         "volume": "m^3",
         "time": "h"
     },
-    "display_units_conveniently": ["time"]
+    "display_units_conveniently": ["time"],
+    "default_ship_console_char_delay": 20,
+    "default_ship_console_line_delay": 800,
+    "default_ship_console_style_tag": "computer"
 }
 
 SAVE_FILE_MODES = ["json", "pkl"]
@@ -51,6 +53,9 @@ class Config():
         self.SCIENTIFIC_NOTATION_UPPER_TRESHOLD: float = config_data.get("scientific_notation_upper_treshold", DEFAULT["scientific_notation_upper_treshhold"])
         self.SCIENTIFIC_NOTATION_LOWER_TRESHOLD: float = config_data.get("scientific_notation_lower_treshold", DEFAULT["scientific_notation_lower_treshold"])
         self.DISPLAY_UNITS_CONVENIENTLY: list[str] = config_data.get("display_units_conveniently", DEFAULT["display_units_conveniently"])
+        self.DEFAULT_SHIP_CONSOLE_CHAR_DELAY: int = config_data.get("default_ship_console_char_delay", DEFAULT["default_ship_console_char_delay"])
+        self.DEFAULT_SHIP_CONSOLE_LINE_DELAY: int = config_data.get("default_ship_console_line_delay", DEFAULT["default_ship_console_line_delay"])
+        self.DEFAULT_SHIP_CONSOLE_STYLE_TAG: str = config_data.get("default_ship_console_style_tag", DEFAULT["default_ship_console_style_tag"])
         
         self.SAVE_FILE_MODE: str = config_data.get("save_file_mode", DEFAULT["save_file_mode"])
         if self.SAVE_FILE_MODE not in SAVE_FILE_MODES:
@@ -75,6 +80,9 @@ class Config():
 
         try:
             validator.validate_int(self.DECIMAL_DIGITS, "decimal_digits", 0, 10)
+            validator.validate_int(self.DEFAULT_SHIP_CONSOLE_CHAR_DELAY, "default_ship_console_char_delay", 0)
+            validator.validate_int(self.DEFAULT_SHIP_CONSOLE_LINE_DELAY, "default_ship_console_line_delay", 0)
+            validator.validate_style_tag(self.DEFAULT_SHIP_CONSOLE_STYLE_TAG)
             for unit_class in EXISTING_CLASSES:
                 validator.validate_physical_unit_and_class(self.CONFIG_UNITS[unit_class], unit_class)
                 validator.validate_physical_unit_and_class(self.DISPLAY_UNITS[unit_class], unit_class)

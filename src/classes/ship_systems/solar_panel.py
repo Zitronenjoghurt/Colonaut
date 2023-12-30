@@ -1,5 +1,6 @@
 from typing import Optional
 
+from src.classes.display_text import DisplayText
 from src.classes.event import Event
 from src.classes.response import Response
 from src.classes.ship_system import ShipSystem
@@ -33,12 +34,13 @@ class SolarPanelSystem(ShipSystem):
 
         try:
             battery_message = self.publish_event(event=charge_event).get_data(Response.TYPES.SHIP_STATUS_LOG_ENTRY)
-            messages = [f"[ENERGY] Solar panels collected {self.charge_capacity} energy units"]
+            message = DisplayText(f"[ENERGY] Solar panels collected {self.charge_capacity} energy units", tag="energy")
             if battery_message:
-                messages.extend(battery_message)
-            return Response.create(messages, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+                message.add_text(battery_message.get_text())
+            return Response.create(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
         except EventTypeNotSubscribedError:
-            return Response.create(["[ENERGY] Solar panel has no battery to charge"], Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+            message = DisplayText("[ENERGY] Solar panel has no battery to charge", tag="energy")
+            return Response.create(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
         
         return response
     

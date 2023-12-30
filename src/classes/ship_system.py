@@ -1,6 +1,7 @@
 import random
 from typing import Optional
 from .config import Config
+from .display_text import DisplayText
 from .event_subscriber import BaseEventSubscriber
 from .response import Response
 from ..modules.validator import validate_int
@@ -93,9 +94,10 @@ class SensorShipSystem(ShipSystem):
             message = f"[SENSOR] {self.NAME.capitalize()}: success"
         else:
             message = f"[SENSOR] {self.NAME.capitalize()}: FAILURE"
+        message = DisplayText(message)
 
         response = Response.create(data, Response.TYPES.SCANNER_RESULT)
-        response.add_data([message], Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+        response.add_data(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
         return response
     
     def get_status(self) -> Response:

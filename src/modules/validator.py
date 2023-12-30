@@ -1,5 +1,6 @@
 from typing import Optional
 from ..constants.physical_units import UNIT_CLASS_MAP, EXISTING_UNITS, EXISTING_CLASSES
+from ..ui.style_tags import StyleTags
 
 def validate_int(value: int, value_name: str = "value", min_value: Optional[int] = None, max_value: Optional[int] = None):
     if not isinstance(value, int):
@@ -27,3 +28,12 @@ def validate_physical_unit_and_class(unit: str, unit_class: str):
     unit_of_class = UNIT_CLASS_MAP.get(unit) == unit_class
     if not unit_of_class:
         raise ValueError(f"{unit} is not of class {unit_class}")
+    
+def validate_style_tag(style_tag: str):
+    for tag in StyleTags.TAGS:
+        tag_name = tag.get("tagName")
+        if not tag_name:
+            raise ValueError("An error occured while validating the configured style tag: a tag is missing the tagName property")
+        if style_tag == tag_name:
+            return
+    raise ValueError(f"Style tag {style_tag} does not exist.")

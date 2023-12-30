@@ -26,5 +26,8 @@
         "volume": "m^3",
         "time": "h"
     },
-    "display_units_conveniently": ["time"]
+    "display_units_conveniently": ["time"],
+    "default_ship_console_char_delay": 20,
+    "default_ship_console_line_delay": 800,
+    "default_ship_console_style_tag": "computer"
 }

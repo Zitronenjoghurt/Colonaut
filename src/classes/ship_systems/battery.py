@@ -1,5 +1,6 @@
 from typing import Optional
 
+from src.classes.display_text import DisplayText
 from src.classes.event import Event
 from src.classes.response import Response
 from src.classes.ship_system import ShipSystem
@@ -38,8 +39,9 @@ class BatterySystem(ShipSystem):
         message = f"[ENERGY] Battery charged by {charge}"
         if charge == 0:
             message = "[ENERGY] Battery fully charged"
+        message = DisplayText(message, tag="energy")
         
-        return Response.create([message], Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+        return Response.create(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
 
     def to_dict(self) -> Response:
         base_dict: dict = super().to_dict().get_data()

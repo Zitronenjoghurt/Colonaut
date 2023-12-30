@@ -1,4 +1,6 @@
 import customtkinter as ctk
+from src.classes.display_text import DisplayText
+from ..style_tags import StyleTags
 
 class ShipConsole(ctk.CTkFrame):
     def __init__(self, master, height=800, width=950):
@@ -11,6 +13,7 @@ class ShipConsole(ctk.CTkFrame):
 
         self.console_text = ctk.CTkTextbox(console_frame, height=height, width=width, state='disabled', font=('Andale Mono', 22))
         self.console_text.pack(side='left', expand=True, fill='both')
+        self.init_style_tags()
 
         scrollbar = ctk.CTkScrollbar(console_frame, command=self.console_text.yview)
         scrollbar.pack(side='right', fill='y')
@@ -18,26 +21,33 @@ class ShipConsole(ctk.CTkFrame):
         self.console_text.configure(yscrollcommand=scrollbar.set)
 
         self.writing = False
+        self.after_id = None
         self.char_queue = []
 
-    def write_texts(self, texts: list[str]) -> None:
+    def init_style_tags(self) -> None:
+        for config in StyleTags.TAGS:
+            self.console_text.tag_config(**config)
+
+    def write_texts(self, display_texts: list[DisplayText]) -> None:
+        for display_text in display_texts:
+            self.write_text(display_text=display_text)
+
+    def write_text(self, display_text: DisplayText) -> None:
         self.writing = True
 
-        self.char_queue = []
-        self.after_id = None
-        for text in texts:
-            self.queue_message("> "+ text)
+        for text in display_text.get_text():
+            self.queue_message("> " + text, **display_text.get_options())
 
-    def append_message(self, message: str):
+    def append_message(self, message: str, tag: str = "computer"):
         self.console_text.configure(state='normal')
-        self.console_text.insert('end', message)
+        self.console_text.insert('end', message, tag)
         self.console_text.see('end')
         self.console_text.configure(state='disabled')
 
-    def queue_message(self, message: str, delay=800, char_delay=25):
+    def queue_message(self, message: str, tag: str, line_delay=800, char_delay=25):
         for char in message + '\n':
-            self.char_queue.append((char, char_delay))
-        self.char_queue.append(('', delay))
+            self.char_queue.append((char, tag, char_delay))
+        self.char_queue.append(('', tag, line_delay))
         self.process_queue()
 
     def process_queue(self):
@@ -46,11 +56,12 @@ class ShipConsole(ctk.CTkFrame):
         
         if not self.char_queue:
             self.writing = False
+            self.after_id = None
             return
-
+    
         if self.char_queue:
-            char, delay = self.char_queue.pop(0)
-            self.append_message(char)
+            char, tag, delay = self.char_queue.pop(0)
+            self.append_message(char, tag)
             self.after_id = self.after(delay, self.clear_after_id)
 
     def clear_after_id(self):

@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import src.ui.components as Components
+from src.classes.dialogue import Dialogue
 from src.classes.event import Event
 from src.classes.response import Response
 from src.ui.screen import Screen
@@ -47,10 +48,10 @@ class PlanetViewScreen(Screen):
 
     def jump(self) -> None:
         if self.system_console.writing == False:
-            self.system_console.write_texts(["JUMP SEQUENCE INITIATED...", "SYSTEM CHECKUP COMPLETED", "JUMP DRIVE CHARGED", "3...", "2...", "1...", "JUMP", "WE WILL ARRIVE AT OUR NEXT DESTINATION SHORTLY"])
+            self.system_console.write_texts(Dialogue.load("ship_jump").get_texts())
             jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
             self.ui_system.publish_event(jump_event)
-            self.after(12000, self.update_data)
+            self.after(100, self.update_data)
 
     def on_keypress(self, event) -> None:
         super().on_keypress(event)

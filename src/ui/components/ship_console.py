@@ -39,10 +39,15 @@ class ShipConsole(ctk.CTkFrame):
     def write_text(self, display_text: DisplayText) -> None:
         self.writing = True
 
-        for text in display_text.get_text():
-            if display_text.do_line_symbol():
-                self.queue_message("> ", "computer", line_delay=0, newline=False)
-            self.queue_message(text , **display_text.get_options())
+        for text_data in display_text.get_texts():
+            message = text_data.get("text", None)
+            tag = text_data.get("tag", None)
+            line_delay = text_data.get("line_delay", None)
+            char_delay = text_data.get("char_delay", None)
+            newline = text_data.get("newline", None)
+            if message is None or tag is None:
+                raise RuntimeError("An error occured while trying to display a message.")
+            self.queue_message(message=message, tag=tag, line_delay=line_delay, char_delay=char_delay, newline=newline)
 
     def append_message(self, message: str, tag: str = "computer"):
         self.console_text.configure(state='normal')
@@ -50,7 +55,7 @@ class ShipConsole(ctk.CTkFrame):
         self.console_text.see('end')
         self.console_text.configure(state='disabled')
 
-    def queue_message(self, message: str, tag: str, line_delay=800, char_delay=25, newline=True):
+    def queue_message(self, message: str, tag: str, line_delay=800, char_delay=25, newline=False):
         if newline:
             message += '\n'
         for char in message:

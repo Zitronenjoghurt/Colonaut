@@ -36,13 +36,12 @@ class BatterySystem(ShipSystem):
             charge = self.max_capacity - initial_capacity
             self.capacity = self.max_capacity
 
-        messages = [DisplayText.from_character("energy")]
         message = f"Battery charged by {charge}"
         if charge == 0:
             message = "Battery fully charged"
-        messages.append(DisplayText(message, line_symbol=False))
+        message = DisplayText(message, character="energy")
         
-        return Response.create(messages, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
+        return Response.create(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
 
     def to_dict(self) -> Response:
         base_dict: dict = super().to_dict().get_data()

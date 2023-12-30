@@ -91,7 +91,8 @@ def test_solar_panel(space_ship: SpaceShip):
     assert_response_data(battery.get_capacity(), 400)
 
     response = solar_panel.work()
-    assert response.get_data(Response.TYPES.SHIP_STATUS_LOG_ENTRY) == "Battery charged by 20"
+    assert response.get_data(Response.TYPES.SHIP_STATUS_LOG_ENTRY)[0].texts == ["Solar panels collected 20 energy units"]
+    assert response.get_data(Response.TYPES.SHIP_STATUS_LOG_ENTRY)[1].texts == ["Battery charged by 20"]
     assert_response_data(battery.get_capacity(), 420)
 
 def test_sensors(space_ship: SpaceShip):
@@ -105,14 +106,14 @@ def test_sensors(space_ship: SpaceShip):
     assert_response_data(infrared_spectrometer.get_revealed_data(), ["temperature"])
     assert_response_data(laser_altimeter.get_revealed_data(), ["radius"])
     assert_response_data(neutron_densitometer.get_revealed_data(), ["density"])
-    assert_response_data(radio_telemetry.get_revealed_data(), ["orbital_period", "rotational_period"])
+    assert_response_data(radio_telemetry.get_revealed_data(), ["orb_period", "rot_period"])
 
 def test_scanner_results(space_ship: SpaceShip):
     space_ship.run()
-    assert set(space_ship.scanner_results) == set(["temperature", "mass", "radius", "density", "orbital_period", "rotational_period"])
+    assert set(space_ship.scanner_results) == set(["temperature", "mass", "radius", "density", "orb_period", "rot_period"])
 
     accelerometer: ShipSystems.Accelerometer = space_ship.get_system("accelerometer").get_data()
     accelerometer.reveal_chance = 0
 
     space_ship.run()
-    assert set(space_ship.scanner_results) == set(["temperature", "radius", "density", "orbital_period", "rotational_period"])
+    assert set(space_ship.scanner_results) == set(["temperature", "radius", "density", "orb_period", "rot_period"])

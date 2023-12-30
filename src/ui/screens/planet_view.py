@@ -51,7 +51,7 @@ class PlanetViewScreen(Screen):
             self.system_console.write_texts(Dialogue.load("ship_jump").get_texts())
             jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
             self.ui_system.publish_event(jump_event)
-            self.after(12000, self.update_data)
+            self.after(14000, self.update_data)
 
     def on_keypress(self, event) -> None:
         super().on_keypress(event)

@@ -70,12 +70,15 @@ class DisplayText:
     
     def get_texts(self) -> list[dict]:
         result = []
-        for text in self.texts:
+        for i, text in enumerate(self.texts):
             if self.line_symbol and self.character:
                 result.append({"text": self.character.upper()+" "*self.CHARACTER_SPACES[self.character]+"> ", "tag": "computer", "char_delay": 0, "line_delay": 0, "newline": False})
             elif self.line_symbol:
                 result.append({"text": "> ", "tag": "computer", "char_delay": 0, "line_delay": 0, "newline": False})
-            result.append({"text": text, "tag": self.tag, "char_delay": self.char_delay, "line_delay": self.line_delay, "newline": self.newline})
+            if i+1 == len(self.texts) and self.has_actions():
+                result.append({"text": text, "tag": self.tag, "char_delay": self.char_delay, "line_delay": 0, "newline": self.newline})
+            else:
+                result.append({"text": text, "tag": self.tag, "char_delay": self.char_delay, "line_delay": self.line_delay, "newline": self.newline})
         return result
     
     def get_actions(self) -> dict:

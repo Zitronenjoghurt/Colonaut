@@ -2,6 +2,7 @@ import json
 import os
 import pickle
 from pathlib import Path
+from typing import Optional
 
 ROOT_DIR = str(Path(__file__).parent.parent.parent)
 SAFE_TO_DELETE = ["game_state.json", "global_state.json"]
@@ -41,3 +42,17 @@ def construct_path(relative_path: str) -> str:
     path_parts = relative_path.split("/")
     absolute_path = os.path.join(ROOT_DIR, *path_parts)
     return absolute_path
+
+# Returns a list of files in the given directory with a specific suffix
+def files_in_directory(path: str, suffix: Optional[str] = None) -> list[str]:
+    if not os.path.exists(path):
+        raise ValueError(f"Directory {path} does not exist.")
+    
+    files = []
+    for file in os.listdir(path):
+        if suffix is not None:
+            if suffix in file:
+                files.append(file)
+        else:
+            files.append(file)
+    return files

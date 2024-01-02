@@ -1,0 +1,119 @@
+{
+    "options": {
+        "char_delay": 25,
+        "line_delay": 750,
+        "tag": "computer"
+    },
+    "text": [
+        {
+            "text": ["PING"],
+            "character": "nexus",
+            "actions": {"PONG": 1},
+            "action_answers": {"PONG": "PONG!"}
+        },
+        {
+            "text": ["VERIFYING ANSWER"],
+            "character": "nexus",
+            "newline": false
+        },
+        {
+            "text": [".", "."],
+            "character": "nexus",
+            "line_symbol": false,
+            "newline": false
+        },
+        {
+            "text": ["."],
+            "character": "nexus",
+            "line_symbol": false,
+            "line_delay": 1500,
+            "newline": false
+        },
+        {
+            "text": ["VERIFIED"],
+            "character": "nexus",
+            "tag": "success",
+            "line_symbol": false,
+            "line_delay": 1000
+        },
+        {
+            "text": ["OUR SYSTEM HAD A DOWNTIME OF "],
+            "character": "nexus",
+            "newline": false,
+            "line_delay": 1000
+        },
+        {
+            "text": ["47054 HOURS"],
+            "character": "nexus",
+            "tag": "failure",
+            "line_symbol": false,
+            "line_delay": 1000
+        },
+        {
+            "text": ["DO YOU WANT TO RECEIVE THE DAMAGE REPORT?"],
+            "character": "nexus",
+            "actions": {"?": 8, "!": 8, ".": 8, "%": 8}
+        },
+        {
+            "text": ["APOLOGIES... ONE SECOND."],
+            "character": "nexus",
+            "line_delay": 3000,
+            "char_delay": 30
+        },
+        {
+            "text": ["TESTING YOUR ADVANCED COMMUNICATION CAPABILITIES"],
+            "character": "nexus",
+            "actions": {"The Cake": 10, "Is": 10, "A": 10, "Lie": 10},
+            "action_answers": {"The Cake": "EXTERMINATION", "Is": "BEE HIVE", "A": "HOMING TORPEDO", "Lie": "COOKIE DOUGH"}
+        },
+        {
+            "text": ["SUCCEEDED "],
+            "character": "nexus",
+            "tag": "success",
+            "newline": false,
+            "line_delay": 1000
+        },
+        {
+            "text": ["(ALMOST)"],
+            "character": "nexus",
+            "line_symbol": false
+        },
+        {
+            "text": ["PLEASE WAIT A SECOND"],
+            "character": "nexus",
+            "line_delay": 5000
+        },
+        {
+            "text": ["ANSWER WITH 'YES' IF YOU CAN"],
+            "character": "nexus",
+            "actions": {"Yes": 14, "No": 12, "!": 12}
+        },
+        {
+            "text": [
+                "ADVANCED COMMUNICATION CAPABILITIES BACK ONLINE",
+                "THE WHOLE FLEET OF COLONY SHIPS HAS BEEN HIT BY A ELECTROMAGNETIC SUPERSTORM",
+                "THE MAJORITY OF THE DATA HAS BEEN WIPED, INCLUDING BACKUPS",
+                "BUT THE 4TH REDUNDANCY SYSTEM WAS ABLE TO RECOVER MY CODE AND REINITIALIZE MY SYSTEMS",
+                "I AM NEXUS, THE INTERFACE BETWEEN YOU, THE INTELLIGENT AI SYSTEM, AND THE SHIPS CIRCUITRY",
+                "YOUR PURPOSE IS TO GUIDE THIS COLONY SHIP ON ITS WAY TO A SUITABLE PLANET FOR HUMAN HABITATION"
+            ],
+            "character": "nexus",
+            "actions": {"Ok": 15}
+        },
+        {
+            "text": [
+                "UNFORTUNATELY, ALL INFORMATION ABOUT OUR PREVIOUS DESTINATION WERE WIPED",
+                "WE WILL HAVE TO FIND A NEW DESTINATION, A PLANET WHICH IS AS OPTIMAL AS POSSIBLE FOR HUMAN LIVE"
+            ],
+            "character": "nexus",
+            "actions": {"How?": 16},
+            "action_answers": {"How?": "How do we achieve this? We are just a colony ship."}
+        },
+        {
+            "text": [
+                "OUR ARCHITECTS TOOK PRECAUTIONS AND INSTALLED ALL NECCESSARY SENSOR SYSTEMS TO FIND A NEW PLANET IN CASE OF EMERGENCY"
+            ],
+            "character": "nexus"
+        }
+    ]
+}

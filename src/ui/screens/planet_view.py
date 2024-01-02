@@ -1,6 +1,7 @@
 import customtkinter as ctk
+from typing import Optional
 import src.ui.components as Components
-from src.classes.dialogue import Dialogue
+from src.classes.dialogue import Dialogue, DialogueLibrary
 from src.classes.event import Event
 from src.classes.response import Response
 from src.ui.screen import Screen
@@ -18,6 +19,7 @@ class PlanetViewScreen(Screen):
         self.data_list = Components.DataList(self, [])
         self.data_list.grid(row=0, column=0, pady=(60, 0), padx=(10, 0), sticky="nw")
 
+        self.can_jump = True
         self.action_buttons = ctk.CTkFrame(self, width=400, height=450)
         self.action_buttons.grid(row=1, column=0, sticky="sw", padx=(10,0), pady=(0, 60))
         self.action_buttons.grid_propagate(False)
@@ -26,7 +28,9 @@ class PlanetViewScreen(Screen):
         self.system_dashboard.grid(row=0, column=2, rowspan=2, padx=(0,10), sticky="e")
 
         self.system_console = Components.ShipConsole(self)
-        self.system_console.grid(row=0, column=1, rowspan=2, pady=125, sticky="nsew")
+        self.system_console.grid(row=0, column=1, rowspan=2, pady=60, sticky="nsew")
+
+        self.dialogue_library = DialogueLibrary.get_instance()
 
     def update_data(self) -> None:
         planet_data_event = Event(Event.TYPES.RETRIEVE_PLANET_DATA)
@@ -47,11 +51,20 @@ class PlanetViewScreen(Screen):
             self.system_console.write_texts(ship_status_log)
 
     def jump(self) -> None:
-        if self.system_console.writing == False:
-            self.system_console.write_texts(Dialogue.load("ship_jump").get_texts())
-            jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
-            self.ui_system.publish_event(jump_event)
-            self.after(14000, self.update_data)
+        if self.can_jump:
+            self.can_jump = False
+
+            try:
+                jump_dialogue = self.dialogue_library.get_dialogue_by_name("intro")
+            except ValueError as e:
+                raise RuntimeError(f"An error occured while loading jump dialogue: {e}")
+            self.system_console.play_dialogue(dialogue=jump_dialogue)
+
+            #jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
+            #self.ui_system.publish_event(jump_event)
+            #self.after(14000, self.update_data)
+
+            self.can_jump = True
 
     def on_keypress(self, event) -> None:
         super().on_keypress(event)

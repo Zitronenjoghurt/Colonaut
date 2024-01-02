@@ -13,6 +13,7 @@ class StyleTags:
         {"tagName": "nexus", "foreground": "lightgray", "font": nexus},
         {"tagName": "energy", "foreground": "darkgreen", "font": energy},
         {"tagName": "sensor", "foreground": "#a6684b", "font": sensor},
+        {"tagName": "you", "foreground": "white", "font": nexus},
         {"tagName": "success", "foreground": "green", "font": andale_mono_bold},
         {"tagName": "failure", "foreground": "red", "font": andale_mono_bold}
     ]

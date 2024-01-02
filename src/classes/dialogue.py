@@ -14,14 +14,23 @@ class Dialogue():
     
     def get_texts(self) -> list[DisplayText]:
         display_texts = []
-        for i in range(self.current_index, len(self.display_texts)):
+
+        i: int = self.current_index
+        while i < len(self.display_texts): 
             self.current_index = i
             display_text = self.display_texts[i]
             display_texts.append(display_text)
+
+            if display_text.is_jumping():
+                i = display_text.get_jump_to()
+                continue
+
             if display_text.has_actions():
                 self.action_pending = True
                 self.actions = display_text.get_actions()
                 break
+
+            i = i + 1
         return display_texts
     
     def reset(self) -> None:

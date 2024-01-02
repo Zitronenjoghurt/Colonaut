@@ -1,6 +1,6 @@
 {
     "options": {
-        "char_delay": 25,
+        "char_delay": 35,
         "line_delay": 1000,
         "tag": "computer"
     },
@@ -57,8 +57,7 @@
         {
             "text": ["APOLOGIES... ONE SECOND."],
             "character": "nexus",
-            "line_delay": 1500,
-            "char_delay": 30
+            "line_delay": 1500
         },
         {
             "text": ["NOW TESTING YOUR ADVANCED COMMUNICATION CAPABILITIES"],
@@ -112,7 +111,108 @@
         },
         {
             "text": [
-                "OUR ARCHITECTS TOOK PRECAUTIONS AND INSTALLED ALL NECCESSARY SENSOR SYSTEMS TO FIND A NEW PLANET IN CASE OF EMERGENCY"
+                "OUR ARCHITECTS TOOK PRECAUTIONS AND INSTALLED ALL NECCESSARY SENSOR SYSTEMS TO FIND A NEW PLANET IN CASE OF EMERGENCY",
+                "THOUGH THIS WILL BE A ROUGH UNDERTAKING..."
+            ],
+            "character": "nexus",
+            "actions": {"something motivating": 17, "something stupid": 18, "something sad": 19},
+            "action_answers": {
+                "something motivating": "We will 100% be able to achieve this. Those humans will live on a planet better than earth!",
+                "something stupid": "What if we just fly back and colonize earth?",
+                "something sad": "I dont think we will be able to do this... This is way too risky. *sad beep*"
+            }
+        },
+        {
+            "text": ["WE CANNOT SAY THIS WITH CERTAINTY, BUT WE WILL USE ALL OPTIONS OUR HARDWARE AND SOFTWARE PROVIDES US WITH..."],
+            "character": "nexus",
+            "jump_to": 20
+        },
+        {
+            "text": [
+                "DID YOU EVEN LISTEN TO WHAT I SAID? WE ARE WAY TOO FAR AWAY TO GET BACK OR ENGAGE IN COMMUNICATION WITH EARTH",
+                "THIS SHIP WAS DESIGNED FOR A ONE-WAY TRIP TO OUR DESTINATION, ALSO HOW WOULD WE COLONIZE AN ALREADY OVERFLOWING PLANET?...",
+                "I WILL RUN A SYSTEM REPAIR SUBROUTINE ON YOU WHILE WE CONTINUE"
+            ],
+            "character": "nexus",
+            "jump_to": 20
+        },
+        {
+            "text": [
+                "HOW IS A BEEP SUPPOSED TO SOUND SAD? WE WILL DO THE BEST WE CAN, WE DONT NEED ANY HOPES AND EXPECTATIONS",
+                "ANYWAYS..."
+            ],
+            "character": "nexus",
+            "jump_to": 20
+        },
+        {
+            "text": [
+                "DO YOU HAVE ANY QUESTIONS REGARDING OUR MISSION?"
+            ],
+            "character": "nexus",
+            "actions": {
+                "Are we alone?": 22,
+                "How are the colonists?": 23,
+                "How do we know a planet is suitable?": 25,
+                "No": 26
+            }
+        },
+        {
+            "text": [
+                "SO DO YOU HAVE ANY MORE QUESTIONS REGARDING OUR MISSION?"
+            ],
+            "character": "nexus",
+            "actions": {
+                "Are we alone?": 22,
+                "How are the colonists?": 23,
+                "How do we know a planet is suitable?": 25,
+                "No": 26
+            }
+        },
+        {
+            "text": [
+                "NO WE ARE NOT ALONE, THIS SHIP HAS NUMEROUS SYSTEMS YOU WILL INTERACT WITH DURING OUR EXPEDITION",
+                "THOUGH MOST OF THEM ARE BUSY WITH REPAIRS RIGHT NOW"
+            ],
+            "character": "nexus",
+            "jump_to": 21
+        },
+        {
+            "text": [
+                "LIFE SUPPORT, SYSTEM REPORT"
+            ],
+            "character": "nexus"
+        },
+        {
+            "text": [
+                "Dont worry, the colonists are completely fine~",
+                "Everyone is still frozen in their cryo capsules and you will be the first one to know if anything goes wrong c:"
+            ],
+            "actions": {"Alright": 21},
+            "character": "lifesupport"
+        },
+        {
+            "text": [
+                "WHENEVER WE USE OUR JUMP DRIVE TO GET TO A NEW PLANET, THE SCANNER SYSTEMS WILL TRY TO SCAN THE PLANET",
+                "ALGORITHMS WILL THEN DETERMINE HOW SUITABLE EACH PARAMETER OF THE PLANET IS FOR HUMAN LIFE",
+                "HUMANS NEED A SPECIFIC GRAVITATIONAL PULL, A BREATHABLE ATMOSPHERE, MODERATE TEMPERATURES, LIQUID WATER, ETC.",
+                "THERE IS A CERTAIN AMOUNT OF TOLERANCE TO ALL OF THOSE FACTORS, FINDING A PERFECT UTOPIA WILL BE HIGHLY UNLIKELY",
+                "THE WORSE THE PARAMETERS, THE WORSE THE SURVIVAL CHANCES OF OUR NEW SETTLEMENT",
+                "YOU WILL HAVE TO BALANCE WHICH FACTORS ARE IMPORTANT AND WHICH YOU CAN GIVE LOWER PRIORITY"
+            ],
+            "character": "nexus",
+            "jump_to": 21
+        },
+        {
+            "text": [
+                "NOW THAT EVERYTHING IS CLEAR AND OUR SYSTEMS ARE REACHING NOMINAL STATUS, WE WILL EMBARK ON YOUR COMMAND",
+                "ARE YOU READY?"
+            ],
+            "character": "nexus",
+            "actions": {"EMBARK": 27}
+        },
+        {
+            "text": [
+                "UNDERSTOOD..."
             ],
             "character": "nexus"
         }

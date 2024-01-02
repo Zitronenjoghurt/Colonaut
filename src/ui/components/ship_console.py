@@ -16,6 +16,12 @@ class ShipConsole(ctk.CTkFrame):
         self.current_dialogue: Optional[Dialogue] = None
 
         self.button_frame = ctk.CTkFrame(self, bg_color='systemWindowBackgroundColor')
+        self.button_frame.columnconfigure(0, weight=1)
+        self.button_frame.columnconfigure(1, weight=1)
+        self.button_frame.columnconfigure(2, weight=1)
+        self.button_frame.columnconfigure(3, weight=1)
+        self.button_frame.rowconfigure(0, weight=1)
+        self.button_frame.pack(expand=True, fill='both')
 
         # Initialize buttons
         self.action1 = ctk.CTkButton(self.button_frame, command=lambda:self.dialogue_action(1))
@@ -39,11 +45,6 @@ class ShipConsole(ctk.CTkFrame):
         self.console_text = ctk.CTkTextbox(console_frame, height=height, width=width, state='disabled', font=('Andale Mono', 22), wrap='word')
         self.console_text.pack(side='left', expand=True, fill='both')
         self.init_style_tags()
-
-        scrollbar = ctk.CTkScrollbar(console_frame, command=self.console_text.yview)
-        scrollbar.pack(side='right', fill='y')
-
-        self.console_text.configure(yscrollcommand=scrollbar.set)
 
         self.writing = False
         self.after_id = None
@@ -123,23 +124,10 @@ class ShipConsole(ctk.CTkFrame):
     def set_dialogue_actions(self, labels: list[str]) -> None:
         self.current_actions = labels
         self.init_actions(labels=labels)
-        self.show_action_frame()
 
     def reset_dialogue_actions(self) -> None:
         self.current_actions = []
-        self.hide_action_frame()
         self.reset_actions()
-
-    def hide_action_frame(self) -> None:
-        self.button_frame.pack_forget()
-    
-    def show_action_frame(self) -> None:
-        self.button_frame.columnconfigure(0, weight=1)
-        self.button_frame.columnconfigure(1, weight=1)
-        self.button_frame.columnconfigure(2, weight=1)
-        self.button_frame.columnconfigure(3, weight=1)
-        self.button_frame.rowconfigure(0, weight=1)
-        self.button_frame.pack(expand=True, fill='both')
 
     def reset_actions(self) -> None:
         for button in self.action_buttons:

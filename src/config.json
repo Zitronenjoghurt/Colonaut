@@ -6,7 +6,7 @@
         "default_game_state": "src/data/default_game_state.json",        
         "default_global_state": "src/data/default_global_state.json"
     },
-    "save_file_mode": "pkl",
+    "save_file_mode": "json",
     "decimal_digits": 2,
     "scientific_notation_upper_treshhold": 1e7,
     "scientific_notation_lower_treshold": 1e-2,

@@ -32,7 +32,7 @@ class GameState(SaveState):
         ship_data = data.get("ship", None)
 
         if ship_data is None:
-            raise RuntimeError("An error occured while loading the save file: missing ship data.")
+            raise RuntimeError("An error occured while loading the game state save file: missing ship data.")
         try:
             ship = SpaceShip.from_dict(ship_data)
         except Exception as e:

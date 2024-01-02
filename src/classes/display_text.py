@@ -6,12 +6,13 @@ CONFIG = Config.get_instance()
 class DisplayText:
     CHARACTER_SPACES = {
         "energy": 0,
+        "lifesupport": 0,
         "nexus": 0,
         "sensor": 0,
         "you": 0
     }
 
-    def __init__(self, text: str|list[str], actions: Optional[dict] = None, action_answers: Optional[dict] = None, character: Optional[str] = None, tag: Optional[str] = None, char_delay: Optional[int] = None, line_delay: Optional[int] = None, line_symbol: Optional[bool] = None, newline: Optional[bool] = None) -> None:
+    def __init__(self, text: str|list[str], actions: Optional[dict] = None, action_answers: Optional[dict] = None, character: Optional[str] = None, tag: Optional[str] = None, char_delay: Optional[int] = None, line_delay: Optional[int] = None, line_symbol: Optional[bool] = None, newline: Optional[bool] = None, jump_to: Optional[int] = None) -> None:
         if actions is None:
             actions = {}
         if action_answers is None:
@@ -46,6 +47,7 @@ class DisplayText:
         self.line_delay = line_delay
         self.line_symbol = line_symbol
         self.newline = newline
+        self.jump_to = jump_to
 
     @staticmethod
     def from_dict(data) -> 'DisplayText':
@@ -60,7 +62,8 @@ class DisplayText:
         line_delay = data.get("line_delay", None)
         newline = data.get("newline", None)
         line_symbol = data.get("line_symbol", None)
-        return DisplayText(text=text, actions=actions, action_answers=action_answers, character=character, tag=tag, char_delay=char_delay, line_delay=line_delay, newline=newline, line_symbol=line_symbol)
+        jump_to = data.get("jump_to", None)
+        return DisplayText(text=text, actions=actions, action_answers=action_answers, character=character, tag=tag, char_delay=char_delay, line_delay=line_delay, newline=newline, line_symbol=line_symbol, jump_to=jump_to)
 
     def add_text(self, text: str|list[str]) -> None:
         if isinstance(text, list):
@@ -72,7 +75,8 @@ class DisplayText:
         result = []
         for i, text in enumerate(self.texts):
             if self.line_symbol and self.character:
-                result.append({"text": self.character.upper()+" "*self.CHARACTER_SPACES[self.character]+"> ", "tag": "computer", "char_delay": 0, "line_delay": 0, "newline": False})
+                result.append({"text": self.character.upper(), "tag": self.character, "char_delay": 0, "line_delay": 0, "newline": False})
+                result.append({"text": " "*self.CHARACTER_SPACES[self.character]+"> ", "tag": "computer", "char_delay": 0, "line_delay": 0, "newline": False})
             elif self.line_symbol:
                 result.append({"text": "> ", "tag": "computer", "char_delay": 0, "line_delay": 0, "newline": False})
             if i+1 == len(self.texts) and self.has_actions():
@@ -93,3 +97,12 @@ class DisplayText:
     
     def has_actions(self) -> bool:
         return len(self.actions) > 0
+    
+    def is_jumping(self) -> bool:
+        return isinstance(self.jump_to, int)
+    
+    def get_jump_to(self) -> int:
+        if self.jump_to:
+            return self.jump_to
+        else:
+            return -1

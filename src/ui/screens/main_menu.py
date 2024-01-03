@@ -22,6 +22,7 @@ class MainMenuScreen(Screen):
 
     def start_game(self) -> None:
         self.ui_system.switch_screen("planet_view")
+        self.ui_system.start_ship_console()
 
     def on_keypress(self, event) -> None:
         if event.keysym == "Escape":

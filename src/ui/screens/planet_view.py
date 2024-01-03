@@ -32,6 +32,9 @@ class PlanetViewScreen(Screen):
 
         self.dialogue_library = DialogueLibrary.get_instance()
 
+        self.default_fg_color = self.cget("fg_color")
+        self.emergency = False
+
     def update_data(self) -> None:
         planet_data_event = Event(Event.TYPES.RETRIEVE_PLANET_DATA)
         ship_status_event = Event(Event.TYPES.RETRIEVE_SHIP_STATUS)
@@ -70,3 +73,43 @@ class PlanetViewScreen(Screen):
         super().on_keypress(event)
         if event.keysym in ['j', 'J']:
             self.jump()
+            self.stop_emergency_animation()
+
+    def start_console(self) -> None:
+        self.system_console.start_writing()
+
+    def start_intro(self) -> None:
+        try:
+            intro_dialogue = self.dialogue_library.get_dialogue_by_name("intro")
+        except ValueError as e:
+            raise RuntimeError(f"An error occured while loading intro dialogue: {e}")
+        self.start_emergency_animation()
+        self.system_console.play_dialogue(intro_dialogue)
+
+    def start_emergency_animation(self) -> None:
+        self.emergency = True
+        self.fade_to_red()
+
+    def stop_emergency_animation(self) -> None:
+        self.emergency = False
+        self.configure(fg_color=self.default_fg_color)
+
+    def fade_to_red(self, step=0):
+        if not self.emergency:
+            return
+        if step <= 125:
+            color = f"#%02x1111" % step  # Increment the red component
+            self.configure(fg_color=color)
+            self.after(10, lambda: self.fade_to_red(step + 1))
+        else:
+            self.fade_to_black()
+
+    def fade_to_black(self, step=125):
+        if not self.emergency:
+            return
+        if step >= 0:
+            color = f"#%02x1111" % step  # Decrement the red component
+            self.configure(fg_color=color)
+            self.after(10, lambda: self.fade_to_black(step - 1))
+        else:
+            self.fade_to_red()

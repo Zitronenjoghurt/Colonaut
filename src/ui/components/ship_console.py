@@ -46,6 +46,7 @@ class ShipConsole(ctk.CTkFrame):
         self.console_text.pack(side='left', expand=True, fill='both')
         self.init_style_tags()
 
+        self.allow_writing = False
         self.writing = False
         self.after_id = None
         self.char_queue = []
@@ -70,6 +71,10 @@ class ShipConsole(ctk.CTkFrame):
         self.current_dialogue.process_action(action_name=action_name)
         self.write_texts(self.current_dialogue.get_texts())
         self.reset_dialogue_actions()
+
+    def start_writing(self) -> None:
+        self.allow_writing = True
+        self.process_queue()
 
     def write_texts(self, display_texts: list[DisplayText]) -> None:
         for display_text in display_texts:
@@ -103,7 +108,7 @@ class ShipConsole(ctk.CTkFrame):
         self.process_queue()
 
     def process_queue(self):
-        if self.after_id is not None:
+        if self.after_id is not None or not self.allow_writing:
             return
         
         # Finished writing

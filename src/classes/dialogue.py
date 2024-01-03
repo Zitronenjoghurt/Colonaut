@@ -1,16 +1,23 @@
 from copy import deepcopy
+from src.classes.event import Event
+from src.classes.event_bus import EventBus
+from src.classes.event_subscriber import BaseEventSubscriber
+from src.constants.custom_exceptions import EventTypeNotSubscribedError
 from src.modules.utilities import construct_path, file_to_dict, files_in_directory
 from .display_text import DisplayText
 
+EVENT_BUS = EventBus.get_instance()
 DIALOGUE_CATEGORIES = ["system"]
 DIALOGUE_FILE_PATH = construct_path("src/data/dialogue/{dialogue_category}/")
 
 class Dialogue():
-    def __init__(self, display_texts: list[DisplayText]) -> None:
+    def __init__(self, name: str, display_texts: list[DisplayText]) -> None:
+        self.name = name
         self.display_texts = display_texts
         self.current_index = 0
         self.action_pending = False
         self.actions = {}
+        super().__init__()
     
     def get_texts(self) -> list[DisplayText]:
         display_texts = []
@@ -20,6 +27,18 @@ class Dialogue():
             self.current_index = i
             display_text = self.display_texts[i]
             display_texts.append(display_text)
+
+            event_type = display_text.get_event()
+            if isinstance(event_type, str):
+                event_data = display_text.get_event_data()
+                try:
+                    if isinstance(event_data, dict):
+                        event = Event(type=event_type, **event_data)
+                    else:
+                        event = Event(type=event_type)
+                except EventTypeNotSubscribedError:
+                    raise RuntimeError(f"An error occured while playing dialogue {self.name} at index {i}: Event {event_type} does not exist or was not subscribed on.")
+                response = EVENT_BUS.publish(event)
 
             if display_text.is_jumping():
                 i = display_text.get_jump_to()
@@ -98,7 +117,7 @@ class DialogueLibrary():
                 display_texts.append(DisplayText.from_dict(display_text))
             except ValueError as e:
                 raise ValueError(f"An error occured while trying to initialize Dialogue {dialogue_name}: {e}")
-        return Dialogue(display_texts=display_texts)
+        return Dialogue(name=dialogue_name, display_texts=display_texts)
     
     @staticmethod
     def _set_default_text_options(options: dict, display_text: dict) -> None:

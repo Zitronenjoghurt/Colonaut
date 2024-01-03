@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 from .config import Config
 
 CONFIG = Config.get_instance()
@@ -12,7 +12,21 @@ class DisplayText:
         "you": 0
     }
 
-    def __init__(self, text: str|list[str], actions: Optional[dict] = None, action_answers: Optional[dict] = None, character: Optional[str] = None, tag: Optional[str] = None, char_delay: Optional[int] = None, line_delay: Optional[int] = None, line_symbol: Optional[bool] = None, newline: Optional[bool] = None, jump_to: Optional[int] = None) -> None:
+    def __init__(
+            self, 
+            text: str|list[str], 
+            actions: Optional[dict] = None, 
+            action_answers: Optional[dict] = None, 
+            character: Optional[str] = None, 
+            tag: Optional[str] = None, 
+            char_delay: Optional[int] = None, 
+            line_delay: Optional[int] = None, 
+            line_symbol: Optional[bool] = None, 
+            newline: Optional[bool] = None, 
+            jump_to: Optional[int] = None, 
+            event: Optional[str] = None,
+            event_data: Any = None
+        ) -> None:
         if actions is None:
             actions = {}
         if action_answers is None:
@@ -48,6 +62,8 @@ class DisplayText:
         self.line_symbol = line_symbol
         self.newline = newline
         self.jump_to = jump_to
+        self.event = event
+        self.event_data = event_data
 
     @staticmethod
     def from_dict(data) -> 'DisplayText':
@@ -63,7 +79,21 @@ class DisplayText:
         newline = data.get("newline", None)
         line_symbol = data.get("line_symbol", None)
         jump_to = data.get("jump_to", None)
-        return DisplayText(text=text, actions=actions, action_answers=action_answers, character=character, tag=tag, char_delay=char_delay, line_delay=line_delay, newline=newline, line_symbol=line_symbol, jump_to=jump_to)
+        event = data.get("event", None)
+        event_data = data.get("event_data", None)
+        return DisplayText(
+            text=text, 
+            actions=actions, 
+            action_answers=action_answers, 
+            character=character, 
+            tag=tag, 
+            char_delay=char_delay, 
+            line_delay=line_delay, 
+            newline=newline, line_symbol=line_symbol, 
+            jump_to=jump_to,
+            event=event,
+            event_data=event_data
+        )
 
     def add_text(self, text: str|list[str]) -> None:
         if isinstance(text, list):
@@ -106,3 +136,9 @@ class DisplayText:
             return self.jump_to
         else:
             return -1
+        
+    def get_event(self) -> Optional[str]:
+        return self.event
+    
+    def get_event_data(self) -> Any:
+        return self.event_data

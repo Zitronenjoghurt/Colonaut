@@ -19,11 +19,12 @@ class GameManager(BaseEventSubscriber):
 
         self.current_planet: Optional[Planet] = None
         
-        self.SUBSCRIPTIONS = {
+        subscriptions = {
+            Event.TYPES.GAME_FLOW_FINISH_INTRO: self.finish_intro,
             Event.TYPES.GAME_FLOW_JUMP: self.jump,
             Event.TYPES.RETRIEVE_PLANET_DATA: self.retrieve_planet_data
         }
-        super().__init__()
+        super().__init__(subscriptions=subscriptions)
 
     @staticmethod
     def get_instance() -> 'GameManager':
@@ -42,8 +43,14 @@ class GameManager(BaseEventSubscriber):
         self.global_state.save()
 
     def start(self) -> None:
-        self.ui_system.start()
+        mode = ""
+        if not self.global_state.finished_intro:
+            mode = "intro"
+        self.ui_system.start(mode=mode)
 
+    """
+    Event driven functions
+    """
     def jump(self) -> Response:
         self.current_planet = PlanetGenerator.generate()
         self.game_state.ship.run()
@@ -55,3 +62,8 @@ class GameManager(BaseEventSubscriber):
         else:
             planet_data = []
         return Response.create(planet_data, Response.TYPES.PLANET_DATA)
+    
+    def finish_intro(self) -> Response:
+        self.global_state.finished_intro = True
+        self.ui_system.on_deactivate_planet_view_emergency()
+        return Response.create()

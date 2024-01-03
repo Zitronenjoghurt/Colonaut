@@ -1,7 +1,9 @@
 import tkinter as tk
 import src.ui.screens as Screens
 from tkinter import messagebox
+from ..classes.event import Event
 from ..classes.event_subscriber import BaseEventSubscriber
+from ..classes.response import Response
 
 class UISystem(BaseEventSubscriber):
     def __init__(self) -> None:
@@ -29,7 +31,12 @@ class UISystem(BaseEventSubscriber):
         self.current_screen = "main_menu"
         self.screens["main_menu"].lift()
         
-        super().__init__()
+        subscriptions = {
+            Event.TYPES.UI_START_PLANET_VIEW_EMERGENCY: self.on_activate_planet_view_emergency,
+            Event.TYPES.UI_STOP_PLANET_VIEW_EMERGENCY: self.on_deactivate_planet_view_emergency
+        }
+
+        super().__init__(subscriptions=subscriptions)
 
     def switch_screen(self, screen_name: str, add_to_history: bool = True) -> None:
         if self.current_screen == screen_name:
@@ -53,5 +60,23 @@ class UISystem(BaseEventSubscriber):
     def on_keypress(self, event):
         self.screens[self.current_screen].on_keypress(event)
 
-    def start(self) -> None:
+    def start(self, mode: str = "") -> None:
+        match mode:
+            case "intro":
+                self.screens["planet_view"].start_intro()
+
         self.root.mainloop()
+
+    def start_ship_console(self) -> None:
+        self.screens["planet_view"].start_console()
+
+    """
+    Event functions which alter the UI
+    """
+    def on_activate_planet_view_emergency(self) -> Response:
+        self.screens["planet_view"].start_emergency_animation()
+        return Response.create()
+    
+    def on_deactivate_planet_view_emergency(self) -> Response:
+        self.screens["planet_view"].stop_emergency_animation()
+        return Response.create()

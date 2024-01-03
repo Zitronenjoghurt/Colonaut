@@ -214,7 +214,8 @@
             "text": [
                 "UNDERSTOOD..."
             ],
-            "character": "nexus"
+            "character": "nexus",
+            "event": "game_flow_finish_intro"
         }
     ]
 }

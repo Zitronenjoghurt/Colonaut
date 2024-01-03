@@ -10,7 +10,7 @@ class BatterySystem(ShipSystem):
     NAME = "battery"
 
     def __init__(self, max_hp: int, max_capacity: int, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
-        self.SUBSCRIPTIONS = {
+        subscriptions = {
             Event.TYPES.BATTERY_CHARGE: self.charge
         }
         if capacity is None:
@@ -19,7 +19,7 @@ class BatterySystem(ShipSystem):
         self.max_capacity = max_capacity
         self.capacity = capacity
 
-        super().__init__(max_hp=max_hp, hp=hp)
+        super().__init__(max_hp=max_hp, hp=hp, subscriptions=subscriptions)
 
     """
     Possible errors:

@@ -11,8 +11,8 @@ CONFIG = Config.get_instance()
 class ShipSystem(BaseEventSubscriber):
     NAME = "default"
 
-    def __init__(self, max_hp: int, hp: Optional[int] = None) -> None:
-        super().__init__()
+    def __init__(self, max_hp: int, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
+        super().__init__(subscriptions=subscriptions)
         if max_hp < 1:
             max_hp = 1
         if hp is None:

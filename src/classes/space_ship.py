@@ -8,12 +8,12 @@ from ..constants.custom_exceptions import ShipSystemNotFoundError
 
 class SpaceShip(BaseEventSubscriber):
     def __init__(self, systems: Optional[dict[str, ShipSystem]] = None) -> None:
-        self.SUBSCRIPTIONS = {
+        subscriptions = {
             Event.TYPES.SHIP_RETRIEVE_SYSTEM: self.get_system,
             Event.TYPES.SHIP_DAMAGE_SYSTEM: self.damage_system,
             Event.TYPES.RETRIEVE_SHIP_STATUS: self.get_status
         }
-        super().__init__()
+        super().__init__(subscriptions=subscriptions)
         if systems is None:
             systems = {}
         self.systems: dict[str, ShipSystem] = systems

@@ -22,8 +22,9 @@ class DisplayText:
             char_delay: Optional[int] = None, 
             line_delay: Optional[int] = None, 
             line_symbol: Optional[bool] = None, 
-            newline: Optional[bool] = None, 
-            jump_to: Optional[int] = None, 
+            newline: Optional[bool] = None,
+            id: Optional[str] = None,
+            jump_to: Optional[str] = None, 
             event: Optional[str] = None,
             event_data: Any = None
         ) -> None:
@@ -61,6 +62,7 @@ class DisplayText:
         self.line_delay = line_delay
         self.line_symbol = line_symbol
         self.newline = newline
+        self.id = id
         self.jump_to = jump_to
         self.event = event
         self.event_data = event_data
@@ -78,6 +80,7 @@ class DisplayText:
         line_delay = data.get("line_delay", None)
         newline = data.get("newline", None)
         line_symbol = data.get("line_symbol", None)
+        id = data.get("id", None)
         jump_to = data.get("jump_to", None)
         event = data.get("event", None)
         event_data = data.get("event_data", None)
@@ -89,7 +92,8 @@ class DisplayText:
             tag=tag, 
             char_delay=char_delay, 
             line_delay=line_delay, 
-            newline=newline, line_symbol=line_symbol, 
+            newline=newline, line_symbol=line_symbol,
+            id=id,
             jump_to=jump_to,
             event=event,
             event_data=event_data
@@ -128,14 +132,20 @@ class DisplayText:
     def has_actions(self) -> bool:
         return len(self.actions) > 0
     
-    def is_jumping(self) -> bool:
-        return isinstance(self.jump_to, int)
+    def get_id(self) -> str:
+        if self.id:
+            return self.id
+        else:
+            return ""
     
-    def get_jump_to(self) -> int:
+    def is_jumping(self) -> bool:
+        return isinstance(self.jump_to, str)
+    
+    def get_jump_to(self) -> str:
         if self.jump_to:
             return self.jump_to
         else:
-            return -1
+            return ""
         
     def get_event(self) -> Optional[str]:
         return self.event

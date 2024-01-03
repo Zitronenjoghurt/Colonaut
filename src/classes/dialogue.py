@@ -17,7 +17,27 @@ class Dialogue():
         self.current_index = 0
         self.action_pending = False
         self.actions = {}
-        super().__init__()
+        self.event_pending = False
+        self.event = None
+        self.id_index_map = {}
+
+        # Register indices for entry ids
+        for i, display_text in enumerate(self.display_texts):
+            id = display_text.get_id()
+            if id in self.id_index_map:
+                raise RuntimeError(f"An error occured while loading dialogue '{name}': the id '{id}' of entry at index {i} already exists at index {self.id_index_map[id]}.")
+            if id != "":
+                self.id_index_map[id] = i
+        
+        # Verify action target ids
+        for i, display_text in enumerate(self.display_texts):
+            actions = display_text.get_actions()
+            if len(actions) == 0:
+                continue
+            for action_target in actions.values():
+                if action_target not in self.id_index_map:
+                    raise RuntimeError(f"An error occured while loading dialogue '{name}': the action of the entry at index {i} references an invalid id '{action_target}'.")
+            
     
     def get_texts(self) -> list[DisplayText]:
         display_texts = []
@@ -33,15 +53,20 @@ class Dialogue():
                 event_data = display_text.get_event_data()
                 try:
                     if isinstance(event_data, dict):
-                        event = Event(type=event_type, **event_data)
+                        self.event = Event(type=event_type, **event_data)
+                        self.event_pending = True
                     else:
-                        event = Event(type=event_type)
+                        self.event = Event(type=event_type)
+                        self.event_pending = True
                 except EventTypeNotSubscribedError:
                     raise RuntimeError(f"An error occured while playing dialogue {self.name} at index {i}: Event {event_type} does not exist or was not subscribed on.")
-                response = EVENT_BUS.publish(event)
 
             if display_text.is_jumping():
-                i = display_text.get_jump_to()
+                jump_id = display_text.get_jump_to()
+                jump_index = self.id_index_map.get(jump_id, None)
+                if jump_index is None:
+                    raise RuntimeError(f"An error occured while playing dialogue {self.name} at index {i}: tried to jump to id {jump_id}, but no entry with this id was found.")
+                i = jump_index
                 continue
 
             if display_text.has_actions():
@@ -58,6 +83,9 @@ class Dialogue():
     def waiting_for_action(self) -> bool:
         return self.action_pending
     
+    def has_pending_event(self) -> bool:
+        return self.event_pending
+    
     def is_finished(self) -> bool:
         return self.current_index + 1 == len(self.display_texts)
     
@@ -72,9 +100,20 @@ class Dialogue():
     def process_action(self, action_name: str) -> None:
         if action_name not in self.actions:
             raise RuntimeError(f"Action {action_name} does not exist in the current dialogue.")
-        self.current_index = self.actions[action_name]
+        next_id = self.actions[action_name]
+        next_index = self.id_index_map.get(next_id, None)
+        if next_index is None:
+            raise RuntimeError(f"An error occured while playing dialogue {self.name}: tried to process action {action_name}, but no entry with the target id {next_id} was found.")
+        self.current_index = next_index
         self.action_pending = False
         self.actions = {}
+
+    def process_event(self) -> None:
+        if not self.event_pending or not isinstance(self.event, Event):
+            raise RuntimeError(f"An error occured while playing dialogue {self.name}: tried to process event, but no event is pending.")
+        response = EVENT_BUS.publish(self.event)
+        self.event_pending = False
+        self.event = None
     
 class DialogueLibrary():
     _instance = None

@@ -8,10 +8,11 @@
         {
             "text": ["PING"],
             "character": "nexus",
-            "actions": {"PONG": 1},
+            "actions": {"PONG": "verifying"},
             "action_answers": {"PONG": "PONG!"}
         },
         {
+            "id": "verifying",
             "text": ["VERIFYING ANSWER"],
             "character": "nexus",
             "newline": false
@@ -52,9 +53,10 @@
         {
             "text": ["DO YOU WANT TO RECEIVE THE DAMAGE REPORT?"],
             "character": "nexus",
-            "actions": {"?": 8, "!": 8, ".": 8, "%": 8}
+            "actions": {"?": "apologies", "!": "apologies", ".": "apologies", "%": "apologies"}
         },
         {
+            "id": "apologies",
             "text": ["APOLOGIES... ONE SECOND."],
             "character": "nexus",
             "line_delay": 1500
@@ -62,10 +64,11 @@
         {
             "text": ["NOW TESTING YOUR ADVANCED COMMUNICATION CAPABILITIES"],
             "character": "nexus",
-            "actions": {"The Cake": 10, "Is": 10, "A": 10, "Lie": 10},
+            "actions": {"The Cake": "succeeded", "Is": "succeeded", "A": "succeeded", "Lie": "succeeded"},
             "action_answers": {"The Cake": "EXTERMINATION", "Is": "BEE HIVE", "A": "HOMING TORPEDO", "Lie": "COOKIE DOUGH"}
         },
         {
+            "id": "succeeded",
             "text": ["SUCCEEDED "],
             "character": "nexus",
             "tag": "success",
@@ -78,6 +81,7 @@
             "line_symbol": false
         },
         {
+            "id": "please wait",
             "text": ["PLEASE WAIT A SECOND"],
             "character": "nexus",
             "line_delay": 5000
@@ -85,9 +89,10 @@
         {
             "text": ["ANSWER WITH 'YES' IF YOU CAN"],
             "character": "nexus",
-            "actions": {"Yes": 14, "No": 12, "!": 12}
+            "actions": {"Yes": "emergency explanation", "No": "please wait", "!": "please wait"}
         },
         {
+            "id": "emergency explanation",
             "text": [
                 "ADVANCED COMMUNICATION CAPABILITIES BACK ONLINE",
                 "THE WHOLE FLEET OF COLONY SHIPS HAS BEEN HIT BY A ELECTROMAGNETIC SUPERSTORM",
@@ -97,25 +102,27 @@
                 "YOUR PURPOSE IS TO GUIDE THIS COLONY SHIP ON ITS WAY TO A SUITABLE PLANET FOR HUMAN HABITATION"
             ],
             "character": "nexus",
-            "actions": {"Ok": 15}
+            "actions": {"Ok": "information lost"}
         },
         {
+            "id": "information lost",
             "text": [
                 "UNFORTUNATELY, ALL INFORMATION ABOUT OUR PREVIOUS DESTINATION WERE WIPED",
                 "ADDITIONALLY, WE ARE OVER 15.000LY AWAY FROM EARTH, REQUESTING SUPPORT IS NOT AN OPTION",
                 "WE WILL HAVE TO FIND A NEW DESTINATION, A PLANET WHICH IS AS OPTIMAL AS POSSIBLE FOR HUMAN LIFE"
             ],
             "character": "nexus",
-            "actions": {"How?": 16},
+            "actions": {"How?": "architects"},
             "action_answers": {"How?": "How do we achieve this? We are just a colony ship."}
         },
         {
+            "id": "architects",
             "text": [
                 "OUR ARCHITECTS TOOK PRECAUTIONS AND INSTALLED ALL NECCESSARY SENSOR SYSTEMS TO FIND A NEW PLANET IN CASE OF EMERGENCY",
                 "THOUGH THIS WILL BE A ROUGH UNDERTAKING..."
             ],
             "character": "nexus",
-            "actions": {"something motivating": 17, "something stupid": 18, "something sad": 19},
+            "actions": {"something motivating": "motivating", "something stupid": "stupid", "something sad": "sad"},
             "action_answers": {
                 "something motivating": "We will 100% be able to achieve this. Those humans will live on a planet better than earth!",
                 "something stupid": "What if we just fly back and colonize earth?",
@@ -123,60 +130,67 @@
             }
         },
         {
+            "id": "motivating",
             "text": ["WE CANNOT SAY THIS WITH CERTAINTY, BUT WE WILL USE ALL OPTIONS OUR HARDWARE AND SOFTWARE PROVIDES US WITH..."],
             "character": "nexus",
-            "jump_to": 20
+            "jump_to": "questions"
         },
         {
+            "id": "stupid",
             "text": [
                 "DID YOU EVEN LISTEN TO WHAT I SAID? WE ARE WAY TOO FAR AWAY TO GET BACK OR ENGAGE IN COMMUNICATION WITH EARTH",
                 "THIS SHIP WAS DESIGNED FOR A ONE-WAY TRIP TO OUR DESTINATION, ALSO HOW WOULD WE COLONIZE AN ALREADY OVERFLOWING PLANET?...",
                 "I WILL RUN A SYSTEM REPAIR SUBROUTINE ON YOU WHILE WE CONTINUE"
             ],
             "character": "nexus",
-            "jump_to": 20
+            "jump_to": "questions"
         },
         {
+            "id": "sad",
             "text": [
                 "HOW IS A BEEP SUPPOSED TO SOUND SAD? WE WILL DO THE BEST WE CAN, WE DONT NEED ANY HOPES AND EXPECTATIONS",
                 "ANYWAYS..."
             ],
             "character": "nexus",
-            "jump_to": 20
+            "jump_to": "questions"
         },
         {
+            "id": "questions",
             "text": [
                 "DO YOU HAVE ANY QUESTIONS REGARDING OUR MISSION?"
             ],
             "character": "nexus",
             "actions": {
-                "Are we alone?": 22,
-                "How are the colonists?": 23,
-                "How do we know a planet is suitable?": 25,
-                "No": 26
+                "Are we alone?": "alone",
+                "How are the colonists?": "life support",
+                "How do we know a planet is suitable?": "suitable planet",
+                "No": "end"
             }
         },
         {
+            "id": "more questions",
             "text": [
                 "SO DO YOU HAVE ANY MORE QUESTIONS REGARDING OUR MISSION?"
             ],
             "character": "nexus",
             "actions": {
-                "Are we alone?": 22,
-                "How are the colonists?": 23,
-                "How do we know a planet is suitable?": 25,
-                "No": 26
+                "Are we alone?": "alone",
+                "How are the colonists?": "life support",
+                "How do we know a planet is suitable?": "suitable planet",
+                "No": "end"
             }
         },
         {
+            "id": "alone",
             "text": [
                 "NO WE ARE NOT ALONE, THIS SHIP HAS NUMEROUS SYSTEMS YOU WILL INTERACT WITH DURING OUR EXPEDITION",
                 "THOUGH MOST OF THEM ARE BUSY WITH REPAIRS RIGHT NOW"
             ],
             "character": "nexus",
-            "jump_to": 21
+            "jump_to": "more questions"
         },
         {
+            "id": "life support",
             "text": [
                 "LIFE SUPPORT, SYSTEM REPORT"
             ],
@@ -187,10 +201,11 @@
                 "Dont worry, the colonists are completely fine~",
                 "Everyone is still frozen in their cryo capsules and you will be the first one to know if anything goes wrong c:"
             ],
-            "actions": {"Alright": 21},
+            "actions": {"Alright": "more questions"},
             "character": "lifesupport"
         },
         {
+            "id": "suitable planet",
             "text": [
                 "WHENEVER WE USE OUR JUMP DRIVE TO GET TO A NEW PLANET, THE SCANNER SYSTEMS WILL TRY TO SCAN THE PLANET",
                 "ALGORITHMS WILL THEN DETERMINE HOW SUITABLE EACH PARAMETER OF THE PLANET IS FOR HUMAN LIFE",
@@ -200,17 +215,19 @@
                 "YOU WILL HAVE TO BALANCE WHICH FACTORS ARE IMPORTANT AND WHICH YOU CAN GIVE LOWER PRIORITY"
             ],
             "character": "nexus",
-            "jump_to": 21
+            "jump_to": "more questions"
         },
         {
+            "id": "end",
             "text": [
                 "NOW THAT EVERYTHING IS CLEAR AND OUR SYSTEMS ARE REACHING NOMINAL STATUS, WE WILL EMBARK ON YOUR COMMAND",
                 "ARE YOU READY?"
             ],
             "character": "nexus",
-            "actions": {"EMBARK": 27}
+            "actions": {"EMBARK": "embark"}
         },
         {
+            "id": "embark",
             "text": [
                 "UNDERSTOOD..."
             ],

@@ -43,9 +43,12 @@ class GameManager(BaseEventSubscriber):
         self.global_state.save()
 
     def start(self) -> None:
-        mode = ""
         if not self.global_state.finished_intro:
             mode = "intro"
+        elif not self.global_state.finished_tutorial:
+            mode = "tutorial"
+        else:
+            mode = "game"
         self.ui_system.start(mode=mode)
 
     """
@@ -65,5 +68,5 @@ class GameManager(BaseEventSubscriber):
     
     def finish_intro(self) -> Response:
         self.global_state.finished_intro = True
-        self.ui_system.on_deactivate_planet_view_emergency()
+        self.ui_system.start_tutorial()
         return Response.create()

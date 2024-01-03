@@ -57,10 +57,7 @@ class PlanetViewScreen(Screen):
         if self.can_jump:
             self.can_jump = False
 
-            try:
-                jump_dialogue = self.dialogue_library.get_dialogue_by_name("intro")
-            except ValueError as e:
-                raise RuntimeError(f"An error occured while loading jump dialogue: {e}")
+            jump_dialogue = self.dialogue_library.get_dialogue_by_name("intro")
             self.system_console.play_dialogue(dialogue=jump_dialogue)
 
             #jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
@@ -79,12 +76,15 @@ class PlanetViewScreen(Screen):
         self.system_console.start_writing()
 
     def start_intro(self) -> None:
-        try:
-            intro_dialogue = self.dialogue_library.get_dialogue_by_name("intro")
-        except ValueError as e:
-            raise RuntimeError(f"An error occured while loading intro dialogue: {e}")
+        intro_dialogue = self.dialogue_library.get_dialogue_by_name("intro")
         self.start_emergency_animation()
         self.system_console.play_dialogue(intro_dialogue)
+
+    def start_tutorial(self) -> None:
+        tutorial_dialogue = self.dialogue_library.get_dialogue_by_name("tutorial")
+        self.stop_emergency_animation()
+        self.system_console.clear()
+        self.system_console.play_dialogue(tutorial_dialogue)
 
     def start_emergency_animation(self) -> None:
         self.emergency = True

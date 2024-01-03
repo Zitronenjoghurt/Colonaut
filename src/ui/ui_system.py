@@ -63,9 +63,17 @@ class UISystem(BaseEventSubscriber):
     def start(self, mode: str = "") -> None:
         match mode:
             case "intro":
-                self.screens["planet_view"].start_intro()
+                self.start_intro()
+            case "tutorial":
+                self.start_tutorial()
 
         self.root.mainloop()
+
+    def start_intro(self) -> None:
+        self.screens["planet_view"].start_intro()
+
+    def start_tutorial(self) -> None:
+        self.screens["planet_view"].start_tutorial()
 
     def start_ship_console(self) -> None:
         self.screens["planet_view"].start_console()

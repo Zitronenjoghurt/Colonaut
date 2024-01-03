@@ -1,0 +1,13 @@
+{
+    "options": {
+        "char_delay": 35,
+        "line_delay": 1000,
+        "tag": "computer"
+    },
+    "text": [
+        {
+            "text": ["YOU HAVE PROBABLY ALREADY NOTICED THE SHIPS INTERFACE BESIDE THE CENTER CONSOLE"],
+            "character": "nexus"
+        }
+    ]
+}

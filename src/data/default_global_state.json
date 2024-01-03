@@ -1,4 +1,5 @@
 {
     "run_count": 0,
-    "finished_intro": false
+    "finished_intro": false,
+    "finished_tutorial": false
 }

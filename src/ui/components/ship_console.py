@@ -57,6 +57,12 @@ class ShipConsole(ctk.CTkFrame):
             if font:
                 config["font"] = ctk.CTkFont(**font)
             self.console_text._textbox.tag_config(**config)
+        
+    def clear(self) -> None:
+        self.char_queue = []
+        self.console_text.configure(state='normal')
+        self.console_text.delete('1.0', 'end')
+        self.console_text.configure(state='disabled')
 
     def play_dialogue(self, dialogue: Dialogue) -> None:
         self.current_dialogue = dialogue
@@ -155,5 +161,7 @@ class ShipConsole(ctk.CTkFrame):
         if self.current_dialogue:
             if self.current_dialogue.waiting_for_action():
                 self.set_dialogue_actions(self.current_dialogue.get_action_labels())
+            if self.current_dialogue.has_pending_event():
+                self.current_dialogue.process_event()
             if self.current_dialogue.is_finished():
                 self.current_dialogue = None

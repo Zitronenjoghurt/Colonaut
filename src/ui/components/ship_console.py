@@ -15,7 +15,7 @@ class ShipConsole(ctk.CTkFrame):
 
         self.current_dialogue: Optional[Dialogue] = None
 
-        self.button_frame = ctk.CTkFrame(self, bg_color='systemWindowBackgroundColor')
+        self.button_frame = ctk.CTkFrame(self)
         self.button_frame.columnconfigure(0, weight=1)
         self.button_frame.columnconfigure(1, weight=1)
         self.button_frame.columnconfigure(2, weight=1)

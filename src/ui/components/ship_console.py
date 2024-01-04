@@ -24,17 +24,18 @@ class ShipConsole(ctk.CTkFrame):
         self.button_frame.pack(expand=True, fill='both')
 
         # Initialize buttons
-        self.action1 = ctk.CTkButton(self.button_frame, command=lambda:self.dialogue_action(1))
-        self.action2 = ctk.CTkButton(self.button_frame, command=lambda:self.dialogue_action(2))
-        self.action3 = ctk.CTkButton(self.button_frame, command=lambda:self.dialogue_action(3))
-        self.action4 = ctk.CTkButton(self.button_frame, command=lambda:self.dialogue_action(4))
-        self.action1.grid(row=0, column=0, sticky='NSEW', padx=15, pady=15)
-        self.action2.grid(row=0, column=1, sticky='NSEW', padx=15, pady=15)
-        self.action3.grid(row=0, column=2, sticky='NSEW', padx=15, pady=15)
-        self.action4.grid(row=0, column=3, sticky='NSEW', padx=15, pady=15)
+        self.action1 = ctk.CTkButton(self.button_frame, command=lambda:self.dialogue_action(1), font=('Geist Mono', 20, "bold"))
+        self.action2 = ctk.CTkButton(self.button_frame, command=lambda:self.dialogue_action(2), font=('Geist Mono', 20, "bold"))
+        self.action3 = ctk.CTkButton(self.button_frame, command=lambda:self.dialogue_action(3), font=('Geist Mono', 20, "bold"))
+        self.action4 = ctk.CTkButton(self.button_frame, command=lambda:self.dialogue_action(4), font=('Geist Mono', 20, "bold"))
 
         self.action_buttons = [self.action1, self.action2, self.action3, self.action4]
         self.current_actions = []
+
+        for i, button in enumerate(self.action_buttons):
+            button.grid(row=0, column=i, sticky='NSEW', padx=15, pady=15)
+            if button._text_label:
+                button._text_label.configure(wraplength=250)
         
         # Hide buttons
         self.action1.grid_remove()

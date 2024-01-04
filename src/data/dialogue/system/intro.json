@@ -231,6 +231,7 @@
             "text": [
                 "UNDERSTOOD..."
             ],
+            "line_delay": 2500,
             "character": "nexus",
             "event": "game_flow_finish_intro"
         }

@@ -28,3 +28,10 @@ pip install -r requirements.txt
 Install all fonts provided in /fonts on your system.
 This usually just works by selecting all, right clicking them and then pressing install.
 (All fonts are free for commercial use)
+
+# Preview
+## Main Menu
+![Main Menu](/preview/main_menu.png)
+
+## Game Screen
+![Game Screen](/preview/game_screen.png)

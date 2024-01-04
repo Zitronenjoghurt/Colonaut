@@ -30,8 +30,8 @@ This usually just works by selecting all, right clicking them and then pressing 
 (All fonts are free for commercial use)
 
 # Preview
-## Main Menu
+### Main Menu
 ![Main Menu](/preview/main_menu.png)
 
-## Game Screen
+### Game Screen
 ![Game Screen](/preview/game_screen.png)

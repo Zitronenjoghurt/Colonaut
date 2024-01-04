@@ -19,7 +19,7 @@ class SystemHealthBar(ctk.CTkFrame):
         self.health_bar.delete("all")
         bar_length = self.width * health_percentage
         self.health_bar.create_rectangle(0, 0, bar_length, self.height, fill='darkgreen', width=0)
-        self.health_bar.create_text(self.width / 2, self.height / 2, text=f"{self.system_name.capitalize()}", fill='white', font=('Helvetica Neue', 14))
+        self.health_bar.create_text(self.width / 2, self.height / 2, text=f"{self.system_name.capitalize()}", fill='white', font=('Geist Mono', 14))
 
     def update_health(self, new_health_percentage) -> None:
         self.health_percentage = new_health_percentage

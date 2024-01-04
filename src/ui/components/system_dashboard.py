@@ -7,7 +7,7 @@ class Panel(ctk.CTkFrame):
         self.pack_propagate(False)
         self.grid_propagate(False)
 
-        ctk.CTkLabel(self, text=system_name, font=('Helvetica Neue', 16)).pack()
+        ctk.CTkLabel(self, text=system_name, font=('Geist Mono', 16)).pack()
 
         self.health_bar = HealthBar(self)
         self.health_bar.pack(fill='x', padx=15)

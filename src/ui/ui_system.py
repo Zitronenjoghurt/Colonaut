@@ -1,9 +1,11 @@
 import tkinter as tk
+import tkinter.font as tkFont
 import src.ui.screens as Screens
 from tkinter import messagebox
 from ..classes.event import Event
 from ..classes.event_subscriber import BaseEventSubscriber
 from ..classes.response import Response
+from ..constants.custom_fonts import REGULAR_FONT_REGISTRY, BOLD_FONT_REGISTRY
 
 class UISystem(BaseEventSubscriber):
     def __init__(self) -> None:
@@ -36,7 +38,21 @@ class UISystem(BaseEventSubscriber):
             Event.TYPES.UI_STOP_PLANET_VIEW_EMERGENCY: self.on_deactivate_planet_view_emergency
         }
 
+        self.check_custom_fonts_installed()
+
         super().__init__(subscriptions=subscriptions)
+
+    @staticmethod
+    def check_custom_fonts_installed() -> None:
+        available_fonts = tkFont.families()
+        for font in REGULAR_FONT_REGISTRY:
+            if font not in available_fonts:
+                raise RuntimeError(f"Missing font: '{font}'\nLook up the project's fonts folder and check if you have installed all necessary fonts.")
+        for font in BOLD_FONT_REGISTRY:
+            bold_font = tkFont.Font(family=font, size=12, weight="bold")
+            actual_weight = bold_font.actual()["weight"]
+            if actual_weight != "bold":
+                raise RuntimeError(f"Missing font: bold variant of '{font}'\nLook up the project's fonts folder and check if you have installed all necessary fonts.")
 
     def switch_screen(self, screen_name: str, add_to_history: bool = True) -> None:
         if self.current_screen == screen_name:

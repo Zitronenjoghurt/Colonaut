@@ -42,7 +42,7 @@ class ShipConsole(ctk.CTkFrame):
         self.action3.grid_remove()
         self.action4.grid_remove()
 
-        self.console_text = ctk.CTkTextbox(console_frame, height=height, width=width, state='disabled', font=('Andale Mono', 22), wrap='word')
+        self.console_text = ctk.CTkTextbox(console_frame, height=height, width=width, state='disabled', font=('Geist Mono', 22), wrap='word')
         self.console_text.pack(side='left', expand=True, fill='both')
         self.init_style_tags()
 

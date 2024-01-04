@@ -6,8 +6,8 @@ class DataList(ctk.CTkFrame):
         self.pack_propagate(False)
         self.grid_propagate(False)
         
-        self.metrics_label = ctk.CTkLabel(self, anchor='w', font=('Helvetica Neue', 18), justify='left')
-        self.data_label = ctk.CTkLabel(self, anchor='w', font=('Helvetica Neue', 18), justify='left')
+        self.metrics_label = ctk.CTkLabel(self, anchor='w', font=('Geist Mono', 18), justify='left')
+        self.data_label = ctk.CTkLabel(self, anchor='w', font=('Geist Mono', 18), justify='left')
         self.update_data(data)
 
     def update_data(self, new_data):

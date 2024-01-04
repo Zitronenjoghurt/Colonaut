@@ -1,8 +1,8 @@
 import math
 import re
 import src.modules.validator as validator
-from .config import Config
-from ..constants.physical_units import CONVERSIONS, UNIT_CLASS_MAP, CLASS_UNIT_MAP
+from src.constants.config import Config
+from src.constants.physical_units import CONVERSIONS, UNIT_CLASS_MAP, CLASS_UNIT_MAP
 
 CONFIG = Config.get_instance()
 

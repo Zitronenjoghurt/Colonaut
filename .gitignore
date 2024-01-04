@@ -5,8 +5,10 @@
 test.py
 
 # User-specific data
-game_state.*
-global_state.*
+game_state.json
+game_state.pkl
+global_state.json
+global_state.pkl
 
 # Other shenanigans
 .DS_store

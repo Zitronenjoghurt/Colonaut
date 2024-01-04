@@ -1,4 +1,4 @@
-from src.classes.ship_system import SensorShipSystem
+from src.space_ship.ship_system import SensorShipSystem
 
 class Accelerometer(SensorShipSystem):
     NAME = "accelerometer"

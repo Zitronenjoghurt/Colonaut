@@ -1,8 +1,7 @@
 import random
-
 import src.modules.physics as phy
-from .planet_type import PlanetType
-from .unit_value import UnitValue
+from src.planet_generation.planet_type import PlanetType
+from src.planet_generation.unit_value import UnitValue
 
 class Planet():
     def __init__(self, temperature: UnitValue, radius: UnitValue, density: UnitValue, rot_period: UnitValue, orb_period: UnitValue) -> None:

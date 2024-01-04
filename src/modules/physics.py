@@ -1,5 +1,5 @@
 import math
-from ..classes.unit_value import UnitValue
+from src.planet_generation.unit_value import UnitValue
 
 def sphere_volume(radius: UnitValue) -> UnitValue:
     radius_cubed = radius.to_cubed()

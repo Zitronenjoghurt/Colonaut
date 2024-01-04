@@ -1,9 +1,9 @@
 from typing import Optional
 
-from src.classes.display_text import DisplayText
-from src.classes.event import Event
-from src.classes.response import Response
-from src.classes.ship_system import ShipSystem
+from src.ui.display_text import DisplayText
+from src.events.event import Event
+from src.events.response import Response
+from src.space_ship.ship_system import ShipSystem
 from src.modules.validator import validate_int
 
 class BatterySystem(ShipSystem):

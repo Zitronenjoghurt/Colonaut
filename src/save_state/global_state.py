@@ -1,6 +1,6 @@
 import src.modules.validator as validator
-from .config import Config
-from .save_state import SaveState
+from src.constants.config import Config
+from src.save_state.save_state import SaveState
 
 CONFIG = Config.get_instance()
 

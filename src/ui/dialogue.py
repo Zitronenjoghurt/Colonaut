@@ -1,10 +1,9 @@
 from copy import deepcopy
-from src.classes.event import Event
-from src.classes.event_bus import EventBus
-from src.classes.event_subscriber import BaseEventSubscriber
+from src.ui.display_text import DisplayText
 from src.constants.custom_exceptions import EventTypeNotSubscribedError
 from src.modules.utilities import construct_path, file_to_dict, files_in_directory
-from .display_text import DisplayText
+from src.events.event import Event
+from src.events.event_bus import EventBus
 
 EVENT_BUS = EventBus.get_instance()
 DIALOGUE_CATEGORIES = ["system"]

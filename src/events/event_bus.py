@@ -1,7 +1,7 @@
 from typing import Callable
-from .event import Event
-from .response import Response
-from ..constants.custom_exceptions import EventTypeNotSubscribedError
+from src.events.event import Event
+from src.events.response import Response
+from src.constants.custom_exceptions import EventTypeNotSubscribedError
 
 class EventBus():
     _instance = None

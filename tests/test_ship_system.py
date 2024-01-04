@@ -1,11 +1,11 @@
 import os
 import pytest
-import src.classes.ship_systems as ShipSystems
-from src.classes.event import Event
-from src.classes.event_bus import EventBus
-from src.classes.response import Response
-from src.classes.space_ship import SpaceShip
-from src.classes.ship_system import ShipSystem
+import src.space_ship.ship_systems as ShipSystems
+from src.events.event import Event
+from src.events.event_bus import EventBus
+from src.events.response import Response
+from src.space_ship.space_ship import SpaceShip
+from src.space_ship.ship_system import ShipSystem
 
 from src.modules.utilities import file_to_dict
 

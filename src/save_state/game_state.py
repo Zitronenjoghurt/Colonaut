@@ -1,6 +1,6 @@
-from .config import Config
-from .save_state import SaveState
-from .space_ship import SpaceShip
+from src.constants.config import Config
+from src.space_ship.space_ship import SpaceShip
+from src.save_state.save_state import SaveState
 
 CONFIG = Config.get_instance()
 

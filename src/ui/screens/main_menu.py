@@ -1,4 +1,3 @@
-import tkinter as tk
 import customtkinter as ctk
 from src.ui.screen import Screen
 

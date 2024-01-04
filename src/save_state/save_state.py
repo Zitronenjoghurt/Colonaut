@@ -1,6 +1,6 @@
-from .config import Config
-from .event_subscriber import BaseEventSubscriber
-from ..modules.utilities import file_to_dict, bin_file_to_dict, dict_to_file, dict_to_bin_file, file_exists, delete_file
+from src.constants.config import Config
+from src.events.event_subscriber import BaseEventSubscriber
+from src.modules.utilities import file_to_dict, bin_file_to_dict, dict_to_file, dict_to_bin_file, file_exists, delete_file
 
 CONFIG = Config.get_instance()
 

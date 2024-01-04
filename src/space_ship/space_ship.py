@@ -1,10 +1,10 @@
 from typing import Optional
-from .event import Event
-from .response import Response
-from .event_subscriber import BaseEventSubscriber
-from .ship_system import ShipSystem
-from .ship_system_factory import ShipSystemFactory
-from ..constants.custom_exceptions import ShipSystemNotFoundError
+from src.space_ship.ship_system import ShipSystem
+from src.space_ship.ship_system_factory import ShipSystemFactory
+from src.constants.custom_exceptions import ShipSystemNotFoundError
+from src.events.event import Event
+from src.events.response import Response
+from src.events.event_subscriber import BaseEventSubscriber
 
 class SpaceShip(BaseEventSubscriber):
     def __init__(self, systems: Optional[dict[str, ShipSystem]] = None) -> None:

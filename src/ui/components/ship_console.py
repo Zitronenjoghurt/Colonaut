@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from typing import Optional
-from src.classes.display_text import DisplayText
-from src.classes.dialogue import Dialogue
+from src.ui.display_text import DisplayText
+from src.ui.dialogue import Dialogue
 from src.ui.style_tags import StyleTags
 
 class ShipConsole(ctk.CTkFrame):

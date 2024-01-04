@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from .health_bar import HealthBar
+from src.ui.components.health_bar import HealthBar
 
 class Panel(ctk.CTkFrame):
     def __init__(self, master, system_name: str, health_percentage: float, additional_data: list[tuple], height=125, width=150):

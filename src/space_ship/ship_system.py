@@ -1,10 +1,10 @@
 import random
 from typing import Optional
-from .config import Config
-from .display_text import DisplayText
-from .event_subscriber import BaseEventSubscriber
-from .response import Response
-from ..modules.validator import validate_int
+from src.constants.config import Config
+from src.ui.display_text import DisplayText
+from src.events.event_subscriber import BaseEventSubscriber
+from src.events.response import Response
+from src.modules.validator import validate_int
 
 CONFIG = Config.get_instance()
 

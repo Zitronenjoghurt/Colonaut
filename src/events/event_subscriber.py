@@ -1,6 +1,6 @@
 from typing import Callable, Optional
-from .event_bus import EventBus
-from .response import Response
+from src.events.event_bus import EventBus
+from src.events.response import Response
 
 # A base class, inherited if event functionalities are required
 class BaseEventSubscriber():

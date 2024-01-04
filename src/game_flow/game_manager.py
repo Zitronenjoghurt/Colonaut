@@ -1,11 +1,11 @@
 from typing import Optional
-from .event import Event
-from .event_subscriber import BaseEventSubscriber
-from .game_state import GameState
-from .global_state import GlobalState
-from .planet import Planet, PlanetGenerator
-from .response import Response
-from ..ui.ui_system import UISystem
+from src.planet_generation.planet import Planet, PlanetGenerator
+from src.events.event import Event
+from src.events.event_subscriber import BaseEventSubscriber
+from src.events.response import Response
+from src.save_state.game_state import GameState
+from src.save_state.global_state import GlobalState
+from src.ui.ui_system import UISystem
 
 class GameManager(BaseEventSubscriber):
     _instance = None

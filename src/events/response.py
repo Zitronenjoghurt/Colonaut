@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Any, Optional
-from ..constants.response_types import ResponseTypes
+from src.constants.response_types import ResponseTypes
 
 class Response():
     TYPES = ResponseTypes

@@ -1,5 +1,5 @@
 import pytest
-from src.classes.probability import Probability, MinMaxSelector, WeightedSelector, ListSelector, SingleSelector
+from src.planet_generation.probability import Probability, MinMaxSelector, WeightedSelector, ListSelector, SingleSelector
 
 RANDOM_TEST_RUNS = 10000
 

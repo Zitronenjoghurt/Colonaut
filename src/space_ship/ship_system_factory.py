@@ -1,4 +1,4 @@
-import src.classes.ship_systems as ShipSystems
+import src.space_ship.ship_systems as ShipSystems
 
 class ShipSystemFactory():
     REGISTRY = {

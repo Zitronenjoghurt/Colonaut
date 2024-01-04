@@ -1,4 +1,4 @@
-from ..constants.event_types import EventTypes
+from src.constants.event_types import EventTypes
 
 class Event():
     TYPES = EventTypes

@@ -1,4 +1,4 @@
-from src.classes.unit_value import UnitValue
+from src.planet_generation.unit_value import UnitValue
 
 VALUES = [
     {"mm": 1000000, "cm": 100000, "m": 1000, "km": 1},

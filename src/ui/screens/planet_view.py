@@ -1,9 +1,9 @@
 import customtkinter as ctk
 from typing import Optional
 import src.ui.components as Components
-from src.classes.dialogue import Dialogue, DialogueLibrary
-from src.classes.event import Event
-from src.classes.response import Response
+from src.ui.dialogue import DialogueLibrary
+from src.events.event import Event
+from src.events.response import Response
 from src.ui.screen import Screen
 
 class PlanetViewScreen(Screen):

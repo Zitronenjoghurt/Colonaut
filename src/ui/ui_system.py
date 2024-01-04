@@ -2,10 +2,10 @@ import tkinter as tk
 import tkinter.font as tkFont
 import src.ui.screens as Screens
 from tkinter import messagebox
-from ..classes.event import Event
-from ..classes.event_subscriber import BaseEventSubscriber
-from ..classes.response import Response
-from ..constants.custom_fonts import REGULAR_FONT_REGISTRY, BOLD_FONT_REGISTRY
+from src.constants.custom_fonts import REGULAR_FONT_REGISTRY, BOLD_FONT_REGISTRY
+from src.events.event import Event
+from src.events.event_subscriber import BaseEventSubscriber
+from src.events.response import Response
 
 class UISystem(BaseEventSubscriber):
     def __init__(self) -> None:

@@ -1,5 +1,5 @@
 from typing import Any, Optional
-from .config import Config
+from src.constants.config import Config
 
 CONFIG = Config.get_instance()
 

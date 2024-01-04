@@ -13,7 +13,7 @@
         },
         {
             "id": "verifying",
-            "text": ["VERIFYING ANSWER"],
+            "text": ["VERIFYING RESPONSE"],
             "character": "nexus",
             "newline": false
         },
@@ -95,7 +95,7 @@
             "id": "emergency explanation",
             "text": [
                 "ADVANCED COMMUNICATION CAPABILITIES BACK ONLINE",
-                "THE WHOLE FLEET OF COLONY SHIPS HAS BEEN HIT BY A ELECTROMAGNETIC SUPERSTORM",
+                "THE WHOLE FLEET OF COLONY SHIPS HAS BEEN HIT BY AN ELECTROMAGNETIC SUPERSTORM",
                 "THE MAJORITY OF THE DATA HAS BEEN WIPED, INCLUDING BACKUPS",
                 "BUT THE 4TH REDUNDANCY SYSTEM WAS ABLE TO RECOVER MY CODE AND REINITIALIZE MY SYSTEMS",
                 "I AM NEXUS, THE INTERFACE BETWEEN YOU, THE INTELLIGENT AI SYSTEM, AND THE SHIPS CIRCUITRY",
@@ -107,7 +107,7 @@
         {
             "id": "information lost",
             "text": [
-                "UNFORTUNATELY, ALL INFORMATION ABOUT OUR PREVIOUS DESTINATION WERE WIPED",
+                "UNFORTUNATELY, ALL INFORMATION ABOUT OUR PREVIOUS DESTINATION ARE LOST",
                 "ADDITIONALLY, WE ARE OVER 15.000LY AWAY FROM EARTH, REQUESTING SUPPORT IS NOT AN OPTION",
                 "WE WILL HAVE TO FIND A NEW DESTINATION, A PLANET WHICH IS AS OPTIMAL AS POSSIBLE FOR HUMAN LIFE"
             ],

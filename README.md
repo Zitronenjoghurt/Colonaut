@@ -27,4 +27,4 @@ pip install -r requirements.txt
 ## Install fonts
 Install all fonts provided in /fonts on your system.
 This usually just works by selecting all, right clicking them and then pressing install.
-(All fonts are free for commercial use, font sources are provided in `/fonts/0_font_sources.txt`)
+(All fonts are free for commercial use)

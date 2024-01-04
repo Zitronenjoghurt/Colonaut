@@ -1,4 +1,4 @@
-import src.modules.validator as validator
+import src.utils.validator as validator
 from src.constants.config import Config
 from src.save_state.save_state import SaveState
 

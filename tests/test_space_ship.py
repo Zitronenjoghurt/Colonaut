@@ -5,7 +5,7 @@ from src.events.event_bus import EventBus
 from src.events.response import Response
 from src.space_ship.space_ship import SpaceShip
 from src.space_ship.ship_systems import HullSystem
-from src.modules.utilities import file_to_dict
+from src.utils.file_operations import file_to_dict
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 @pytest.fixture

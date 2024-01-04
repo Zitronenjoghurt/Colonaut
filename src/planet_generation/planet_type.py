@@ -1,7 +1,7 @@
 from src.constants.config import Config
 from src.planet_generation.probability import Probability
 from src.planet_generation.unit_value import UnitValue
-from src.modules.utilities import file_to_dict
+from src.utils.file_operations import file_to_dict
 
 CONFIG = Config.get_instance()
 

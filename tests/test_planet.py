@@ -1,7 +1,7 @@
 import os
 import pytest
 from src.planet_generation.planet import Planet
-from src.modules.utilities import file_to_dict
+from src.utils.file_operations import file_to_dict
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 

@@ -1,6 +1,6 @@
 import os
 import pytest
-from src.modules.utilities import file_to_dict
+from src.utils.file_operations import file_to_dict
 
 @pytest.fixture
 def current_dir():

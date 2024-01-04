@@ -1,6 +1,6 @@
-import src.modules.validator as validator
+import src.utils.validator as validator
 from src.constants.physical_units import EXISTING_CLASSES
-from src.modules.utilities import file_to_dict, construct_path
+from src.utils.file_operations import file_to_dict, construct_path
 
 CONFIG_FILE_PATH = construct_path("src/config.json")
 

@@ -1,5 +1,5 @@
 import random
-import src.modules.physics as phy
+import src.utils.physics as phy
 from src.planet_generation.planet_type import PlanetType
 from src.planet_generation.unit_value import UnitValue
 

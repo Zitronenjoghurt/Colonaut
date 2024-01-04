@@ -4,7 +4,7 @@ from src.ui.display_text import DisplayText
 from src.events.event import Event
 from src.events.response import Response
 from src.space_ship.ship_system import ShipSystem
-from src.modules.validator import validate_int
+from src.utils.validator import validate_int
 
 class BatterySystem(ShipSystem):
     NAME = "battery"

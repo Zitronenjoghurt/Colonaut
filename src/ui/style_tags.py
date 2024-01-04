@@ -3,7 +3,7 @@ class StyleTags:
     energy = {"family": "Stifly", "size": 22}
     lifesupport = {"family": "The Fruit Star", "size": 20}
     nexus = {"family": "ELNATH", "size": 22}
-    you = {"family": "Signwood", "size": 24}
+    you = {"family": "ELNATH", "size": 24}
     sensor = {"family": "Achron Regular", "size": 24}
     geist_mono = {"family": "Geist Mono", "size": 22}
     geist_mono_bold = {"family": "Geist Mono", "size": 22, "weight": 'bold'}

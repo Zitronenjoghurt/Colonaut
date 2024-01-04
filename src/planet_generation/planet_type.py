@@ -1,9 +1,10 @@
 from src.constants.config import Config
 from src.planet_generation.probability import Probability
 from src.planet_generation.unit_value import UnitValue
-from src.utils.file_operations import file_to_dict
+from src.utils.file_operations import construct_path, file_to_dict
 
 CONFIG = Config.get_instance()
+PLANET_TYPES_FILE_PATH = construct_path("src/data/planet_types/{type_name}.json")
 
 class PlanetType():
     def __init__(self, 
@@ -38,7 +39,7 @@ class PlanetType():
 
     @staticmethod
     def create(type_name: str) -> 'PlanetType':
-        file_path = CONFIG.PLANET_TYPES_FILE_PATH.format(type_name=type_name)
+        file_path = PLANET_TYPES_FILE_PATH.format(type_name=type_name)
         
         try:
             type_dict = file_to_dict(file_path=file_path)

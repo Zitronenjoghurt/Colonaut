@@ -1,10 +1,7 @@
 {
     "file_paths": {
         "global_state": "src/",
-        "game_state": "src/",
-        "planet_types": "src/data/planet_types/{type_name}.json",
-        "default_game_state": "src/data/default_game_state.json",        
-        "default_global_state": "src/data/default_global_state.json"
+        "game_state": "src/"
     },
     "save_file_mode": "json",
     "decimal_digits": 2,

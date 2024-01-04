@@ -1,13 +1,14 @@
 import src.utils.validator as validator
 from src.constants.config import Config
 from src.save_state.save_state import SaveState
+from src.utils.file_operations import construct_path
 
 CONFIG = Config.get_instance()
 
 class GlobalState(SaveState):
     _instance = None
     SAVE_FILE_PATH = CONFIG.GLOBAL_STATE_FILE_PATH + "global_state." + CONFIG.SAVE_FILE_MODE
-    DEFAULT_SAVE_FILE_PATH = CONFIG.DEFAULT_GLOBAL_STATE_FILE_PATH
+    DEFAULT_SAVE_FILE_PATH = construct_path("src/data/default_global_state.json")
 
     def __init__(
             self, 

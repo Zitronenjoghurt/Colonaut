@@ -1,13 +1,14 @@
 from src.constants.config import Config
 from src.space_ship.space_ship import SpaceShip
 from src.save_state.save_state import SaveState
+from src.utils.file_operations import construct_path
 
 CONFIG = Config.get_instance()
 
 class GameState(SaveState):
     _instance = None
     SAVE_FILE_PATH = CONFIG.GAME_STATE_FILE_PATH + "game_state." + CONFIG.SAVE_FILE_MODE
-    DEFAULT_SAVE_FILE_PATH = CONFIG.DEFAULT_GAME_STATE_FILE_PATH
+    DEFAULT_SAVE_FILE_PATH = construct_path("src/data/default_game_state.json")
 
     def __init__(self, ship: SpaceShip) -> None:
         if self._instance is not None:

@@ -6,11 +6,8 @@ CONFIG_FILE_PATH = construct_path("src/config.json")
 
 DEFAULT = {
     "file_paths": {
-        "planet_types": "src/data/planet_types/{type_name}.json",
         "game_state": "src/",
-        "default_game_state": "src/data/default_game_state.json",
-        "global_state": "src/",
-        "default_global_state": "src/data/default_global_state.json"
+        "global_state": "src/"
     },
     "save_file_mode": "pkl",
     "decimal_digits": 2,
@@ -72,11 +69,8 @@ class Config():
                 self.DISPLAY_UNITS[unit_class] = unit
         
         file_paths: dict = config_data.get("file_paths", DEFAULT["file_paths"])
-        self.PLANET_TYPES_FILE_PATH: str = construct_path(file_paths.get("planet_types", DEFAULT["file_paths"]["planet_types"]))
         self.GAME_STATE_FILE_PATH: str = construct_path(file_paths.get("game_state", DEFAULT["file_paths"]["game_state"]))
-        self.DEFAULT_GAME_STATE_FILE_PATH: str = construct_path(file_paths.get("default_game_state", DEFAULT["file_paths"]["default_game_state"]))
         self.GLOBAL_STATE_FILE_PATH: str = construct_path(file_paths.get("global_state", DEFAULT["file_paths"]["global_state"]))
-        self.DEFAULT_GLOBAL_STATE_FILE_PATH: str = construct_path(file_paths.get("default_global_state", DEFAULT["file_paths"]["default_global_state"]))
 
         try:
             validator.validate_int(self.DECIMAL_DIGITS, "decimal_digits", 0, 10)

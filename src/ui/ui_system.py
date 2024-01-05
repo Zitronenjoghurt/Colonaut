@@ -84,6 +84,8 @@ class UISystem(BaseEventSubscriber):
                 self.start_intro()
             case "tutorial":
                 self.start_tutorial()
+            case "game":
+                self.start_gameplay()
 
         self.root.mainloop()
 
@@ -92,6 +94,9 @@ class UISystem(BaseEventSubscriber):
 
     def start_tutorial(self) -> None:
         self.screens["planet_view"].start_tutorial()
+
+    def start_gameplay(self) -> None:
+        self.screens["planet_view"].start_game()
 
     def start_ship_console(self) -> None:
         self.screens["planet_view"].start_console()

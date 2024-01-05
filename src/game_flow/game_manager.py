@@ -21,6 +21,7 @@ class GameManager(BaseEventSubscriber):
         
         subscriptions = {
             Event.TYPES.GAME_FLOW_FINISH_INTRO: self.finish_intro,
+            Event.TYPES.GAME_FLOW_FINISH_TUTORIAL: self.finish_tutorial,
             Event.TYPES.GAME_FLOW_JUMP: self.jump,
             Event.TYPES.RETRIEVE_PLANET_DATA: self.retrieve_planet_data
         }
@@ -60,8 +61,9 @@ class GameManager(BaseEventSubscriber):
         return Response.create()
     
     def retrieve_planet_data(self) -> Response:
+        revealed_data = self.game_state.ship.scanner_results
         if self.current_planet:
-            planet_data = self.current_planet.get_data()
+            planet_data = self.current_planet.get_properties(revealed_data)
         else:
             planet_data = []
         return Response.create(planet_data, Response.TYPES.PLANET_DATA)
@@ -69,4 +71,9 @@ class GameManager(BaseEventSubscriber):
     def finish_intro(self) -> Response:
         self.global_state.finished_intro = True
         self.ui_system.start_tutorial()
+        return Response.create()
+    
+    def finish_tutorial(self) -> Response:
+        self.global_state.finished_tutorial = True
+        self.ui_system.start_gameplay()
         return Response.create()

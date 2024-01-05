@@ -1,7 +1,18 @@
 import random
 import src.utils.physics as phy
+from typing import Optional
 from src.planet_generation.planet_type import PlanetType
 from src.planet_generation.unit_value import UnitValue
+
+PROPERTY_MAP = {
+    "temperature": "Temperature",
+    "radius": "Radius",
+    "density": "Density",
+    "rot_period": "Rotational Period",
+    "orb_period": "Orbital Period",
+    "mass": "Mass",
+    "volume": "Volume"
+}
 
 class Planet():
     def __init__(self, temperature: UnitValue, radius: UnitValue, density: UnitValue, rot_period: UnitValue, orb_period: UnitValue) -> None:
@@ -23,16 +34,8 @@ class Planet():
         self.volume.validate_of_class("volume")
 
     def __str__(self) -> str:
-        metrics = [
-            f"Temperature: {str(self.temperature)}",
-            f"Radius: {str(self.radius)}",
-            f"Volume: {str(self.volume)}",
-            f"Density: {str(self.density)}",
-            f"Mass: {str(self.mass)}",
-            f"Rotational period: {str(self.rot_period)}",
-            f"Orbital period: {str(self.orb_period)}"
-        ]
-        string = "\n".join(metrics)
+        properties = self.get_properties()
+        string = "\n".join([f"{property[0]}: {property[1]}" for property in properties])
         return string
         
     @staticmethod
@@ -54,17 +57,16 @@ class Planet():
 
         return Planet(**retrieved_data)
     
-    def get_data(self) -> list[tuple]:
-        data = [
-            ("Temperature", str(self.temperature)),
-            ("Radius", str(self.radius)),
-            ("Volume", str(self.volume)),
-            ("Density", str(self.density)),
-            ("Mass", str(self.mass)),
-            ("Rotational period", str(self.rot_period)),
-            ("Orbital period", str(self.orb_period))
-        ]
-        return data
+    def get_properties(self, revealed_data: Optional[list[str]] = None) -> list[tuple[str, str]]:
+        properties = []
+        for property_name, property_str in PROPERTY_MAP.items():
+            if isinstance(revealed_data, list) and property_name not in revealed_data:
+                value = "??????????"
+            else:
+                value = getattr(self, property_name)
+            property = (property_str, str(value))
+            properties.append(property)
+        return properties
     
     def get_temperature(self) -> UnitValue:
         return self.temperature

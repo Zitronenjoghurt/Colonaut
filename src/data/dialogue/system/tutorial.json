@@ -7,7 +7,8 @@
     "text": [
         {
             "text": ["YOU HAVE PROBABLY ALREADY NOTICED THE SHIPS INTERFACE BESIDE THE CENTER CONSOLE"],
-            "character": "nexus"
+            "character": "nexus",
+            "event": "game_flow_finish_tutorial"
         }
     ]
 }

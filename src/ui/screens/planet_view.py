@@ -19,7 +19,7 @@ class PlanetViewScreen(Screen):
         self.data_list = Components.DataList(self, [])
         self.data_list.grid(row=0, column=0, pady=(60, 0), padx=(10, 0), sticky="nw")
 
-        self.can_jump = True
+        self.can_jump = False
         self.action_buttons = ctk.CTkFrame(self, width=400, height=450)
         self.action_buttons.grid(row=1, column=0, sticky="sw", padx=(10,0), pady=(0, 60))
         self.action_buttons.grid_propagate(False)
@@ -57,12 +57,12 @@ class PlanetViewScreen(Screen):
         if self.can_jump:
             self.can_jump = False
 
-            jump_dialogue = self.dialogue_library.get_dialogue_by_name("intro")
+            jump_dialogue = self.dialogue_library.get_dialogue_by_name("ship_jump")
             self.system_console.play_dialogue(dialogue=jump_dialogue)
 
-            #jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
-            #self.ui_system.publish_event(jump_event)
-            #self.after(14000, self.update_data)
+            jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
+            self.ui_system.publish_event(jump_event)
+            self.after(13000, self.update_data)
 
             self.can_jump = True
 
@@ -85,6 +85,10 @@ class PlanetViewScreen(Screen):
         self.stop_emergency_animation()
         self.system_console.clear()
         self.system_console.play_dialogue(tutorial_dialogue)
+
+    def start_game(self) -> None:
+        self.can_jump = True
+        self.system_console.clear()
 
     def start_emergency_animation(self) -> None:
         self.emergency = True

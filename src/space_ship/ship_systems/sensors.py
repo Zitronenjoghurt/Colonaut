@@ -10,7 +10,7 @@ class InfraredSpectrometer(SensorShipSystem):
 
 class LaserAltimeter(SensorShipSystem):
     NAME = "laser altimeter"
-    REVEALED_DATA = ["radius"]
+    REVEALED_DATA = ["radius", "volume"]
 
 class NeutronDensitometer(SensorShipSystem):
     NAME = "neutron densitometer"

@@ -1,6 +1,7 @@
 class EventTypes:
     BATTERY_CHARGE = "battery_charge"
     GAME_FLOW_FINISH_INTRO = "game_flow_finish_intro"
+    GAME_FLOW_FINISH_TUTORIAL = "game_flow_finish_tutorial"
     GAME_FLOW_JUMP = "game_flow_jump"
     RETRIEVE_SHIP_STATUS = "retrieve_ship_status"
     RETRIEVE_PLANET_DATA = "retrieve_planet_data"

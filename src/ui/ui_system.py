@@ -1,4 +1,5 @@
 import tkinter as tk
+import customtkinter as ctk
 import tkinter.font as tkFont
 import src.ui.screens as Screens
 from tkinter import messagebox
@@ -11,6 +12,7 @@ class UISystem(BaseEventSubscriber):
     def __init__(self) -> None:
         self.width = 1920
         self.height = 1080
+        ctk.set_appearance_mode("dark")
 
         self.root = tk.Tk()
         self.root.geometry(f"{self.width}x{self.height}")

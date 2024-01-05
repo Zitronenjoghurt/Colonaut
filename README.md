@@ -1,5 +1,7 @@
-# Colonaut
-(active WIP) A little text-based game where you play an AI controlling a colony ship with cryogenically frozen colonists. You will have to find a suitable planet for habitation.
+# Colonaut (active WIP)
+A little text-based game where you play an AI controlling a colony ship with cryogenically frozen colonists. You will have to find a suitable planet for habitation.
+During your travels from planet to planet you will get acquainted to your ships systems, which can talk to you like theyre your inner voice.
+Additionally, random scenarios may occur anytime that will probe your strategic skills.
 
 # Setup
 These instructions will explain how to set up Colonaut on your system.

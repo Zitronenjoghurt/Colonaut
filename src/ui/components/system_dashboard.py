@@ -21,7 +21,7 @@ class Panel(ctk.CTkFrame):
             ctk.CTkLabel(self, text='\n'.join(additional_text)).pack()
 
 class ShipSystemDashboard(ctk.CTkFrame):
-    def __init__(self, master, systems_data, height=750, width=480):
+    def __init__(self, master, systems_data, height=905, width=480):
         super().__init__(master, height=height, width=width)
         self.pack_propagate(False)
         self.grid_propagate(False)

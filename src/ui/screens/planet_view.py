@@ -27,8 +27,11 @@ class PlanetViewScreen(Screen):
         self.system_dashboard = Components.ShipSystemDashboard(self, {})
         self.system_dashboard.grid(row=0, column=2, rowspan=2, padx=(0,10), sticky="e")
 
-        self.system_console = Components.ShipConsole(self)
-        self.system_console.grid(row=0, column=1, rowspan=2, pady=60, sticky="nsew")
+        self.system_window = Components.SystemWindow(self)
+        self.system_window.grid(row=0, column=1, rowspan=2, pady=60, sticky="nsew")
+
+        self.ship_console = Components.ShipConsole(self)
+        self.ship_console.grid(row=0, column=1, rowspan=2, pady=60, sticky="nsew")
 
         self.dialogue_library = DialogueLibrary.get_instance()
 
@@ -51,13 +54,13 @@ class PlanetViewScreen(Screen):
 
         ship_status_log = ship_status_response.get_data(Response.TYPES.SHIP_STATUS_LOG)
         if ship_status_log:
-            self.system_console.write_texts(ship_status_log)        
+            self.ship_console.write_texts(ship_status_log)        
 
     def jump(self) -> None:
         if self.can_jump:
             self.can_jump = False
             jump_dialogue = self.dialogue_library.get_dialogue_by_name("ship_jump")
-            self.system_console.play_dialogue(dialogue=jump_dialogue)
+            self.ship_console.play_dialogue(dialogue=jump_dialogue)
 
             jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
             self.ui_system.publish_event(jump_event)
@@ -72,24 +75,24 @@ class PlanetViewScreen(Screen):
         if event.keysym in ['j', 'J']:
             self.jump()
             self.stop_emergency_animation()
-
+    
     def start_console(self) -> None:
-        self.system_console.start_writing()
+        self.ship_console.start_writing()
 
     def start_intro(self) -> None:
         intro_dialogue = self.dialogue_library.get_dialogue_by_name("intro")
         self.start_emergency_animation()
-        self.system_console.play_dialogue(intro_dialogue)
+        self.ship_console.play_dialogue(intro_dialogue)
 
     def start_tutorial(self) -> None:
         tutorial_dialogue = self.dialogue_library.get_dialogue_by_name("tutorial")
         self.stop_emergency_animation()
-        self.system_console.clear()
-        self.system_console.play_dialogue(tutorial_dialogue)
+        self.ship_console.clear()
+        self.ship_console.play_dialogue(tutorial_dialogue)
 
     def start_game(self) -> None:
         self.can_jump = True
-        self.system_console.clear()
+        self.ship_console.clear()
 
     def start_emergency_animation(self) -> None:
         self.emergency = True

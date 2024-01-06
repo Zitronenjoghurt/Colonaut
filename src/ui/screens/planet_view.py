@@ -51,20 +51,21 @@ class PlanetViewScreen(Screen):
 
         ship_status_log = ship_status_response.get_data(Response.TYPES.SHIP_STATUS_LOG)
         if ship_status_log:
-            self.system_console.write_texts(ship_status_log)
+            self.system_console.write_texts(ship_status_log)        
 
     def jump(self) -> None:
         if self.can_jump:
             self.can_jump = False
-
             jump_dialogue = self.dialogue_library.get_dialogue_by_name("ship_jump")
             self.system_console.play_dialogue(dialogue=jump_dialogue)
 
             jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
             self.ui_system.publish_event(jump_event)
-            self.after(13000, self.update_data)
+            self.after(13000, self.finish_jump)
 
-            self.can_jump = True
+    def finish_jump(self) -> None:
+        self.update_data()
+        self.can_jump = True
 
     def on_keypress(self, event) -> None:
         super().on_keypress(event)

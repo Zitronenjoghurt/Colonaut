@@ -1,13 +1,13 @@
 import customtkinter as ctk
 
 class DataList(ctk.CTkFrame):
-    def __init__(self, master, data: list[tuple], width=400, height=450):
-        super().__init__(master, width=width, height=height)
+    def __init__(self, master, data: list[tuple], font_family='Geist Mono', font_size=18, font_weight="normal", **kwargs):
+        super().__init__(master, **kwargs)
         self.pack_propagate(False)
         self.grid_propagate(False)
         
-        self.metrics_label = ctk.CTkLabel(self, anchor='w', font=('Geist Mono', 18), justify='left')
-        self.data_label = ctk.CTkLabel(self, anchor='w', font=('Geist Mono', 18), justify='left')
+        self.metrics_label = ctk.CTkLabel(self, anchor='w', font=(font_family, font_size, font_weight), justify='left')
+        self.data_label = ctk.CTkLabel(self, anchor='w', font=(font_family, font_size, font_weight), justify='left')
         self.update_data(data)
 
     def update_data(self, new_data):

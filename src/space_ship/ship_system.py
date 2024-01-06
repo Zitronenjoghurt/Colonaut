@@ -10,6 +10,7 @@ CONFIG = Config.get_instance()
 
 class ShipSystem(BaseEventSubscriber):
     NAME = "default"
+    DESCRIPTION = "no description"
 
     def __init__(self, max_hp: int, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
         super().__init__(subscriptions=subscriptions)
@@ -59,12 +60,21 @@ class ShipSystem(BaseEventSubscriber):
         }
         return Response.create(data=data)
     
+    def get_stats(self) -> Response:
+        data = [
+            ("Health", f"{self.max_hp}/{self.hp}")
+        ]
+        return Response.create(data=data)
+    
     # Whatever the ship system has to do every jump
     def work(self) -> Response:
         return Response.create()
     
     def get_name(self) -> Response:
         return Response.create(self.NAME)
+    
+    def get_description(self) -> Response:
+        return Response.create(self.DESCRIPTION)
     
     def get_max_hp(self) -> Response:
         return Response.create(self.max_hp)
@@ -74,6 +84,14 @@ class ShipSystem(BaseEventSubscriber):
     
     def get_hp_ratio(self) -> Response:
         return Response.create(self.hp / self.max_hp)
+    
+    def get_system_window_data(self) -> Response:
+        stats = self.get_stats().get_data()
+        data = {
+            'description': self.DESCRIPTION,
+            'stats': stats
+        }
+        return Response.create(data, Response.TYPES.SYSTEM_WINDOW_DATA)
     
 class SensorShipSystem(ShipSystem):
     REVEALED_DATA = []

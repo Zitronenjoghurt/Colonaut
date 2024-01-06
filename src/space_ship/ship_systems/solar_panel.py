@@ -22,12 +22,18 @@ class SolarPanelSystem(ShipSystem):
         return Response.create(base_dict)
     
     def get_status(self) -> Response:
-        hp_percentage = self.get_hp_percentage().get_data()
-        data = {
-            "health": hp_percentage,
+        base_data = super().get_status().get_data()
+        base_data.update({
             "Power": str(self.charge_capacity)
-        }
-        return Response.create(data=data)
+        })
+        return Response.create(base_data)
+    
+    def get_stats(self) -> Response:
+        base_data = super().get_stats().get_data()
+        base_data.extend([
+            ("Charge Capacity", str(self.charge_capacity))
+        ])
+        return Response.create(base_data)
     
     def work(self) -> Response:
         charge_event = Event(Event.TYPES.BATTERY_CHARGE, amount=self.charge_capacity)

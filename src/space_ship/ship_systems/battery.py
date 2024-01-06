@@ -8,6 +8,7 @@ from src.utils.validator import validate_int
 
 class BatterySystem(ShipSystem):
     NAME = "battery"
+    DESCRIPTION = "The battery is an essential component of the spaceship, tasked with storing the generated energy and distributing it to every system."
 
     def __init__(self, max_hp: int, max_capacity: int, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
         subscriptions = {
@@ -52,12 +53,18 @@ class BatterySystem(ShipSystem):
         return Response.create(base_dict)
     
     def get_status(self) -> Response:
-        hp_percentage = self.get_hp_percentage().get_data()
-        data = {
-            "health": hp_percentage,
+        base_data = super().get_status().get_data()
+        base_data.update({
             "Capacity": f"{self.capacity}/{self.max_capacity}"
-        }
-        return Response.create(data=data)
+        })
+        return Response.create(base_data)
+    
+    def get_stats(self) -> Response:
+        base_data = super().get_stats().get_data()
+        base_data.extend([
+            ("Capacity", f"{self.capacity}/{self.max_capacity}")   
+        ])
+        return Response.create(base_data)
     
     def get_max_capacity(self) -> Response:
         return Response.create(self.max_capacity)

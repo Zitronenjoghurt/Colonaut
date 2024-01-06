@@ -16,7 +16,7 @@ class PlanetViewScreen(Screen):
         self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
 
-        self.data_list = Components.DataList(self, [])
+        self.data_list = Components.DataList(self, [], width=400, height=450)
         self.data_list.grid(row=0, column=0, pady=(60, 0), padx=(10, 0), sticky="nw")
 
         self.can_jump = False
@@ -25,7 +25,7 @@ class PlanetViewScreen(Screen):
         self.action_buttons.grid_propagate(False)
 
         self.system_dashboard = Components.ShipSystemDashboard(self, {})
-        self.system_dashboard.grid(row=0, column=2, rowspan=2, padx=(0,10), sticky="e")
+        self.system_dashboard.grid(row=0, column=2, rowspan=2, pady=(60, 60), padx=(15, 15), sticky="nsew")
 
         self.system_window = Components.SystemWindow(self)
         self.system_window.grid(row=0, column=1, rowspan=2, pady=60, sticky="nsew")
@@ -64,7 +64,7 @@ class PlanetViewScreen(Screen):
 
             jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
             self.ui_system.publish_event(jump_event)
-            self.after(13000, self.finish_jump)
+            self.after(1000, self.finish_jump)
 
     def finish_jump(self) -> None:
         self.update_data()
@@ -93,6 +93,13 @@ class PlanetViewScreen(Screen):
     def start_game(self) -> None:
         self.can_jump = True
         self.ship_console.clear()
+
+    def open_system_window(self, system_name: str) -> None:
+        self.system_window.update_data(system_name=system_name)
+        self.system_window.lift()
+
+    def close_system_window(self) -> None:
+        self.ship_console.lift()
 
     def start_emergency_animation(self) -> None:
         self.emergency = True

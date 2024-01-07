@@ -1,0 +1,10 @@
+{
+    "standard": {
+        "max_capacity": [
+            {"value": 100, "cost": 0},
+            {"value": 150, "cost": 50},
+            {"value": 200, "cost": 100},
+            {"value": 300, "cost": 175}
+        ]
+    }
+}

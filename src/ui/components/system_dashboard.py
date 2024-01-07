@@ -1,9 +1,11 @@
 import customtkinter as ctk
+from src.constants.locale_translator import LocaleTranslator
 from src.events.event import Event
 from src.events.event_bus import EventBus
 from src.ui.components.health_bar import HealthBar
 
 EVENT_BUS = EventBus.get_instance()
+LT = LocaleTranslator.get_instance()
 
 class Panel(ctk.CTkFrame):
     def __init__(self, master, system_name: str, health_percentage: float, additional_data: list[tuple], height=125, width=150):
@@ -16,7 +18,7 @@ class Panel(ctk.CTkFrame):
         # Also propagating the mouse enter and leave events from the child widgets
         # ensures that theres no funny business when leaving the panel with the mouse
         
-        name_label = ctk.CTkLabel(self, text=system_name.capitalize(), font=('Geist Mono', 12))
+        name_label = ctk.CTkLabel(self, text=LT.get(system_name), font=('Geist Mono', 12))
         name_label.pack(pady=(1,0))
 
         self.health_bar = HealthBar(self)

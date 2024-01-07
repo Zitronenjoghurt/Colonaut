@@ -1,6 +1,9 @@
+from src.constants.locale_translator import LocaleTranslator
 from src.utils.file_operations import file_to_dict, files_in_directory, construct_path
 
 UPGRADE_MODELS_FILE_PATH = construct_path("src/data/system_models/")
+
+LT = LocaleTranslator.get_instance()
 
 class UpgradeModel():
     def __init__(self, system_name: str, model_name: str, upgrades: dict[str, list[tuple[int, int]]]) -> None:
@@ -87,7 +90,7 @@ class UpgradeModel():
         else:
             cost = 0
 
-        return {"property": property, "difference": difference, "cost": str(cost)}
+        return {"property": LT.get(property), "difference": difference, "cost": str(cost)}
     
 class UpgradeModelLibrary():
     _instance = None

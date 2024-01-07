@@ -1,0 +1,10 @@
+{
+    "accelerometer": "Accelerometer",
+    "battery": "Battery",
+    "hull": "Hull",
+    "infrared_spectrometer": "Infrared Spectrometer",
+    "laser_altimeter": "Laser Altimeter",
+    "neutron_densitometer": "Neutron Densitometer",
+    "radio_telemetry": "Radio Telemetry",
+    "solar_panel": "Solar Panel"
+}

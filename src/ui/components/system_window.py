@@ -1,6 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
 from PIL import Image, ImageTk
+from src.constants.locale_translator import LocaleTranslator
 from src.events.event import Event
 from src.events.event_bus import EventBus
 from src.events.response import Response
@@ -8,6 +9,7 @@ from src.utils.file_operations import construct_path
 from .data_list import DataList
 
 EVENT_BUS = EventBus.get_instance()
+LT = LocaleTranslator.get_instance()
 
 CURRENCY_ICON_PATH = construct_path("src/assets/icons/currency.png")
 CURRENCY_ICON = Image.open(CURRENCY_ICON_PATH)
@@ -112,7 +114,7 @@ class SystemWindow(ctk.CTkFrame):
         description = system_data.get("description", None)
         stats = system_data.get("stats", None)
 
-        self.system_label.configure(text=system_name.upper())
+        self.system_label.configure(text=LT.get(system_name).upper())
 
         if not isinstance(description, str):
             description = "ERROR: INVALID DESCRIPTION"

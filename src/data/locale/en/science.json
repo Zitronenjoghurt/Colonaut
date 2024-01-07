@@ -1,4 +1,9 @@
 {
+    "density": "Density",
+    "mass": "Mass",
     "orb_period": "Orbital Period",
-    "rot_period": "Rotational Period"
+    "radius": "Radius",
+    "rot_period": "Rotational Period",
+    "temperature": "Temperature",
+    "volume": "Volume"
 }

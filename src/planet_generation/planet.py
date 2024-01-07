@@ -1,20 +1,16 @@
 import random
 import src.utils.physics as phy
 from typing import Optional
+from src.constants.locale_translator import LocaleTranslator
 from src.planet_generation.planet_type import PlanetType
 from src.planet_generation.unit_value import UnitValue
 
-PROPERTY_MAP = {
-    "temperature": "Temperature",
-    "radius": "Radius",
-    "density": "Density",
-    "rot_period": "Rotational Period",
-    "orb_period": "Orbital Period",
-    "mass": "Mass",
-    "volume": "Volume"
-}
+LT = LocaleTranslator.get_instance()
 
 class Planet():
+    # Which properties will be shown in the data window
+    DATA_PROPERTIES = ["temperature", "radius", "density", "rot_period", "orb_period", "mass", "volume"]
+
     def __init__(self, temperature: UnitValue, radius: UnitValue, density: UnitValue, rot_period: UnitValue, orb_period: UnitValue) -> None:
         temperature.validate_of_class("temperature")
         radius.validate_of_class("length")
@@ -59,12 +55,12 @@ class Planet():
     
     def get_properties(self, revealed_data: Optional[list[str]] = None) -> list[tuple[str, str]]:
         properties = []
-        for property_name, property_str in PROPERTY_MAP.items():
-            if isinstance(revealed_data, list) and property_name not in revealed_data:
+        for property in self.DATA_PROPERTIES:
+            if isinstance(revealed_data, list) and property not in revealed_data:
                 value = "??????????"
             else:
-                value = getattr(self, property_name)
-            property = (property_str, str(value))
+                value = getattr(self, property)
+            property = (LT.get(property), str(value))
             properties.append(property)
         return properties
     

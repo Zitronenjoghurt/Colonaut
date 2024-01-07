@@ -1,4 +1,7 @@
 import customtkinter as ctk
+from src.constants.locale_translator import LocaleTranslator
+
+LT = LocaleTranslator.get_instance()
 
 class DataList(ctk.CTkFrame):
     def __init__(self, master, data: list[tuple], font_family='Geist Mono', font_size=18, font_weight="normal", **kwargs):
@@ -11,7 +14,7 @@ class DataList(ctk.CTkFrame):
         self.update_data(data)
 
     def update_data(self, new_data):
-        metrics_text = "\n".join(label+":" for label, _ in new_data)
+        metrics_text = "\n".join(LT.get(label)+":" for label, _ in new_data)
         data_text = "\n".join(value for _, value in new_data)
 
         self.metrics_label.configure(text=metrics_text)

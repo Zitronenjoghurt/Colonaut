@@ -4,6 +4,7 @@ from typing import Optional
 from src.constants.locale_translator import LocaleTranslator
 from src.planet_generation.planet_type import PlanetType
 from src.planet_generation.unit_value import UnitValue
+from src.utils.gibberish import gibber
 
 LT = LocaleTranslator.get_instance()
 
@@ -57,10 +58,10 @@ class Planet():
         properties = []
         for property in self.DATA_PROPERTIES:
             if isinstance(revealed_data, list) and property not in revealed_data:
-                value = "??????????"
+                value = gibber(12)
             else:
                 value = getattr(self, property)
-            property = (LT.get(property), str(value))
+            property = (property, str(value))
             properties.append(property)
         return properties
     

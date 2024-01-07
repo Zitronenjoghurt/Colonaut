@@ -35,7 +35,7 @@ class UpgradeBox(ctk.CTkFrame):
         self.upgrade_value.pack(pady=10, expand=True, fill='both')
 
         currency_icon = ImageTk.PhotoImage(CURRENCY_ICON)
-        self.upgrade_button = ctk.CTkButton(self, text="", fg_color='#1e5421', font=("Geist Mono", 26), image=currency_icon, compound='right', command=self.on_upgrade)
+        self.upgrade_button = ctk.CTkButton(self, text="", fg_color='#1e5421', hover_color='#28802c', font=("Geist Mono", 26), image=currency_icon, compound='right', command=self.on_upgrade)
         self.upgrade_button.pack(pady=(25,0))
 
     def update_data(self, system_name: str, property: str, difference: str, cost: str) -> None:
@@ -80,7 +80,7 @@ class SystemWindow(ctk.CTkFrame):
         self.system_label = ctk.CTkLabel(self, text="SYSTEM", font=("ELNATH", 30))
         self.system_label.pack(pady=(25, 0))
 
-        self.close_button = ctk.CTkButton(self, fg_color="red", text="X", font=("Geist Mono", 22, "bold"), width=30, height=30, command=self.on_exit)
+        self.close_button = ctk.CTkButton(self, fg_color="#bd2626", hover_color="#eb2d2d", text="X", font=("Geist Mono", 22, "bold"), width=30, height=30, command=self.on_exit)
         self.close_button.place(x=930, y=15)
 
         matter_frame = ctk.CTkFrame(self, height=50, width=100)

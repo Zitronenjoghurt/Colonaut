@@ -1,9 +1,6 @@
-from src.constants.locale_translator import LocaleTranslator
 from src.utils.file_operations import file_to_dict, files_in_directory, construct_path
 
 UPGRADE_MODELS_FILE_PATH = construct_path("src/data/system_models/")
-
-LT = LocaleTranslator.get_instance()
 
 class UpgradeModel():
     def __init__(self, system_name: str, model_name: str, upgrades: dict[str, list[tuple[int, int]]]) -> None:
@@ -76,6 +73,11 @@ class UpgradeModel():
             return True
         return False
     
+    def get_next_value(self, property: str, value: int) -> int:
+        level = self.get_value_level(property=property, value=value)
+        next_value = self.get_level_value(property=property, level=level+1)
+        return next_value
+    
     def get_upgrade_option(self, property: str, value: int) -> dict:
         current_level = self.get_value_level(property=property, value=value)
         is_max = self.is_max_level(property=property, level=current_level)
@@ -90,7 +92,7 @@ class UpgradeModel():
         else:
             cost = 0
 
-        return {"property": LT.get(property), "difference": difference, "cost": str(cost)}
+        return {"property": property, "difference": difference, "cost": str(cost)}
     
 class UpgradeModelLibrary():
     _instance = None

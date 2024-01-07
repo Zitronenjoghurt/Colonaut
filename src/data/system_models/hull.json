@@ -1,7 +1,11 @@
 {
     "standard": {
         "max_hp": [
-            {"value": 100, "cost": 0}
+            {"value": 100, "cost": 0},
+            {"value": 200, "cost": 25},
+            {"value": 300, "cost": 50},
+            {"value": 400, "cost": 75},
+            {"value": 500, "cost": 100}
         ]
     }
 }

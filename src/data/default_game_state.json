@@ -10,5 +10,6 @@
             "neutron_densitometer": {"max_hp": "1", "reveal_chance": "1"},
             "radio_telemetry": {"max_hp": "1", "reveal_chance": "1"}
         }
-    }
+    },
+    "matter": 5000
 }

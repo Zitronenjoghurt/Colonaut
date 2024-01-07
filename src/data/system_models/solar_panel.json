@@ -1,10 +1,19 @@
 {
     "standard": {
         "max_hp": [
-            {"value": 100, "cost": 0}
+            {"value": 100, "cost": 0},
+            {"value": 150, "cost": 50},
+            {"value": 200, "cost": 100},
+            {"value": 250, "cost": 100},
+            {"value": 300, "cost": 100}
         ],
         "charge_capacity": [
-            {"value": 20, "cost": 0}
+            {"value": 20, "cost": 0},
+            {"value": 30, "cost": 50},
+            {"value": 40, "cost": 50},
+            {"value": 50, "cost": 75},
+            {"value": 75, "cost": 100},
+            {"value": 100, "cost": 100}
         ]
     }
 }

@@ -18,9 +18,9 @@ class SaveState(BaseEventSubscriber):
     SAVE_FILE_PATH = ""
     DEFAULT_SAVE_FILE_PATH = ""
 
-    def __init__(self) -> None:
+    def __init__(self, subscriptions = None) -> None:
         self.delete_confirmed = False
-        super().__init__()
+        super().__init__(subscriptions=subscriptions)
 
     @classmethod
     def load_data(cls) -> dict:

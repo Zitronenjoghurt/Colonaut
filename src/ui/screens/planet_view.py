@@ -54,7 +54,14 @@ class PlanetViewScreen(Screen):
 
         ship_status_log = ship_status_response.get_data(Response.TYPES.SHIP_STATUS_LOG)
         if ship_status_log:
-            self.ship_console.write_texts(ship_status_log)        
+            self.ship_console.write_texts(ship_status_log)
+
+    def update_system_dashboard(self) -> None:
+        ship_status_event = Event(Event.TYPES.RETRIEVE_SHIP_STATUS)
+        ship_status_response: Response = self.ui_system.publish_event(ship_status_event)
+        ship_data = ship_status_response.get_data(Response.TYPES.SHIP_DATA)
+        if ship_data:
+            self.system_dashboard.update_dashboard(ship_data)
 
     def jump(self) -> None:
         if self.can_jump:
@@ -94,8 +101,8 @@ class PlanetViewScreen(Screen):
         self.can_jump = True
         self.ship_console.clear()
 
-    def open_system_window(self, system_name: str) -> None:
-        self.system_window.update_data(system_name=system_name)
+    def open_system_window(self, system_name: str, force_update: bool = False) -> None:
+        self.system_window.update_data(system_name=system_name, force_update=force_update)
         self.system_window.lift()
 
     def close_system_window(self) -> None:

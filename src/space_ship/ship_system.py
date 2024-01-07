@@ -24,6 +24,12 @@ class ShipSystem(BaseEventSubscriber):
         self.upgrade_model = upgrade_model
         self.max_hp = max_hp
         self.hp = hp
+
+    def __setattr__(self, key, value) -> None:
+        if key == "max_hp" and hasattr(self, "max_hp") and hasattr(self, "hp"):
+            hp_increase = value - self.max_hp
+            self.hp += hp_increase
+        super().__setattr__(key, value)
     
     def to_dict(self) -> Response:
         data = {
@@ -81,7 +87,7 @@ class ShipSystem(BaseEventSubscriber):
     
     def get_stats(self) -> Response:
         data = [
-            ("Health", f"{self.max_hp}/{self.hp}")
+            ("Health", f"{self.hp}/{self.max_hp}")
         ]
         return Response.create(data=data)
     
@@ -118,6 +124,15 @@ class ShipSystem(BaseEventSubscriber):
             option = self.upgrade_model.get_upgrade_option(property=property, value=self.get_property_value(property=property))
             upgrade_options.append(option)
         return Response.create(upgrade_options, Response.TYPES.SYSTEM_UPGRADES)
+    
+    def upgrade_property(self, property: str) -> Response:
+        if property not in self.upgrade_model.get_upgrades():
+            raise RuntimeError(f"Tried to upgrade property {property} of system {self.NAME}, but the property is not upgradable.")
+        current_level = self.upgrade_model.get_value_level(property=property, value=self.get_property_value(property=property))
+        new_value = self.upgrade_model.get_level_value(property=property, level=current_level+1)
+        cost = self.upgrade_model.get_level_cost(property=property, level=current_level+1)
+        setattr(self, property, new_value)
+        return Response.create(cost, Response.TYPES.UPGRADE_COST)
     
 class SensorShipSystem(ShipSystem):
     REVEALED_DATA = []

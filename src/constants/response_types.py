@@ -1,4 +1,5 @@
 class ResponseTypes:
+    AMOUNT_MATTER = "amount_matter"
     PLANET_DATA = "planet_data"
     SCANNER_RESULT = "scanner_result"
     SHIP_DATA = "ship_data"
@@ -6,3 +7,4 @@ class ResponseTypes:
     SHIP_STATUS_LOG_ENTRY = "ship_status_log_entry"
     SYSTEM_UPGRADES = "system_upgrades"
     SYSTEM_WINDOW_DATA = "system_window_data"
+    UPGRADE_COST = "upgrade_cost"

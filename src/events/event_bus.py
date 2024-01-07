@@ -53,6 +53,6 @@ class EventBus():
         try:
             response = listener(**event.data)
         except Exception as e:
-            raise RuntimeError(f"An error occured while publishing event {event}.") from e
+            raise RuntimeError(f"An error occured while publishing event {event.type}.") from e
         
         return response

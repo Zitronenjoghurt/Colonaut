@@ -11,6 +11,7 @@ class SpaceShip(BaseEventSubscriber):
         subscriptions = {
             Event.TYPES.SHIP_RETRIEVE_SYSTEM: self.get_system,
             Event.TYPES.SHIP_DAMAGE_SYSTEM: self.damage_system,
+            Event.TYPES.SHIP_UPGRADE_SYSTEM: self.upgrade_system,
             Event.TYPES.RETRIEVE_SHIP_STATUS: self.get_status,
             Event.TYPES.RETRIEVE_SYSTEM_UPGRADES: self.get_system_upgrades,
             Event.TYPES.RETRIEVE_SYSTEM_WINDOW_DATA: self.get_system_window_data
@@ -115,3 +116,14 @@ class SpaceShip(BaseEventSubscriber):
     def get_system_upgrades(self, system_name: str) -> Response:
         system: ShipSystem = self.get_system(system_name=system_name).get_data()
         return system.get_upgrades()
+    
+    def upgrade_system(self, system_name: str, property: str) -> Response:
+        system: ShipSystem = self.get_system(system_name=system_name).get_data()
+        try:
+            response = system.upgrade_property(property=property)
+            cost = response.get_data(Response.TYPES.UPGRADE_COST)
+            subtract_matter_event = Event(Event.TYPES.GAME_STATE_SUBTRACT_MATTER, amount=cost)
+            self.publish_event(subtract_matter_event)
+        except Exception as e:
+            raise RuntimeError(f"An error occured while upgrading property {property} of system {system_name}: {e}")
+        return Response.create()

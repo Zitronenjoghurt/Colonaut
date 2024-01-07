@@ -20,6 +20,10 @@ UPGRADE_BOX_COUNT = 4
 class UpgradeBox(ctk.CTkFrame):
     def __init__(self, master, **kwargs) -> None:
         super().__init__(master=master, **kwargs)
+        self.system_name = None
+        self.property = None
+        self.cost = 0
+
         self.stat_label = ctk.CTkLabel(self, text="", font=("ELNATH", 20))
         self.stat_label.pack(pady=(15,0))
 
@@ -31,13 +35,35 @@ class UpgradeBox(ctk.CTkFrame):
         self.upgrade_value.pack(pady=10, expand=True, fill='both')
 
         currency_icon = ImageTk.PhotoImage(CURRENCY_ICON)
-        self.upgrade_button = ctk.CTkButton(self, text="", fg_color='#1e5421', font=("Geist Mono", 26), image=currency_icon, compound='right')
+        self.upgrade_button = ctk.CTkButton(self, text="", fg_color='#1e5421', font=("Geist Mono", 26), image=currency_icon, compound='right', command=self.on_upgrade)
         self.upgrade_button.pack(pady=(25,0))
 
-    def update_data(self, property: str, difference: str, cost: str) -> None:
-        self.stat_label.configure(text=property)
+    def update_data(self, system_name: str, property: str, difference: str, cost: str) -> None:
+        self.system_name = system_name
+        self.property = property
+        self.cost = int(cost)
+        self.stat_label.configure(text=LT.get(property))
         self.upgrade_value.configure(text=difference)
         self.upgrade_button.configure(text=cost)
+
+        matter_event = Event(Event.TYPES.GAME_STATE_RETRIEVE_MATTER)
+        matter_response = EVENT_BUS.publish(matter_event)
+        matter = matter_response.get_data(Response.TYPES.AMOUNT_MATTER)
+
+        if matter < self.cost or self.cost == 0:
+            self.upgrade_button.configure(state="disabled")
+        else:
+            self.upgrade_button.configure(state="normal")
+
+    def on_upgrade(self) -> None:
+        upgrade_event = Event(Event.TYPES.SHIP_UPGRADE_SYSTEM, system_name=self.system_name, property=self.property)
+        EVENT_BUS.publish(upgrade_event)
+
+        system_window_update_event = Event(Event.TYPES.UI_OPEN_SYSTEM_WINDOW, system_name=self.system_name, force_update=True)
+        EVENT_BUS.publish(system_window_update_event)
+
+        system_dashboard_update_event = Event(Event.TYPES.UI_UPDATE_SYSTEM_DASHBOARD)
+        EVENT_BUS.publish(system_dashboard_update_event)
 
 class SystemWindow(ctk.CTkFrame):
     def __init__(self, master, height=800, width=950, **kwargs) -> None:
@@ -46,6 +72,7 @@ class SystemWindow(ctk.CTkFrame):
         self.grid_propagate(False)
 
         self.system_name = None
+        self.matter = 0
 
         primary_background = 'gray17'
         secondary_background = 'gray20'
@@ -55,6 +82,12 @@ class SystemWindow(ctk.CTkFrame):
 
         self.close_button = ctk.CTkButton(self, fg_color="red", text="X", font=("Geist Mono", 22, "bold"), width=30, height=30, command=self.on_exit)
         self.close_button.place(x=930, y=15)
+
+        matter_frame = ctk.CTkFrame(self, height=50, width=100)
+        matter_frame.place(x=15, y=15)
+
+        self.matter_label = ctk.CTkLabel(matter_frame, text=str(self.matter), font=("Geist Mono", 22, "bold"))
+        self.matter_label.pack(padx=10, pady=10, expand=True, fill='both')
 
         description_frame = ctk.CTkFrame(self, width=900, height=150)
         description_frame.pack(pady=(25,0))
@@ -98,14 +131,16 @@ class SystemWindow(ctk.CTkFrame):
         upgrade_frame.pack(pady=(20,0))
 
         self.upgrade_boxes = []
-        for i in range(UPGRADE_BOX_COUNT):
+        for _ in range(UPGRADE_BOX_COUNT):
             upgrade_box = UpgradeBox(upgrade_frame)
             self.upgrade_boxes.append(upgrade_box)
-
-    def update_data(self, system_name: str) -> None:
-        if system_name == self.system_name:
+    
+    def update_data(self, system_name: str, force_update: bool = False) -> None:
+        if system_name == self.system_name and not force_update:
             return
         self.system_name = system_name
+
+        self.update_matter_amount()
 
         system_data_event = Event(Event.TYPES.RETRIEVE_SYSTEM_WINDOW_DATA, system_name=system_name)
         system_data_response = EVENT_BUS.publish(system_data_event)
@@ -134,8 +169,15 @@ class SystemWindow(ctk.CTkFrame):
                 self.upgrade_boxes[i].grid_remove()
                 continue
             upgrade = system_upgrades[i]
-            self.upgrade_boxes[i].update_data(**upgrade)
+            self.upgrade_boxes[i].update_data(system_name=system_name, **upgrade)
             self.upgrade_boxes[i].grid(row=0, column=i, sticky='nsew', pady=10, padx=10)
+
+    def update_matter_amount(self) -> None:
+        matter_event = Event(Event.TYPES.GAME_STATE_RETRIEVE_MATTER)
+        matter_response = EVENT_BUS.publish(matter_event)
+        matter = matter_response.get_data(Response.TYPES.AMOUNT_MATTER)
+        self.matter = matter
+        self.matter_label.configure(text=str(matter))
 
     def on_exit(self) -> None:
         close_system_window = Event(Event.TYPES.UI_CLOSE_SYSTEM_WINDOW)

@@ -39,7 +39,8 @@ class UISystem(BaseEventSubscriber):
             Event.TYPES.UI_CLOSE_SYSTEM_WINDOW: self.close_system_window,
             Event.TYPES.UI_OPEN_SYSTEM_WINDOW: self.open_system_window,
             Event.TYPES.UI_START_PLANET_VIEW_EMERGENCY: self.on_activate_planet_view_emergency,
-            Event.TYPES.UI_STOP_PLANET_VIEW_EMERGENCY: self.on_deactivate_planet_view_emergency
+            Event.TYPES.UI_STOP_PLANET_VIEW_EMERGENCY: self.on_deactivate_planet_view_emergency,
+            Event.TYPES.UI_UPDATE_SYSTEM_DASHBOARD: self.update_system_dashboard
         }
 
         self.check_custom_fonts_installed()
@@ -103,12 +104,6 @@ class UISystem(BaseEventSubscriber):
     def start_ship_console(self) -> None:
         self.screens["planet_view"].start_console()
 
-    def open_system_window(self, system_name: str) -> None:
-        self.screens["planet_view"].open_system_window(system_name=system_name)
-
-    def close_system_window(self) -> None:
-        self.screens["planet_view"].close_system_window()
-
     """
     Event functions which alter the UI
     """
@@ -118,4 +113,16 @@ class UISystem(BaseEventSubscriber):
     
     def on_deactivate_planet_view_emergency(self) -> Response:
         self.screens["planet_view"].stop_emergency_animation()
+        return Response.create()
+    
+    def open_system_window(self, system_name: str, force_update: bool = False) -> Response:
+        self.screens["planet_view"].open_system_window(system_name=system_name, force_update=force_update)
+        return Response.create()
+
+    def close_system_window(self) -> Response:
+        self.screens["planet_view"].close_system_window()
+        return Response.create()
+    
+    def update_system_dashboard(self) -> Response:
+        self.screens["planet_view"].update_system_dashboard()
         return Response.create()

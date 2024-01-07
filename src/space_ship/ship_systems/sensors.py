@@ -5,17 +5,17 @@ class Accelerometer(SensorShipSystem):
     REVEALED_DATA = ["mass"]
 
 class InfraredSpectrometer(SensorShipSystem):
-    NAME = "infrared spectrometer"
+    NAME = "infrared_spectrometer"
     REVEALED_DATA = ["temperature"]
 
 class LaserAltimeter(SensorShipSystem):
-    NAME = "laser altimeter"
+    NAME = "laser_altimeter"
     REVEALED_DATA = ["radius", "volume"]
 
 class NeutronDensitometer(SensorShipSystem):
-    NAME = "neutron densitometer"
+    NAME = "neutron_densitometer"
     REVEALED_DATA = ["density"]
 
 class RadioTelemetry(SensorShipSystem):
-    NAME = "radio telemetry"
+    NAME = "radio_telemetry"
     REVEALED_DATA = ["orb_period", "rot_period"]

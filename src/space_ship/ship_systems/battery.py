@@ -4,13 +4,14 @@ from src.ui.display_text import DisplayText
 from src.events.event import Event
 from src.events.response import Response
 from src.space_ship.ship_system import ShipSystem
+from src.space_ship.upgrade_model import UpgradeModel
 from src.utils.validator import validate_int
 
 class BatterySystem(ShipSystem):
     NAME = "battery"
     DESCRIPTION = "The battery is an essential component of the spaceship, tasked with storing the generated energy and distributing it to every system."
 
-    def __init__(self, max_hp: int, max_capacity: int, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
+    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, max_capacity: int, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
         subscriptions = {
             Event.TYPES.BATTERY_CHARGE: self.charge
         }
@@ -20,7 +21,7 @@ class BatterySystem(ShipSystem):
         self.max_capacity = max_capacity
         self.capacity = capacity
 
-        super().__init__(max_hp=max_hp, hp=hp, subscriptions=subscriptions)
+        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, hp=hp, subscriptions=subscriptions)
 
     """
     Possible errors:
@@ -50,6 +51,7 @@ class BatterySystem(ShipSystem):
             "max_capacity": self.max_capacity,
             "capacity": self.capacity
         })
+        self.upgraded_properties_to_dict(base_dict)
         return Response.create(base_dict)
     
     def get_status(self) -> Response:

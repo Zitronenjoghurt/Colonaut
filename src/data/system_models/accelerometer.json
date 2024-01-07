@@ -1,0 +1,15 @@
+{
+    "standard": {
+        "max_hp": [
+            {"value": 100, "cost": 0}
+        ],
+        "reveal_chance": [
+            {"value": 50, "cost": 0},
+            {"value": 60, "cost": 25},
+            {"value": 70, "cost": 25},
+            {"value": 80, "cost": 50},
+            {"value": 90, "cost": 50},
+            {"value": 100, "cost": 100}
+        ]
+    }
+}

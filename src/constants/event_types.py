@@ -5,6 +5,7 @@ class EventTypes:
     GAME_FLOW_JUMP = "game_flow_jump"
     RETRIEVE_PLANET_DATA = "retrieve_planet_data"
     RETRIEVE_SHIP_STATUS = "retrieve_ship_status"
+    RETRIEVE_SYSTEM_UPGRADES = "retrieve_system_upgrades"
     RETRIEVE_SYSTEM_WINDOW_DATA = "retrieve_system_window_data"
     SHIP_RETRIEVE_SYSTEM = "ship_retrieve_system"
     SHIP_DAMAGE_SYSTEM = "ship_damage_system"

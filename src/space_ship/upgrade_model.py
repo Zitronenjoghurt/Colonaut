@@ -37,6 +37,16 @@ class UpgradeModel():
             raise RuntimeError(f"An error occured while retrieving the value of property {property} at level {level} of model {self.model_name} of system {self.system_name}")
         return value
     
+    def get_value_level(self, property: str, value: int) -> int:
+        property_levels = self.upgrades.get(property, None)
+        if property_levels is None:
+            raise ValueError(f"Property {property} was not found in system {self.system_name} model {self.model_name}")
+        for i, entry in enumerate(property_levels):
+            entry_value = entry[0]
+            if value == entry_value:
+                return i+1
+        raise ValueError(f"No specified value {value} for property {property} in system {self.system_name} model {self.model_name}")
+    
     def get_level_cost(self, property: str, level: int) -> int:
         entry = self.get_entry(property=property, level=level)
         value = entry.get("cost", None)
@@ -47,10 +57,37 @@ class UpgradeModel():
     def get_upgrade_difference(self, property: str, current_level: int) -> int:
         current_value = self.get_level_value(property=property, level=current_level)
         next_value = self.get_level_value(property=property, level=current_level+1)
-        return next_value-current_value
+        return round(next_value-current_value, 1)
     
     def get_initial_value(self, property: str) -> int:
         return self.get_level_value(property=property, level=1)
+    
+    def get_upgrades(self) -> dict[str, list[tuple[int, int]]]:
+        return self.upgrades
+    
+    def is_max_level(self, property: str, level: int) -> bool:
+        property_levels = self.upgrades.get(property, None)
+        if property_levels is None:
+            raise ValueError(f"Property {property} was not found in system {self.system_name} model {self.model_name}")
+        if level == len(property_levels):
+            return True
+        return False
+    
+    def get_upgrade_option(self, property: str, value: int) -> dict:
+        current_level = self.get_value_level(property=property, value=value)
+        is_max = self.is_max_level(property=property, level=current_level)
+
+        if not is_max:
+            difference = "+" + str(self.get_upgrade_difference(property=property, current_level=current_level))
+        else:
+            difference = "MAX"
+        
+        if not is_max:
+            cost = self.get_level_cost(property=property, level=current_level+1)
+        else:
+            cost = 0
+
+        return {"property": property, "difference": difference, "cost": str(cost)}
     
 class UpgradeModelLibrary():
     _instance = None
@@ -81,9 +118,11 @@ class UpgradeModelLibrary():
         return UpgradeModelLibrary._instance
     
     def get_model(self, system_name: str, model_name: str = 'standard') -> UpgradeModel:
-        system_models = self.systems[system_name]
-        model = system_models.get(model_name, None)
+        system_models = self.systems.get(system_name, None)
+        if system_models is None:
+            raise ValueError(f"System {system_name} has no specified models")
 
+        model = system_models.get(model_name, None)
         if not isinstance(model, UpgradeModel):
             raise ValueError(f"Model {model_name} not found in system {system_name}")
         

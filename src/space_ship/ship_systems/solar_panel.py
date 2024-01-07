@@ -4,15 +4,16 @@ from src.ui.display_text import DisplayText
 from src.events.event import Event
 from src.events.response import Response
 from src.space_ship.ship_system import ShipSystem
+from src.space_ship.upgrade_model import UpgradeModel
 from src.constants.custom_exceptions import EventTypeNotSubscribedError
 
 class SolarPanelSystem(ShipSystem):
-    NAME = "solar panel"
+    NAME = "solar_panel"
 
-    def __init__(self, max_hp: int, charge_capacity: int, hp: Optional[int] = None) -> None:
+    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, charge_capacity: int, hp: Optional[int] = None) -> None:
         self.charge_capacity = charge_capacity
 
-        super().__init__(max_hp=max_hp, hp=hp)
+        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, hp=hp)
 
     def to_dict(self) -> Response:
         base_dict: dict = super().to_dict().get_data()

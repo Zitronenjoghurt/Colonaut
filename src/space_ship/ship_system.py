@@ -1,9 +1,10 @@
 import random
-from typing import Optional
+from typing import Any, Optional
 from src.constants.config import Config
 from src.ui.display_text import DisplayText
 from src.events.event_subscriber import BaseEventSubscriber
 from src.events.response import Response
+from src.space_ship.upgrade_model import UpgradeModel
 from src.utils.validator import validate_int
 
 CONFIG = Config.get_instance()
@@ -12,13 +13,14 @@ class ShipSystem(BaseEventSubscriber):
     NAME = "default"
     DESCRIPTION = "no description"
 
-    def __init__(self, max_hp: int, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
+    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
         super().__init__(subscriptions=subscriptions)
         if max_hp < 1:
             max_hp = 1
         if hp is None:
             hp = max_hp
-
+        
+        self.upgrade_model = upgrade_model
         self.max_hp = max_hp
         self.hp = hp
     
@@ -27,7 +29,23 @@ class ShipSystem(BaseEventSubscriber):
             "max_hp": self.max_hp,
             "hp": self.hp
         }
+        self.upgraded_properties_to_dict(data)
         return Response.create(data)
+    
+    def get_property_value(self, property: str) -> Any:
+        if hasattr(self, property) and not callable(getattr(self, property)) and not property.startswith('__'):
+            return getattr(self, property)
+        else:
+            raise ValueError(f"Ship system {self.NAME} has no property {property}")
+    
+    def upgraded_properties_to_dict(self, data: dict) -> None:
+        for property in data:
+            if property in self.upgrade_model.get_upgrades():
+                value = data[property]
+                if not isinstance(value, int):
+                    continue
+                level = self.upgrade_model.get_value_level(property=property, value=value)
+                data[property] = str(level)
     
     """
     Possible errors:
@@ -93,14 +111,21 @@ class ShipSystem(BaseEventSubscriber):
         }
         return Response.create(data, Response.TYPES.SYSTEM_WINDOW_DATA)
     
+    def get_upgrades(self) -> Response:
+        upgrade_options = []
+        for property in self.upgrade_model.get_upgrades():
+            option = self.upgrade_model.get_upgrade_option(property=property, value=self.get_property_value(property=property))
+            upgrade_options.append(option)
+        return Response.create(upgrade_options, Response.TYPES.SYSTEM_UPGRADES)
+    
 class SensorShipSystem(ShipSystem):
     REVEALED_DATA = []
 
-    def __init__(self, max_hp: int, reveal_chance: Optional[float] = None, hp: Optional[int] = None) -> None:
+    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, reveal_chance: Optional[int] = None, hp: Optional[int] = None) -> None:
         if reveal_chance is None:
             reveal_chance = 0
         self.reveal_chance = reveal_chance
-        super().__init__(max_hp, hp)
+        super().__init__(upgrade_model, max_hp, hp)
 
     def work(self) -> Response:
         hp_ratio = self.get_hp_ratio().get_data()
@@ -108,7 +133,7 @@ class SensorShipSystem(ShipSystem):
         data = []
 
         messages = [DisplayText(f"{self.NAME.capitalize()}: ", character= "sensor", line_delay=300, newline=False)]
-        if data_revealed < self.reveal_chance * hp_ratio:
+        if data_revealed < (self.reveal_chance/100) * hp_ratio:
             data = self.REVEALED_DATA
             messages.append(DisplayText("SUCCESS", tag="success", line_symbol=False))
         else:
@@ -122,7 +147,7 @@ class SensorShipSystem(ShipSystem):
         hp_percentage = self.get_hp_percentage().get_data()
         data = {
             "health": hp_percentage,
-            "Success rate": str(self.reveal_chance*100)+"%"
+            "Success rate": str(self.reveal_chance)+"%"
         }
         return Response.create(data=data)
     

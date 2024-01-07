@@ -1,0 +1,7 @@
+{
+    "standard": {
+        "max_hp": [
+            {"value": 100, "cost": 0}
+        ]
+    }
+}

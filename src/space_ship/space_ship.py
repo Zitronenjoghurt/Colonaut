@@ -12,6 +12,7 @@ class SpaceShip(BaseEventSubscriber):
             Event.TYPES.SHIP_RETRIEVE_SYSTEM: self.get_system,
             Event.TYPES.SHIP_DAMAGE_SYSTEM: self.damage_system,
             Event.TYPES.RETRIEVE_SHIP_STATUS: self.get_status,
+            Event.TYPES.RETRIEVE_SYSTEM_UPGRADES: self.get_system_upgrades,
             Event.TYPES.RETRIEVE_SYSTEM_WINDOW_DATA: self.get_system_window_data
         }
         super().__init__(subscriptions=subscriptions)
@@ -106,3 +107,11 @@ class SpaceShip(BaseEventSubscriber):
     def get_system_window_data(self, system_name: str) -> Response:
         system: ShipSystem = self.get_system(system_name=system_name).get_data()
         return system.get_system_window_data()
+    
+    """
+    Possible errors:
+    - ShipSystemNotFoundError
+    """
+    def get_system_upgrades(self, system_name: str) -> Response:
+        system: ShipSystem = self.get_system(system_name=system_name).get_data()
+        return system.get_upgrades()

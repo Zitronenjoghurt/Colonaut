@@ -1,5 +1,8 @@
 {
     "standard": {
+        "max_hp": [
+            {"value": 100, "cost": 0}
+        ],
         "max_capacity": [
             {"value": 100, "cost": 0},
             {"value": 150, "cost": 50},

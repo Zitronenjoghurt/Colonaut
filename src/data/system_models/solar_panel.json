@@ -1,0 +1,10 @@
+{
+    "standard": {
+        "max_hp": [
+            {"value": 100, "cost": 0}
+        ],
+        "charge_capacity": [
+            {"value": 20, "cost": 0}
+        ]
+    }
+}

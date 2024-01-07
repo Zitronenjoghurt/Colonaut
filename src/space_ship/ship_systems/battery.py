@@ -9,7 +9,6 @@ from src.utils.validator import validate_int
 
 class BatterySystem(ShipSystem):
     NAME = "battery"
-    DESCRIPTION = "The battery is an essential component of the spaceship, tasked with storing the generated energy and distributing it to every system."
 
     def __init__(self, upgrade_model: UpgradeModel, max_hp: int, max_capacity: int, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
         subscriptions = {

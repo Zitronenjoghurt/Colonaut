@@ -1,4 +1,17 @@
+# These constants will mainly be used to validate locale files.
+# But they also make locale strings easily accessible when you 
+# need specific ones, preventing error caused by typos.
 class Locales:
+    # Descriptions
+    ACCELEROMETER_DESCRIPTION = "accelerometer_description"
+    BATTERY_DESCRIPTION = "battery_description"
+    HULL_DESCRIPTION = "hull_description"
+    INFRARED_SPECTROMETER_DESCRIPTION = "infrared_spectrometer_description"
+    LASER_ALTIMETER_DESCRIPTION = "laser_altimeter_description"
+    NEUTRON_DENSITOMETER_DESCRIPTION = "neutron_densitometer_description"
+    RADIO_TELEMETRY_DESCRIPTION = "radio_telemetry_description"
+    SOLAR_PANEL_DESCRIPTION = "solar_panel_description"
+
     # Names
     ACCELEROMETER = "accelerometer"
     BATTERY = "battery"

@@ -1,0 +1,10 @@
+{
+    "accelerometer_description": "The accelerometer messures your relative acceleration in space. This data can be used to calculate the gravitational pull and mass of a planet.",
+    "battery_description": "The battery is an essential component of the spaceship, tasked with storing the generated energy and distributing it to every system.",
+    "hull_description": "The ships outer shell built from dense metals. It will defend the ships inner workings with its life...",
+    "infrared_spectrometer_description": "As the name suggests, this sensor uses an infrared sensor plate to observe the planet in the infrared spectrum. This will make us able to determine the average planet temperature.",
+    "laser_altimeter_description": "This sensor is emmiting lasers from different angles in the direction of the observed planet. The distance data can be used to determine the planets radius and volume.",
+    "neutron_densitometer_description": "Your programming does not mention how this sensor exactly works. From its name you can derive that it has something to do with neutrons (or neutrinos?). It will determine the average density of a planet.",
+    "radio_telemetry_description": "This is a simple radio atenna which is able to observe the planets rotation and orbit. The computer will extrapolate the collected data to determine the rotational and orbital periods over days and years.",
+    "solar_panel_description": "The huge solar panel array attached to the hull will use the energy emmited from the stars we visit to charge the battery and ultimately fuel EVERYTHING. It is the powerhouse of the space ship."
+}

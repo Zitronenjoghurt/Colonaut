@@ -1,6 +1,7 @@
 import random
 from typing import Any, Optional
 from src.constants.config import Config
+from src.constants.locale_translator import LocaleTranslator
 from src.ui.display_text import DisplayText
 from src.events.event_subscriber import BaseEventSubscriber
 from src.events.response import Response
@@ -8,10 +9,10 @@ from src.space_ship.upgrade_model import UpgradeModel
 from src.utils.validator import validate_int
 
 CONFIG = Config.get_instance()
+LT = LocaleTranslator.get_instance()
 
 class ShipSystem(BaseEventSubscriber):
     NAME = "default"
-    DESCRIPTION = "no description"
 
     def __init__(self, upgrade_model: UpgradeModel, max_hp: int, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
         super().__init__(subscriptions=subscriptions)
@@ -92,7 +93,7 @@ class ShipSystem(BaseEventSubscriber):
         return Response.create(self.NAME)
     
     def get_description(self) -> Response:
-        return Response.create(self.DESCRIPTION)
+        return Response.create(LT.get(self.NAME+"_description"))
     
     def get_max_hp(self) -> Response:
         return Response.create(self.max_hp)
@@ -106,7 +107,7 @@ class ShipSystem(BaseEventSubscriber):
     def get_system_window_data(self) -> Response:
         stats = self.get_stats().get_data()
         data = {
-            'description': self.DESCRIPTION,
+            'description': self.get_description().get_data(),
             'stats': stats
         }
         return Response.create(data, Response.TYPES.SYSTEM_WINDOW_DATA)

@@ -1,14 +1,14 @@
 {
     "ship": {
         "systems": {
-            "hull": {"levels": {"max_hp": 1}},
-            "battery": {"levels": {"max_hp": 1, "max_capacity": 1}},
-            "solar_panel": {"levels": {"max_hp": 1, "charge_capacity": 1}},
-            "accelerometer": {"levels": {"max_hp": 1, "reveal_chance": 1}},
-            "infrared_spectrometer": {"levels": {"max_hp": 1, "reveal_chance": 1}},
-            "laser_altimeter": {"levels": {"max_hp": 1, "reveal_chance": 1}},
-            "neutron_densitometer": {"levels": {"max_hp": 1, "reveal_chance": 1}},
-            "radio_telemetry": {"levels": {"max_hp": 1, "reveal_chance": 1}}
+            "hull": {},
+            "battery": {},
+            "solar_panel": {},
+            "accelerometer": {},
+            "infrared_spectrometer": {},
+            "laser_altimeter": {},
+            "neutron_densitometer": {},
+            "radio_telemetry": {}
         }
     },
     "matter": 5000

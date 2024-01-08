@@ -25,14 +25,14 @@ class SolarPanelSystem(ShipSystem):
     def get_status(self) -> Response:
         base_data = super().get_status().get_data()
         base_data.update({
-            "Power": str(self.charge_capacity)
+            "power": str(self.charge_capacity)
         })
         return Response.create(base_data)
     
     def get_stats(self) -> Response:
         base_data = super().get_stats().get_data()
         base_data.extend([
-            ("Charge Capacity", str(self.charge_capacity))
+            ("charge_capacity", str(self.charge_capacity))
         ])
         return Response.create(base_data)
     

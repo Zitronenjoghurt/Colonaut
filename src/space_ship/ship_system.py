@@ -34,25 +34,11 @@ class ShipSystem(BaseEventSubscriber):
     def to_dict(self) -> Response:
         data = {
             "max_hp": self.max_hp,
-            "hp": self.hp
+            "hp": self.hp,
+            "levels": self.upgrade_model.get_levels(),
+            "model": self.upgrade_model.model_name
         }
-        self.upgraded_properties_to_dict(data)
         return Response.create(data)
-    
-    def get_property_value(self, property: str) -> Any:
-        if hasattr(self, property) and not callable(getattr(self, property)) and not property.startswith('__'):
-            return getattr(self, property)
-        else:
-            raise ValueError(f"Ship system {self.NAME} has no property {property}")
-    
-    def upgraded_properties_to_dict(self, data: dict) -> None:
-        for property in data:
-            if property in self.upgrade_model.get_upgrades():
-                value = data[property]
-                if not isinstance(value, int):
-                    continue
-                level = self.upgrade_model.get_value_level(property=property, value=value)
-                data[property] = str(level)
     
     """
     Possible errors:
@@ -87,7 +73,7 @@ class ShipSystem(BaseEventSubscriber):
     
     def get_stats(self) -> Response:
         data = [
-            ("Health", f"{self.hp}/{self.max_hp}")
+            ("health", f"{self.hp}/{self.max_hp}")
         ]
         return Response.create(data=data)
     
@@ -121,17 +107,33 @@ class ShipSystem(BaseEventSubscriber):
     def get_upgrades(self) -> Response:
         upgrade_options = []
         for property in self.upgrade_model.get_upgrades():
-            option = self.upgrade_model.get_upgrade_option(property=property, value=self.get_property_value(property=property))
+            option = self.upgrade_model.get_upgrade_option(property=property)
             upgrade_options.append(option)
         return Response.create(upgrade_options, Response.TYPES.SYSTEM_UPGRADES)
     
     def upgrade_property(self, property: str) -> Response:
         if property not in self.upgrade_model.get_upgrades():
-            raise RuntimeError(f"Tried to upgrade property {property} of system {self.NAME}, but the property is not upgradable.")
-        current_level = self.upgrade_model.get_value_level(property=property, value=self.get_property_value(property=property))
-        new_value = self.upgrade_model.get_level_value(property=property, level=current_level+1)
+            raise RuntimeError(f"Tried to upgrade property {property} of system {self.NAME}, but the property is not upgradable")
+        if not hasattr(self, property):
+            raise RuntimeError(f"Tried to upgrade property {property} of system {self.NAME}, but the property does not exist in that ship system")
+        if not self.upgrade_model.can_upgrade_property(property=property):
+            raise RuntimeError(f"Tried to upgrade property {property} of system {self.NAME}, but the property is already at max level")
+        
+        current_level = self.upgrade_model.get_property_level(property=property)
+        difference = self.upgrade_model.get_upgrade_difference(property=property, current_level=current_level)
+        enhancements = self.upgrade_model.get_level_enhances(property=property, level=current_level+1)
+
+        current_value = getattr(self, property)
+        setattr(self, property, current_value + difference)
+
+        for property_name, value in enhancements.items():
+            if not hasattr(self, property_name):
+                raise RuntimeError(f"Upgrade of property {property} in ship system {self.NAME} tried to also upgrade non-existent property {property_name}")
+            property_value = getattr(self, property_name)
+            setattr(self, property_name, property_value + value)
+
         cost = self.upgrade_model.get_level_cost(property=property, level=current_level+1)
-        setattr(self, property, new_value)
+        self.upgrade_model.upgrade_property(property=property)
         return Response.create(cost, Response.TYPES.UPGRADE_COST)
     
 class SensorShipSystem(ShipSystem):
@@ -163,7 +165,7 @@ class SensorShipSystem(ShipSystem):
         hp_percentage = self.get_hp_percentage().get_data()
         data = {
             "health": hp_percentage,
-            "Success rate": str(self.reveal_chance)+"%"
+            "success_rate": str(self.reveal_chance)+"%"
         }
         return Response.create(data=data)
     

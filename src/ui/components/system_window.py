@@ -34,11 +34,14 @@ class UpgradeBox(ctk.CTkFrame):
         self.upgrade_value = ctk.CTkLabel(upgrade_values_frame, text="", text_color='#3dba44', font=("Geist Mono", 30, "bold"))
         self.upgrade_value.pack(pady=10, expand=True, fill='both')
 
+        self.additional_text = ctk.CTkLabel(self, text="", text_color='lightgray', font=("Geist Mono", 16))
+        self.additional_text.pack(pady=(5, 0))
+
         currency_icon = ImageTk.PhotoImage(CURRENCY_ICON)
         self.upgrade_button = ctk.CTkButton(self, text="", fg_color='#1e5421', hover_color='#28802c', font=("Geist Mono", 26), image=currency_icon, compound='right', command=self.on_upgrade)
-        self.upgrade_button.pack(pady=(25,0))
+        self.upgrade_button.pack(pady=15)
 
-    def update_data(self, system_name: str, property: str, difference: str, cost: str) -> None:
+    def update_data(self, system_name: str, property: str, difference: str, cost: str, enhances: dict) -> None:
         self.system_name = system_name
         self.property = property
         self.cost = int(cost)
@@ -49,6 +52,15 @@ class UpgradeBox(ctk.CTkFrame):
         matter_event = Event(Event.TYPES.GAME_STATE_RETRIEVE_MATTER)
         matter_response = EVENT_BUS.publish(matter_event)
         matter = matter_response.get_data(Response.TYPES.AMOUNT_MATTER)
+
+        enhancement_strings = []
+        for property_name, property_value in enhances.items():
+            if property_value > 0:
+                property_value = "+"+str(property_value)
+            else:
+                property_value = "-"+str(property_value)
+            enhancement_strings.append(f"{LT.get(property_name)}: {property_value}")
+        self.additional_text.configure(text="\n".join(enhancement_strings))
 
         if matter < self.cost or self.cost == 0:
             self.upgrade_button.configure(state="disabled")

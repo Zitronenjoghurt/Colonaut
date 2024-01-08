@@ -27,12 +27,17 @@ class ShipSystemFactory():
             raise ValueError(f"Ship system {system_name} not found")
         
         model_name = kwargs.pop("model", "standard")
+        levels = kwargs.pop("levels", {})
         
         try:
             model = MODEL_LIBRARY.get_model(system_name=system_name, model_name=model_name)
-            for property in model.get_upgrades():
-                property_level = int(kwargs[property])
-                kwargs[property] = model.get_level_value(property=property, level=property_level)
+            model.update_property_levels(levels)
+            
+            # If upgradable value doesnt exist in kwargs, derive it from the upgrade model
+            for property, level in model.get_levels().items():
+                if property not in kwargs:
+                    kwargs[property] = model.get_level_value(property=property, level=level)
+                    
             return system_class(upgrade_model=model, **kwargs)
         except (TypeError, ValueError) as e:
             raise ValueError(f"An error occured while creating system {system_name}: {e}")

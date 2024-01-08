@@ -27,7 +27,7 @@ class Panel(ctk.CTkFrame):
 
         additional_text = []
         for key, value in additional_data:
-            additional_text.append(f"{key}: {value}")
+            additional_text.append(f"{LT.get(key)}: {value}")
         
         if additional_text:
             additional_text_label = ctk.CTkLabel(self, text='\n'.join(additional_text))

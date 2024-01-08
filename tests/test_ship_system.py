@@ -30,7 +30,7 @@ def test_hull(space_ship: SpaceShip):
 
     assert_response_data(hull.get_hp(), 100)
     assert_response_data(hull.get_max_hp(), 100)
-    assert_response_data(hull.to_dict(), {"hp": 100, "max_hp": "1"})
+    assert_response_data(hull.to_dict(), {"hp": 100, "max_hp": 100, 'levels': {'max_hp': 1}, 'model': 'standard'})
 
 def test_battery(space_ship: SpaceShip):
     battery: ShipSystems.BatterySystem = space_ship.get_system("battery").get_data()
@@ -39,7 +39,7 @@ def test_battery(space_ship: SpaceShip):
     assert_response_data(battery.get_max_hp(), 100)
     assert_response_data(battery.get_max_capacity(), 100)
     assert_response_data(battery.get_capacity(), 50)
-    assert_response_data(battery.to_dict(), {"hp": 100, "max_hp": "1", "capacity": 50, "max_capacity": "1"})
+    assert_response_data(battery.to_dict(), {"hp": 100, "max_hp": 100, "capacity": 50, "max_capacity": 100, 'levels': {'max_hp': 1, 'max_capacity': 1}, 'model': 'standard'})
 
     # Charge
     with pytest.raises(ValueError) as exc:

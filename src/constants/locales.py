@@ -32,10 +32,14 @@ class Locales:
     VOLUME = "volume"
 
     # Stats
+    CAPACITY = "capacity"
     CHARGE_CAPACITY = "charge_capacity"
+    HEALTH = "health"
     MAX_CAPACITY = "max_capacity"
     MAX_HP = "max_hp"
+    POWER = "power"
     REVEAL_CHANCE = "reveal_chance"
+    SUCCESS_RATE = "success_rate"
 
     @classmethod
     def get_existing_keys(cls) -> list[str]:

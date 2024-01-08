@@ -32,33 +32,33 @@ def test_init(planet: Planet):
 
 def test_get_properties(planet: Planet):
     properties = planet.get_properties()
-    assert properties[0][0] == "Temperature"
+    assert properties[0][0] == "temperature"
     assert properties[0][1] == "-263.15°C"
-    assert properties[1][0] == "Radius"
+    assert properties[1][0] == "radius"
     assert properties[1][1] == "6000km"
-    assert properties[2][0] == "Density"
+    assert properties[2][0] == "density"
     assert properties[2][1] == "3g/cm^3"
-    assert properties[3][0] == "Rotational Period"
+    assert properties[3][0] == "rot_period"
     assert properties[3][1] == "20min"
-    assert properties[4][0] == "Orbital Period"
+    assert properties[4][0] == "orb_period"
     assert properties[4][1] == "5d"
-    assert properties[5][0] == "Mass"
+    assert properties[5][0] == "mass"
     assert properties[5][1] == "2.71e+24kg"
-    assert properties[6][0] == "Volume"
+    assert properties[6][0] == "volume"
     assert properties[6][1] == "9.05e+20m^3"
 
     properties = planet.get_properties(["temperature", "orb_period"])
-    assert properties[0][0] == "Temperature"
+    assert properties[0][0] == "temperature"
     assert properties[0][1] == "-263.15°C"
-    assert properties[1][0] == "Radius"
-    assert properties[1][1] == "??????????"
-    assert properties[2][0] == "Density"
-    assert properties[2][1] == "??????????"
-    assert properties[3][0] == "Rotational Period"
-    assert properties[3][1] == "??????????"
-    assert properties[4][0] == "Orbital Period"
+    assert properties[1][0] == "radius"
+    assert len(properties[1][1]) == 12
+    assert properties[2][0] == "density"
+    assert len(properties[2][1]) == 12
+    assert properties[3][0] == "rot_period"
+    assert len(properties[3][1]) == 12
+    assert properties[4][0] == "orb_period"
     assert properties[4][1] == "5d"
-    assert properties[5][0] == "Mass"
-    assert properties[5][1] == "??????????"
-    assert properties[6][0] == "Volume"
-    assert properties[6][1] == "??????????"
+    assert properties[5][0] == "mass"
+    assert len(properties[5][1]) == 12
+    assert properties[6][0] == "volume"
+    assert len(properties[6][1]) == 12

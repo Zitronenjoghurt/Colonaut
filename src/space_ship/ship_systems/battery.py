@@ -50,20 +50,19 @@ class BatterySystem(ShipSystem):
             "max_capacity": self.max_capacity,
             "capacity": self.capacity
         })
-        self.upgraded_properties_to_dict(base_dict)
         return Response.create(base_dict)
     
     def get_status(self) -> Response:
         base_data = super().get_status().get_data()
         base_data.update({
-            "Capacity": f"{self.capacity}/{self.max_capacity}"
+            "capacity": f"{self.capacity}/{self.max_capacity}"
         })
         return Response.create(base_data)
     
     def get_stats(self) -> Response:
         base_data = super().get_stats().get_data()
         base_data.extend([
-            ("Capacity", f"{self.capacity}/{self.max_capacity}")   
+            ("capacity", f"{self.capacity}/{self.max_capacity}")   
         ])
         return Response.create(base_data)
     

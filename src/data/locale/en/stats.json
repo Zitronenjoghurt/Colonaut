@@ -5,6 +5,7 @@
     "max_capacity": "max Capacity",
     "max_hp": "max HP",
     "power": "Power",
+    "power_usage": "Power Usage",
     "reveal_chance": "reveal chance",
     "success_rate": "Success Rate"
 }

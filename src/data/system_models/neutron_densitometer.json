@@ -8,12 +8,15 @@
             {"value": 300, "cost": 100}
         ],
         "reveal_chance": [
-            {"value": 50, "cost": 0},
-            {"value": 60, "cost": 25},
-            {"value": 70, "cost": 25},
-            {"value": 80, "cost": 50},
-            {"value": 90, "cost": 50},
-            {"value": 100, "cost": 100}
+            {"value": 50, "cost": 0, "enhances": {"power_usage": 5}},
+            {"value": 60, "cost": 25, "enhances": {"power_usage": 5}},
+            {"value": 70, "cost": 25, "enhances": {"power_usage": 5}},
+            {"value": 80, "cost": 50, "enhances": {"power_usage": 5}},
+            {"value": 90, "cost": 50, "enhances": {"power_usage": 5}},
+            {"value": 100, "cost": 100, "enhances": {"power_usage": 5}}
+        ],
+        "power_usage": [
+            {"value": 5, "cost": 0}
         ]
     }
 }

@@ -98,6 +98,11 @@ class UpgradeModel():
     def get_upgrades(self) -> dict[str, list[dict]]:
         return self.upgrades
     
+    def has_upgrades(self, property) -> bool:
+        if property not in self.upgrades:
+            raise ValueError(f"Property {property} does not exist in model {self.model_name} of system {self.system_name}")
+        return len(self.upgrades[property]) > 1
+    
     def is_max_level(self, property: str, level: int) -> bool:
         property_levels = self.upgrades.get(property, None)
         if property_levels is None:

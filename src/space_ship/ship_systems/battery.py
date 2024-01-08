@@ -20,7 +20,7 @@ class BatterySystem(ShipSystem):
         self.max_capacity = max_capacity
         self.capacity = capacity
 
-        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, hp=hp, subscriptions=subscriptions)
+        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, power_usage=0, hp=hp, subscriptions=subscriptions)
 
     """
     Possible errors:

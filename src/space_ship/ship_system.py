@@ -14,16 +14,19 @@ LT = LocaleTranslator.get_instance()
 class ShipSystem(BaseEventSubscriber):
     NAME = "default"
 
-    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
+    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, power_usage: int, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
         super().__init__(subscriptions=subscriptions)
         if max_hp < 1:
             max_hp = 1
         if hp is None:
             hp = max_hp
-        
+        if power_usage < 0:
+            power_usage = 0
+
         self.upgrade_model = upgrade_model
         self.max_hp = max_hp
         self.hp = hp
+        self.power_usage = power_usage
 
     def __setattr__(self, key, value) -> None:
         if key == "max_hp" and hasattr(self, "max_hp") and hasattr(self, "hp"):
@@ -35,6 +38,7 @@ class ShipSystem(BaseEventSubscriber):
         data = {
             "max_hp": self.max_hp,
             "hp": self.hp,
+            "power_usage": self.power_usage,
             "levels": self.upgrade_model.get_levels(),
             "model": self.upgrade_model.model_name
         }
@@ -73,7 +77,8 @@ class ShipSystem(BaseEventSubscriber):
     
     def get_stats(self) -> Response:
         data = [
-            ("health", f"{self.hp}/{self.max_hp}")
+            ("health", f"{self.hp}/{self.max_hp}"),
+            ("power_usage", str(self.power_usage))
         ]
         return Response.create(data=data)
     
@@ -107,6 +112,8 @@ class ShipSystem(BaseEventSubscriber):
     def get_upgrades(self) -> Response:
         upgrade_options = []
         for property in self.upgrade_model.get_upgrades():
+            if not self.upgrade_model.has_upgrades(property=property):
+                continue
             option = self.upgrade_model.get_upgrade_option(property=property)
             upgrade_options.append(option)
         return Response.create(upgrade_options, Response.TYPES.SYSTEM_UPGRADES)
@@ -139,11 +146,11 @@ class ShipSystem(BaseEventSubscriber):
 class SensorShipSystem(ShipSystem):
     REVEALED_DATA = []
 
-    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, reveal_chance: Optional[int] = None, hp: Optional[int] = None) -> None:
+    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, power_usage: int, reveal_chance: Optional[int] = None, hp: Optional[int] = None) -> None:
         if reveal_chance is None:
             reveal_chance = 0
         self.reveal_chance = reveal_chance
-        super().__init__(upgrade_model, max_hp, hp)
+        super().__init__(upgrade_model, max_hp, power_usage, hp)
 
     def work(self) -> Response:
         hp_ratio = self.get_hp_ratio().get_data()
@@ -162,12 +169,18 @@ class SensorShipSystem(ShipSystem):
         return response
     
     def get_status(self) -> Response:
-        hp_percentage = self.get_hp_percentage().get_data()
-        data = {
-            "health": hp_percentage,
+        base_data = super().get_status().get_data()
+        base_data.update({
             "success_rate": str(self.reveal_chance)+"%"
-        }
-        return Response.create(data=data)
+        })
+        return Response.create(data=base_data)
+    
+    def get_stats(self) -> Response:
+        base_data = super().get_stats().get_data()
+        base_data.extend([
+            ("success_rate", str(self.reveal_chance)+"%")   
+        ])
+        return Response.create(base_data)
     
     def get_revealed_data(self) -> Response:
         return Response.create(self.REVEALED_DATA)

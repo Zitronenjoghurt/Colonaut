@@ -12,8 +12,7 @@ class SolarPanelSystem(ShipSystem):
 
     def __init__(self, upgrade_model: UpgradeModel, max_hp: int, charge_capacity: int, hp: Optional[int] = None) -> None:
         self.charge_capacity = charge_capacity
-
-        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, hp=hp)
+        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, power_usage=0, hp=hp)
 
     def to_dict(self) -> Response:
         base_dict: dict = super().to_dict().get_data()

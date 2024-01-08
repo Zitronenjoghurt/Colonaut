@@ -1,6 +1,6 @@
 import random
 
-GIBBER_CONTENT = ["ERR", "#", "$", "NO", "N/A", "DATA", "WARN", "FAIL", "TIME", "SIG", "!", "?", "%"]
+GIBBER_CONTENT = ["ERR", "#", "$", "NO", "DATA", "WARN", "FAIL", "TIME", "SIG", "!", "?", "%"]
 
 def gibber(length: int) -> str:
     random_string = "".join(random.choice(GIBBER_CONTENT) for _ in range(length))

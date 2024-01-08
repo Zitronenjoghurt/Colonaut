@@ -38,6 +38,7 @@ class Locales:
     MAX_CAPACITY = "max_capacity"
     MAX_HP = "max_hp"
     POWER = "power"
+    POWER_USAGE = "power_usage"
     REVEAL_CHANCE = "reveal_chance"
     SUCCESS_RATE = "success_rate"
 

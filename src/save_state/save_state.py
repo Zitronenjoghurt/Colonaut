@@ -1,17 +1,17 @@
 from src.constants.config import Config
 from src.events.event_subscriber import BaseEventSubscriber
-from src.utils.file_operations import file_to_dict, bin_file_to_dict, dict_to_file, dict_to_bin_file, file_exists, delete_file
+from src.utils.file_operations import file_to_dict, cbor_file_to_dict, dict_to_file, dict_to_cbor_file, file_exists, delete_file
 
 CONFIG = Config.get_instance()
 
 LOAD_FUNCTIONS = {
     "json": file_to_dict,
-    "pkl": bin_file_to_dict
+    "cbor": cbor_file_to_dict
 }
 
 SAVE_FUNCTIONS = {
     "json": dict_to_file,
-    "pkl": dict_to_bin_file
+    "cbor": dict_to_cbor_file
 }
 
 class SaveState(BaseEventSubscriber):

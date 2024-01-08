@@ -6,9 +6,9 @@ test.py
 
 # User-specific data
 game_state.json
-game_state.pkl
+game_state.cbor
 global_state.json
-global_state.pkl
+global_state.cbor
 
 # Other shenanigans
 .DS_store

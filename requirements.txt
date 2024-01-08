@@ -1,3 +1,4 @@
+cbor2==5.5.1
 customtkinter==5.2.1
 darkdetect==0.8.0
 iniconfig==2.0.0

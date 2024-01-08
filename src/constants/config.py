@@ -9,7 +9,7 @@ DEFAULT = {
         "game_state": "src/",
         "global_state": "src/"
     },
-    "save_file_mode": "pkl",
+    "save_file_mode": "cbor",
     "decimal_digits": 2,
     "scientific_notation_upper_treshhold": 1e7,
     "scientific_notation_lower_treshold": 1e-2,
@@ -35,7 +35,7 @@ DEFAULT = {
     "default_ship_console_style_tag": "computer"
 }
 
-SAVE_FILE_MODES = ["json", "pkl"]
+SAVE_FILE_MODES = ["json", "cbor"]
 
 class Config():
     _instance = None

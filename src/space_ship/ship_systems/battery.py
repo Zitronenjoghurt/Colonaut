@@ -10,7 +10,7 @@ from src.utils.validator import validate_int
 class BatterySystem(ShipSystem):
     NAME = "battery"
 
-    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, max_capacity: int, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
+    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, max_capacity: int, power_usage: int = 0, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
         subscriptions = {
             Event.TYPES.BATTERY_CHARGE: self.charge
         }
@@ -20,7 +20,7 @@ class BatterySystem(ShipSystem):
         self.max_capacity = max_capacity
         self.capacity = capacity
 
-        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, power_usage=0, hp=hp, subscriptions=subscriptions)
+        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, power_usage=power_usage, hp=hp, subscriptions=subscriptions)
 
     """
     Possible errors:

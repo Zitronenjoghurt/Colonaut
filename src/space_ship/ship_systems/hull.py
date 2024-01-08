@@ -5,5 +5,5 @@ from src.space_ship.upgrade_model import UpgradeModel
 class HullSystem(ShipSystem):
     NAME = "hull"
 
-    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
-        super().__init__(upgrade_model, max_hp, 0, hp, subscriptions)
+    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, power_usage: int = 0, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
+        super().__init__(upgrade_model, max_hp, power_usage, hp, subscriptions)

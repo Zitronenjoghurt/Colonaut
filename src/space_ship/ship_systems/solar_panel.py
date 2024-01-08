@@ -10,9 +10,9 @@ from src.constants.custom_exceptions import EventTypeNotSubscribedError
 class SolarPanelSystem(ShipSystem):
     NAME = "solar_panel"
 
-    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, charge_capacity: int, hp: Optional[int] = None) -> None:
+    def __init__(self, upgrade_model: UpgradeModel, max_hp: int, charge_capacity: int, power_usage: int = 0, hp: Optional[int] = None) -> None:
         self.charge_capacity = charge_capacity
-        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, power_usage=0, hp=hp)
+        super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, power_usage=power_usage, hp=hp)
 
     def to_dict(self) -> Response:
         base_dict: dict = super().to_dict().get_data()

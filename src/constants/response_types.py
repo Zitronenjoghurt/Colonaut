@@ -1,5 +1,6 @@
 class ResponseTypes:
     AMOUNT_MATTER = "amount_matter"
+    BATTERY_DRAWN_ENERGY_LOG = "battery_drawn_energy_log"
     PLANET_DATA = "planet_data"
     SCANNER_RESULT = "scanner_result"
     SHIP_DATA = "ship_data"

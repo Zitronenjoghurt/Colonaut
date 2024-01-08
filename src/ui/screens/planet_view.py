@@ -71,7 +71,7 @@ class PlanetViewScreen(Screen):
 
             jump_event = Event(Event.TYPES.GAME_FLOW_JUMP)
             self.ui_system.publish_event(jump_event)
-            self.after(1000, self.finish_jump)
+            self.after(13000, self.finish_jump)
 
     def finish_jump(self) -> None:
         self.update_data()

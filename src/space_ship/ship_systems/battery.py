@@ -1,10 +1,11 @@
 from typing import Optional
 
-from src.ui.display_text import DisplayText
+from src.constants.custom_exceptions import EventTypeNotSubscribedError
 from src.events.event import Event
 from src.events.response import Response
 from src.space_ship.ship_system import ShipSystem
 from src.space_ship.upgrade_model import UpgradeModel
+from src.ui.display_text import DisplayText
 from src.utils.validator import validate_int
 
 class BatterySystem(ShipSystem):
@@ -12,13 +13,16 @@ class BatterySystem(ShipSystem):
 
     def __init__(self, upgrade_model: UpgradeModel, max_hp: int, max_capacity: int, power_usage: int = 0, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
         subscriptions = {
-            Event.TYPES.BATTERY_CHARGE: self.charge
+            Event.TYPES.BATTERY_CHARGE: self.charge,
+            Event.TYPES.BATTERY_DRAW_ENERGY: self.draw_energy,
+            Event.TYPES.BATTERY_RETRIEVE_DRAWN_ENERGY_LOG: self.retrieve_drawn_energy_log
         }
         if capacity is None:
             capacity = max_capacity
 
         self.max_capacity = max_capacity
         self.capacity = capacity
+        self.drawn_energy = 0
 
         super().__init__(upgrade_model=upgrade_model, max_hp=max_hp, power_usage=power_usage, hp=hp, subscriptions=subscriptions)
 
@@ -71,3 +75,27 @@ class BatterySystem(ShipSystem):
     
     def get_capacity(self) -> Response:
         return Response.create(self.capacity)
+    
+    def draw_energy(self, amount: int, system_name: str) -> Response:
+        if amount > self.capacity:
+            game_over = Event(Event.TYPES.GAME_OVER_NO_ENERGY, system_name=system_name)
+            self.publish_event(game_over)
+            return Response.create()
+        self.capacity -= amount
+        self.drawn_energy += amount
+        return Response.create()
+    
+    def retrieve_drawn_energy_log(self) -> Response:
+        charge_capacity_event = Event(Event.TYPES.SOLAR_PANEL_RETRIEVE_CHARGE_CAPACITY)
+        try:
+            response = self.publish_event(charge_capacity_event)
+            charge_capacity = response.get_data()
+        except EventTypeNotSubscribedError:
+            charge_capacity = None
+
+        messages = [DisplayText(f"The battery has distributed {self.drawn_energy} energy", character="energy")]
+        if isinstance(charge_capacity, int) and charge_capacity < self.drawn_energy:
+            messages.append(DisplayText("WARNING! WE ARE USING MORE ENERGY THAN WE ARE GENERATING", character="energy", tag="warning"))
+        
+        self.drawn_energy = 0
+        return Response.create(messages, Response.TYPES.BATTERY_DRAWN_ENERGY_LOG)

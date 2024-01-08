@@ -1,11 +1,13 @@
 import random
-from typing import Any, Optional
+from typing import Optional
 from src.constants.config import Config
+from src.constants.custom_exceptions import EventTypeNotSubscribedError
 from src.constants.locale_translator import LocaleTranslator
-from src.ui.display_text import DisplayText
+from src.events.event import Event
 from src.events.event_subscriber import BaseEventSubscriber
 from src.events.response import Response
 from src.space_ship.upgrade_model import UpgradeModel
+from src.ui.display_text import DisplayText
 from src.utils.validator import validate_int
 
 CONFIG = Config.get_instance()
@@ -82,8 +84,15 @@ class ShipSystem(BaseEventSubscriber):
         ]
         return Response.create(data=data)
     
-    # Whatever the ship system has to do every jump
+    # The work function will be called after every jump
     def work(self) -> Response:
+        # Use energy
+        try:
+            use_power = Event(Event.TYPES.BATTERY_DRAW_ENERGY, amount=self.power_usage, system_name=self.NAME)
+            self.publish_event(use_power)
+        except EventTypeNotSubscribedError:
+            game_over = Event(Event.TYPES.GAME_OVER_NO_ENERGY, system_name=self.NAME)
+            self.publish_event(game_over)
         return Response.create()
     
     def get_name(self) -> Response:
@@ -153,11 +162,13 @@ class SensorShipSystem(ShipSystem):
         super().__init__(upgrade_model, max_hp, power_usage, hp)
 
     def work(self) -> Response:
+        parent_response = super().work()
+
         hp_ratio = self.get_hp_ratio().get_data()
         data_revealed = random.random()
         data = []
 
-        messages = [DisplayText(f"{self.NAME.capitalize()}: ", character= "sensor", line_delay=300, newline=False)]
+        messages = [DisplayText(f"{LT.get(self.NAME)}: ", character= "sensor", line_delay=300, newline=False)]
         if data_revealed < (self.reveal_chance/100) * hp_ratio:
             data = self.REVEALED_DATA
             messages.append(DisplayText("SUCCESS", tag="success", line_symbol=False))
@@ -166,7 +177,7 @@ class SensorShipSystem(ShipSystem):
 
         response = Response.create(data, Response.TYPES.SCANNER_RESULT)
         response.add_data(messages, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
-        return response
+        return response.fuse(parent_response)
     
     def get_status(self) -> Response:
         base_data = super().get_status().get_data()

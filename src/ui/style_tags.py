@@ -16,5 +16,6 @@ class StyleTags:
         {"tagName": "sensor", "foreground": "#a6684b", "font": sensor},
         {"tagName": "you", "foreground": "white", "font": you},
         {"tagName": "success", "foreground": "green", "font": geist_mono_bold},
-        {"tagName": "failure", "foreground": "red", "font": geist_mono_bold}
+        {"tagName": "failure", "foreground": "red", "font": geist_mono_bold},
+        {"tagName": "warning", "foreground": "#ffcc00", "font": geist_mono_bold}
     ]

@@ -20,7 +20,11 @@ class SpaceShip(BaseEventSubscriber):
         if systems is None:
             systems = {}
         self.systems: dict[str, ShipSystem] = systems
+
+        # The unveiled planet data types
         self.scanner_results: list[str] = []
+
+        # The status log contain all messages that are printed to the console after the jump
         self.status_log: list[str] = []
 
     @staticmethod
@@ -47,12 +51,21 @@ class SpaceShip(BaseEventSubscriber):
     
     def run(self) -> None:
         self.run_systems()
+        self.retrieve_drawn_energy_log()
     
     def run_systems(self) -> None:
         self.scanner_results = []
         for system in self.systems.values():
             response = system.work()
             self.handle_system_response(response)
+
+    def retrieve_drawn_energy_log(self) -> None:
+        battery_drawn_energy_event = Event(Event.TYPES.BATTERY_RETRIEVE_DRAWN_ENERGY_LOG)
+        response = self.publish_event(battery_drawn_energy_event)
+        logs = response.get_data(Response.TYPES.BATTERY_DRAWN_ENERGY_LOG)
+        
+        if logs and isinstance(logs, list):
+            self.status_log.extend(logs)
     
     def handle_system_response(self, response: Response) -> None:
         scanner_result = response.get_data(Response.TYPES.SCANNER_RESULT)

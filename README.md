@@ -35,5 +35,11 @@ This usually just works by selecting all, right clicking them and then pressing 
 ### Main Menu
 ![Main Menu](/preview/main_menu.png)
 
-### Game Screen
-![Game Screen](/preview/game_screen.png)
+### Interactive Intro
+![Interactive Intro](/preview/intro.png)
+
+### Ship Console
+![Ship Console](/preview/ship_console.png)
+
+### System Upgrade Window
+![System Upgrade Window](/preview/system_upgrade_window.png)

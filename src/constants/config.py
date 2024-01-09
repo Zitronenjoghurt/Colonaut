@@ -30,8 +30,8 @@ DEFAULT = {
         "time": "h"
     },
     "display_units_conveniently": ["time"],
-    "default_ship_console_char_delay": 20,
-    "default_ship_console_line_delay": 800,
+    "default_ship_console_char_delay": 17,
+    "default_ship_console_line_delay": 150,
     "default_ship_console_style_tag": "computer"
 }
 

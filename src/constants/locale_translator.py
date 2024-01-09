@@ -1,7 +1,8 @@
-from src.utils.file_operations import construct_path, files_in_directory, file_to_dict
+from src.utils.file_operations import construct_path, files_in_directory, file_to_dict, str_to_file
 from .locales import Locales
 
 LOCALES_FILE_PATH = construct_path("src/data/locale/{language}/")
+OUTPUT_TXT_FILE_PATH = construct_path("locale_{language}.txt")
 LANGUAGES = ["en"]
 
 class LocaleTranslator():
@@ -48,10 +49,14 @@ class LocaleTranslator():
             LocaleTranslator._instance = LocaleTranslator()
         return LocaleTranslator._instance
     
-    def get(self, key: str, language: str = "en", **kwargs) -> str:
+    def get_language_translations(self, language: str) -> dict[str, str]:
         language_translations = self.translations.get(language, None)
         if language_translations is None:
             raise ValueError(f"No translations found for language {language}")
+        return language_translations
+    
+    def get(self, key: str, language: str = "en", **kwargs) -> str:
+        language_translations = self.get_language_translations(language=language)
         
         translation = language_translations.get(key, None)
         if translation is None:
@@ -65,3 +70,10 @@ class LocaleTranslator():
                 raise RuntimeError(f"An error occured while filling the placeholders in key {key} of language {language}: {e}")
         
         return translation
+    
+    def output_txt(self, language: str = "en") -> None:
+        language_translations = self.get_language_translations(language=language)
+
+        file_path = OUTPUT_TXT_FILE_PATH.format(language=language)
+        data = "\n".join(language_translations.values())
+        str_to_file(file_path=file_path, string=data)

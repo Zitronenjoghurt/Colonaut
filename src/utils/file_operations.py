@@ -34,6 +34,10 @@ def dict_to_cbor_file(file_path: str, data: dict):
     with open(file_path, 'wb') as f:
         f.write(data_bytes)
 
+def str_to_file(file_path: str, string: str):
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(string)
+
 def delete_file(file_path: str) -> None:
     for deletable_file in SAFE_TO_DELETE:
         if deletable_file in file_path:

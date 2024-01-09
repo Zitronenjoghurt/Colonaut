@@ -3,6 +3,7 @@ from src.ui.display_text import DisplayText
 from src.constants.custom_exceptions import EventTypeNotSubscribedError
 from src.events.event import Event
 from src.events.event_bus import EventBus
+from src.events.response import Response
 from src.utils.file_operations import construct_path, file_to_dict, files_in_directory
 
 EVENT_BUS = EventBus.get_instance()
@@ -16,6 +17,7 @@ class Dialogue():
         self.current_index = 0
         self.action_pending = False
         self.actions = {}
+        self.event_answers = {}
         self.event_pending = False
         self.event = None
         self.id_index_map = {}
@@ -57,8 +59,10 @@ class Dialogue():
                     else:
                         self.event = Event(type=event_type)
                         self.event_pending = True
+                    self.event_answers = display_text.event_reponse
                 except EventTypeNotSubscribedError:
                     raise RuntimeError(f"An error occured while playing dialogue {self.name} at index {i}: Event {event_type} does not exist or was not subscribed on.")
+                break
 
             if display_text.is_jumping():
                 jump_id = display_text.get_jump_to()
@@ -107,12 +111,28 @@ class Dialogue():
         self.action_pending = False
         self.actions = {}
 
-    def process_event(self) -> None:
+    def process_event(self) -> bool:
+        continue_after_event = False
+
         if not self.event_pending or not isinstance(self.event, Event):
-            raise RuntimeError(f"An error occured while playing dialogue {self.name}: tried to process event, but no event is pending.")
-        response = EVENT_BUS.publish(self.event)
+            raise RuntimeError(f"An error occured while playing dialogue {self.name}: tried to process event, but no event is pending")
+        
+        response = EVENT_BUS.publish(self.event).get_data(Response.TYPES.DIALOGUE_EVENT_RESPONSE)
+        if len(self.event_answers) > 0 and response not in self.event_answers:
+            raise RuntimeError(f"An error occured while playing dialogue {self.name}: tried to process event {self.event.type}, the event response {response} is not in the event answers {self.event_answers}")
+        elif len(self.event_answers) > 0:
+            # react to event response
+            next_id = self.event_answers[response]
+            next_index = self.id_index_map.get(next_id, None)
+            if next_index is None:
+                raise RuntimeError(f"An error occured while playing dialogue {self.name}: tried to process response {response} of event {self.event.type}, but no entry with the target id {next_id} was found.")
+            self.current_index = next_index
+            continue_after_event = True
+
         self.event_pending = False
         self.event = None
+        self.event_answers = {}
+        return continue_after_event
     
 class DialogueLibrary():
     _instance = None

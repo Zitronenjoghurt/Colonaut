@@ -28,6 +28,7 @@ class DisplayText:
             jump_to: Optional[str] = None, 
             event: Optional[str] = None,
             event_data: Any = None,
+            event_response: Optional[dict] = None,
             variations: bool = False
         ) -> None:
         if actions is None:
@@ -44,6 +45,8 @@ class DisplayText:
             line_symbol = True
         if newline is None:
             newline = True
+        if event_response is None:
+            event_response = {}
 
         if character and character not in self.CHARACTER_SPACES:
             raise ValueError(f"Character {character} does not exist.")
@@ -68,6 +71,7 @@ class DisplayText:
         self.jump_to = jump_to
         self.event = event
         self.event_data = event_data
+        self.event_reponse = event_response
 
         # When variations is true, it will choose a random text from the list of texts
         self.variations = variations
@@ -89,6 +93,7 @@ class DisplayText:
         jump_to = data.get("jump_to", None)
         event = data.get("event", None)
         event_data = data.get("event_data", None)
+        event_response = data.get("event_response", None)
         variations = data.get("variations", None)
         return DisplayText(
             text=text, 
@@ -103,6 +108,7 @@ class DisplayText:
             jump_to=jump_to,
             event=event,
             event_data=event_data,
+            event_response=event_response,
             variations=variations
         )
 

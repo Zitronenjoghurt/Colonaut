@@ -163,6 +163,9 @@ class ShipConsole(ctk.CTkFrame):
             if self.current_dialogue.waiting_for_action():
                 self.set_dialogue_actions(self.current_dialogue.get_action_labels())
             if self.current_dialogue.has_pending_event():
-                self.current_dialogue.process_event()
+                do_continue = self.current_dialogue.process_event()
+                if do_continue:
+                    self.write_texts(self.current_dialogue.get_texts())
+                    return
             if self.current_dialogue.is_finished():
                 self.current_dialogue = None

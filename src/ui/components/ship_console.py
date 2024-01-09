@@ -106,7 +106,7 @@ class ShipConsole(ctk.CTkFrame):
         self.console_text.see('end')
         self.console_text.configure(state='disabled')
 
-    def queue_message(self, message: str, tag: str, line_delay=800, char_delay=25, newline=False):
+    def queue_message(self, message: str, tag: str, line_delay=800, char_delay=15, newline=False):
         if newline:
             message += '\n'
         for char in message:

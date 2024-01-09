@@ -17,6 +17,7 @@ class EventTypes:
     SHIP_UPGRADE_SYSTEM = "ship_upgrade_system"
     SOLAR_PANEL_RETRIEVE_CHARGE_CAPACITY = "solar_panel_retrieve_charge_capacity"
     UI_CLOSE_SYSTEM_WINDOW = "ui_close_system_window"
+    UI_FINISH_JUMP = "ui_finish_jump"
     UI_OPEN_SYSTEM_WINDOW = "ui_open_system_window"
     UI_START_PLANET_VIEW_EMERGENCY = "ui_start_planet_view_emergency"
     UI_STOP_PLANET_VIEW_EMERGENCY = "ui_stop_planet_view_emergency"

@@ -1,33 +1,50 @@
 {
     "options": {
-        "char_delay": 25,
-        "line_delay": 750,
+        "char_delay": 15,
+        "line_delay": 100,
         "tag": "computer"
     },
     "text": [
         {
             "text": ["JUMP SEQUENCE INITIATED..."],
-            "character": "nexus"
+            "character": "nexus",
+            "line_delay": 500
         },
         {
-            "text": ["Power grid check"],
+            "text": ["Power grid ready"],
             "character": "energy"
         },
         {
-            "text": ["Sensor systems check"],
+            "text": ["Sensor systems ready"],
             "character": "sensor"
         },
         {
+            "text": ["Life support ready"],
+            "character": "lifesupport"
+        },
+        {
             "text": [
-                "SYSTEM CHECKUP COMPLETED", 
-                "JUMP DRIVE CHARGED", 
-                "3...", 
-                "2...", 
-                "1...", 
-                "JUMP", 
-                "WE WILL ARRIVE AT OUR NEXT DESTINATION SHORTLY"
+                "SYSTEM CHECKUP COMPLETED"
             ],
-            "character": "nexus"
+            "character": "nexus",
+            "line_delay": 500
+        },
+        {
+            "text": [
+                "JUMP?"
+            ],
+            "character": "nexus",
+            "line_delay": 500,
+            "actions": {"Jump": "jump"}
+        },
+        {
+            "id": "jump",
+            "text": [
+                "JUMP!"
+            ],
+            "character": "nexus",
+            "line_delay": 1000,
+            "event": "ui_finish_jump"
         }
     ]
 }

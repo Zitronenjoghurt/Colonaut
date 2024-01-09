@@ -170,12 +170,12 @@ class SensorShipSystem(ShipSystem):
         data_revealed = random.random()
         data = []
 
-        messages = [DisplayText(f"{LT.get(self.NAME)}: ", character= "sensor", line_delay=300, newline=False)]
+        messages = [DisplayText(f"{LT.get(self.NAME)}: ", character= "sensor", line_delay=50, newline=False)]
         if data_revealed < (self.reveal_chance/100) * hp_ratio:
             data = self.REVEALED_DATA
-            messages.append(DisplayText(LT.get(LT.KEYS.SUCCESS).upper(), tag="success", line_symbol=False))
+            messages.append(DisplayText(LT.get(LT.KEYS.SUCCESS).upper(), tag="success", line_delay=0, line_symbol=False))
         else:
-            messages.append(DisplayText(LT.get(LT.KEYS.FAILURE).upper(), tag="failure", line_symbol=False))
+            messages.append(DisplayText(LT.get(LT.KEYS.FAILURE).upper(), tag="failure", line_delay=0, line_symbol=False))
 
         response = Response.create(data, Response.TYPES.SCANNER_RESULT)
         response.add_data(messages, Response.TYPES.SHIP_STATUS_LOG_ENTRY)

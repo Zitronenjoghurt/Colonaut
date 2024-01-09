@@ -37,6 +37,7 @@ class UISystem(BaseEventSubscriber):
         
         subscriptions = {
             Event.TYPES.UI_CLOSE_SYSTEM_WINDOW: self.close_system_window,
+            Event.TYPES.UI_FINISH_JUMP: self.finish_jump,
             Event.TYPES.UI_OPEN_SYSTEM_WINDOW: self.open_system_window,
             Event.TYPES.UI_START_PLANET_VIEW_EMERGENCY: self.on_activate_planet_view_emergency,
             Event.TYPES.UI_STOP_PLANET_VIEW_EMERGENCY: self.on_deactivate_planet_view_emergency,
@@ -125,4 +126,8 @@ class UISystem(BaseEventSubscriber):
     
     def update_system_dashboard(self) -> Response:
         self.screens["planet_view"].update_system_dashboard()
+        return Response.create()
+    
+    def finish_jump(self) -> Response:
+        self.screens["planet_view"].finish_jump()
         return Response.create()

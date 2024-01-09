@@ -1,11 +1,14 @@
 from typing import Optional
 
-from src.ui.display_text import DisplayText
+from src.constants.custom_exceptions import EventTypeNotSubscribedError
+from src.constants.locale_translator import LocaleTranslator
 from src.events.event import Event
 from src.events.response import Response
 from src.space_ship.ship_system import ShipSystem
 from src.space_ship.upgrade_model import UpgradeModel
-from src.constants.custom_exceptions import EventTypeNotSubscribedError
+from src.ui.display_text import DisplayText
+
+LT = LocaleTranslator.get_instance()
 
 class SolarPanelSystem(ShipSystem):
     NAME = "solar_panel"
@@ -44,12 +47,12 @@ class SolarPanelSystem(ShipSystem):
         charge_event = Event(Event.TYPES.BATTERY_CHARGE, amount=self.charge_capacity)
         try:
             battery_message = self.publish_event(event=charge_event).get_data(Response.TYPES.SHIP_STATUS_LOG_ENTRY)
-            messages = [DisplayText(f"Solar panels collected {self.charge_capacity} energy units", character="energy")]
+            messages = [DisplayText(LT.get(LT.KEYS.SOLAR_PANEL_COLLECTED_ENERGY, energy=self.charge_capacity), character="energy")]
             if battery_message:
                 messages.append(battery_message)
             return Response.create(messages, Response.TYPES.SHIP_STATUS_LOG_ENTRY).fuse(parent_response)
         except EventTypeNotSubscribedError:
-            message = DisplayText("Solar panel has no battery to charge", character="energy")
+            message = DisplayText(LT.get(LT.KEYS.SOLAR_PANEL_NO_BATTERY), character="energy")
             return Response.create(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY).fuse(parent_response)
     
     def get_charge_capacity(self) -> Response:

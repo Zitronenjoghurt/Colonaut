@@ -6,7 +6,7 @@ LANGUAGES = ["en"]
 
 class LocaleTranslator():
     _instance = None
-    LOCALES = Locales
+    KEYS = Locales
     EXISTING_KEYS = Locales.get_existing_keys()
 
     def __init__(self) -> None:
@@ -48,7 +48,7 @@ class LocaleTranslator():
             LocaleTranslator._instance = LocaleTranslator()
         return LocaleTranslator._instance
     
-    def get(self, key: str, language: str = "en") -> str:
+    def get(self, key: str, language: str = "en", **kwargs) -> str:
         language_translations = self.translations.get(language, None)
         if language_translations is None:
             raise ValueError(f"No translations found for language {language}")
@@ -57,5 +57,11 @@ class LocaleTranslator():
         if translation is None:
             print(f"No translation found for key {key}")
             translation = f"key_{key}"
+
+        if kwargs:
+            try:
+                translation = translation.format(**kwargs)
+            except KeyError as e:
+                raise RuntimeError(f"An error occured while filling the placeholders in key {key} of language {language}: {e}")
         
         return translation

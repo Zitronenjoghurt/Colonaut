@@ -1,0 +1,8 @@
+{
+    "battery_charged_by": "Battery charged by {charge}",
+    "battery_distributed_energy": "The battery has distributed {drawn_energy} energy",
+    "battery_fully_charged": "Battery fully charged",
+    "battery_warning_net_negative_energy": "WARNING! WE ARE USING MORE ENERGY THAN WE ARE GENERATING",
+    "solar_panel_collected_energy": "Solar panels collected {energy} energy units",
+    "solar_panel_no_battery": "Solar panel has no battery to charge"
+}

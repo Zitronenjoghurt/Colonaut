@@ -115,7 +115,7 @@ class SystemWindow(ctk.CTkFrame):
         information_frame.rowconfigure(1, weight=5)
         information_frame.pack(pady=(25,0))
         
-        stats_label = ctk.CTkLabel(information_frame, text='STATS', font=("ELNATH", 24), fg_color=secondary_background)
+        stats_label = ctk.CTkLabel(information_frame, text=LT.get(LT.KEYS.STATS).upper(), font=("ELNATH", 24), fg_color=secondary_background)
         stats_label.grid(column=0, row=0, sticky='nsew')
 
         stats_frame = ctk.CTkFrame(information_frame, fg_color=primary_background)
@@ -124,7 +124,7 @@ class SystemWindow(ctk.CTkFrame):
         self.stats = DataList(master=stats_frame, data=[], font_size=18)
         self.stats.pack(pady=10, padx=10, expand=True, fill='both')
 
-        additional_info_label = ctk.CTkLabel(information_frame, text='ADDITIONAL INFORMATION', font=("ELNATH", 24, "bold"), fg_color=secondary_background)
+        additional_info_label = ctk.CTkLabel(information_frame, text=LT.get(LT.KEYS.ADDITIONAL_INFORMATION).upper(), font=("ELNATH", 24, "bold"), fg_color=secondary_background)
         additional_info_label.grid(column=1, row=0)
 
         additional_info_frame = ctk.CTkFrame(information_frame, fg_color=primary_background)

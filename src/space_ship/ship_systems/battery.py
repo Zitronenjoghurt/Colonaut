@@ -1,12 +1,15 @@
 from typing import Optional
 
 from src.constants.custom_exceptions import EventTypeNotSubscribedError
+from src.constants.locale_translator import LocaleTranslator
 from src.events.event import Event
 from src.events.response import Response
 from src.space_ship.ship_system import ShipSystem
 from src.space_ship.upgrade_model import UpgradeModel
 from src.ui.display_text import DisplayText
 from src.utils.validator import validate_int
+
+LT = LocaleTranslator.get_instance()
 
 class BatterySystem(ShipSystem):
     NAME = "battery"
@@ -41,9 +44,9 @@ class BatterySystem(ShipSystem):
             charge = self.max_capacity - initial_capacity
             self.capacity = self.max_capacity
 
-        message = f"Battery charged by {charge}"
+        message = LT.get(LT.KEYS.BATTERY_CHARGED_BY, charge=charge)
         if charge == 0:
-            message = "Battery fully charged"
+            message = LT.get(LT.KEYS.BATTERY_FULLY_CHARGED)
         message = DisplayText(message, character="energy")
         
         return Response.create(message, Response.TYPES.SHIP_STATUS_LOG_ENTRY)
@@ -93,9 +96,9 @@ class BatterySystem(ShipSystem):
         except EventTypeNotSubscribedError:
             charge_capacity = None
 
-        messages = [DisplayText(f"The battery has distributed {self.drawn_energy} energy", character="energy")]
+        messages = [DisplayText(LT.get(LT.KEYS.BATTERY_DISTRIBUTED_ENERGY, drawn_energy=self.drawn_energy), character="energy")]
         if isinstance(charge_capacity, int) and charge_capacity < self.drawn_energy:
-            messages.append(DisplayText("WARNING! WE ARE USING MORE ENERGY THAN WE ARE GENERATING", character="energy", tag="warning"))
+            messages.append(DisplayText(LT.get(LT.KEYS.BATTERY_WARNING_NET_NEGATIVE_ENERGY), character="energy", tag="warning"))
         
         self.drawn_energy = 0
         return Response.create(messages, Response.TYPES.BATTERY_DRAWN_ENERGY_LOG)

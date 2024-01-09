@@ -1,3 +1,4 @@
+import random
 from typing import Any, Optional
 from src.constants.config import Config
 
@@ -26,7 +27,8 @@ class DisplayText:
             id: Optional[str] = None,
             jump_to: Optional[str] = None, 
             event: Optional[str] = None,
-            event_data: Any = None
+            event_data: Any = None,
+            variations: bool = False
         ) -> None:
         if actions is None:
             actions = {}
@@ -67,6 +69,9 @@ class DisplayText:
         self.event = event
         self.event_data = event_data
 
+        # When variations is true, it will choose a random text from the list of texts
+        self.variations = variations
+
     @staticmethod
     def from_dict(data) -> 'DisplayText':
         text = data.get("text", None)
@@ -84,6 +89,7 @@ class DisplayText:
         jump_to = data.get("jump_to", None)
         event = data.get("event", None)
         event_data = data.get("event_data", None)
+        variations = data.get("variations", None)
         return DisplayText(
             text=text, 
             actions=actions, 
@@ -96,7 +102,8 @@ class DisplayText:
             id=id,
             jump_to=jump_to,
             event=event,
-            event_data=event_data
+            event_data=event_data,
+            variations=variations
         )
 
     def add_text(self, text: str|list[str]) -> None:
@@ -107,13 +114,20 @@ class DisplayText:
     
     def get_texts(self) -> list[dict]:
         result = []
-        for i, text in enumerate(self.texts):
+
+        texts = self.texts
+        if self.variations:
+            texts = random.choice(self.texts)
+
+        for i, text in enumerate(texts):
             if self.line_symbol and self.character:
                 result.append({"text": self.character.upper(), "tag": self.character, "char_delay": 0, "line_delay": 0, "newline": False})
                 result.append({"text": " "*self.CHARACTER_SPACES[self.character]+"> ", "tag": "computer", "char_delay": 0, "line_delay": 0, "newline": False})
             elif self.line_symbol:
                 result.append({"text": "> ", "tag": "computer", "char_delay": 0, "line_delay": 0, "newline": False})
-            if i+1 == len(self.texts) and self.has_actions():
+
+            # Remove delay for last text when actions are available to instantly show action buttons
+            if i+1 == len(texts) and self.has_actions():
                 result.append({"text": text, "tag": self.tag, "char_delay": self.char_delay, "line_delay": 0, "newline": self.newline})
             else:
                 result.append({"text": text, "tag": self.tag, "char_delay": self.char_delay, "line_delay": self.line_delay, "newline": self.newline})

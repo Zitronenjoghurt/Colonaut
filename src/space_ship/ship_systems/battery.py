@@ -13,6 +13,8 @@ LT = LocaleTranslator.get_instance()
 
 class BatterySystem(ShipSystem):
     NAME = "battery"
+    DASHBOARD_ORDER_PRIORITY = 90
+    WORK_ORDER_PRIORITY = -20
 
     def __init__(self, upgrade_model: UpgradeModel, max_hp: int, max_capacity: int, power_usage: int = 0, hp: Optional[int] = None, capacity: Optional[int] = None) -> None:
         subscriptions = {

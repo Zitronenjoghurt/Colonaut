@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from typing import Optional
 from src.space_ship.ship_system import ShipSystem
 from src.space_ship.ship_system_factory import ShipSystemFactory
@@ -19,7 +20,12 @@ class SpaceShip(BaseEventSubscriber):
         super().__init__(subscriptions=subscriptions)
         if systems is None:
             systems = {}
-        self.systems: dict[str, ShipSystem] = systems
+        sorted_systems: list[tuple[str, ShipSystem]] = sorted(systems.items(), key=lambda system: system[1].WORK_ORDER_PRIORITY, reverse=True)
+        self.systems: dict[str, ShipSystem] = dict(sorted_systems)
+
+        # Ship system dashboard order priority
+        sorted_systems : list[tuple[str, ShipSystem]] = sorted(systems.items(), key=lambda system: system[1].DASHBOARD_ORDER_PRIORITY, reverse=True)
+        self._systems_dashboard_order = dict(sorted_systems)
 
         # The unveiled planet data types
         self.scanner_results: list[str] = []
@@ -106,7 +112,7 @@ class SpaceShip(BaseEventSubscriber):
     def get_status(self) -> Response:
         data = {}
         
-        for system_name, system in self.systems.items():
+        for system_name, system in self._systems_dashboard_order.items():
             data[system_name] = system.get_status().get_data()
         response = Response.create(data, Response.TYPES.SHIP_DATA)
 

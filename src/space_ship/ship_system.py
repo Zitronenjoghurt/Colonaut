@@ -15,6 +15,8 @@ LT = LocaleTranslator.get_instance()
 
 class ShipSystem(BaseEventSubscriber):
     NAME = "default"
+    DASHBOARD_ORDER_PRIORITY = 0
+    WORK_ORDER_PRIORITY = 0
 
     def __init__(self, upgrade_model: UpgradeModel, max_hp: int, power_usage: int, hp: Optional[int] = None, subscriptions: Optional[dict] = None) -> None:
         super().__init__(subscriptions=subscriptions)

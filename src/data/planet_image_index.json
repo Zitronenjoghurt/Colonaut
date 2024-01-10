@@ -1,5 +1,32 @@
 {
     "ice_001": {
         "tags": ["ice", "clouds"]
+    },
+    "ice_002": {
+        "tags": ["ice", "clouds"]
+    },
+    "ice_003": {
+        "tags": ["ice", "clouds"]
+    },
+    "ice_004": {
+        "tags": ["ice", "clouds"]
+    },
+    "ice_005": {
+        "tags": ["ice", "clouds"]
+    },
+    "ice_006": {
+        "tags": ["ice"]
+    },
+    "ice_007": {
+        "tags": ["ice"]
+    },
+    "ice_008": {
+        "tags": ["ice"]
+    },
+    "ice_009": {
+        "tags": ["ice"]
+    },
+    "ice_010": {
+        "tags": ["ice"]
     }
 }

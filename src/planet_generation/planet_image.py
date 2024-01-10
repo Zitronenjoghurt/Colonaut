@@ -8,7 +8,18 @@ PLANET_IMAGE_INDEX = construct_path("src/data/planet_image_index.json")
 PLANET_IMAGE_SOURCE = construct_path("src/assets/planets/{name}.gif")
 
 class PlanetImage():
-    def __init__(self, name: str, tags: list[str], path: str, height: int, width: int, frame_count: int, frame: Optional[int] = None, angle: Optional[int] = None) -> None:
+    def __init__(
+            self, 
+            name: str, 
+            tags: list[str], 
+            path: str, 
+            height: int, 
+            width: int, 
+            frame_count: int, 
+            frame: Optional[int] = None, 
+            angle: Optional[int] = None,
+            flip_h: Optional[bool] = None,
+            flip_v: Optional[bool] = None) -> None:
         self.name = name
         self.tags = tags
         self.path = path
@@ -17,6 +28,8 @@ class PlanetImage():
         self.frame_count = frame_count
         self.frame = frame
         self.angle = angle
+        self.flip_h = flip_h
+        self.flip_v = flip_v
 
     def random_frame(self) -> int:
         return random.randint(0, self.frame_count - 1)
@@ -27,6 +40,8 @@ class PlanetImage():
     def copy_random_self(self) -> 'PlanetImage':
         random_frame = self.random_frame()
         random_angle = self.random_angle()
+        flip_h = random.choice([True, False])
+        flip_v = random.choice([True, False])
 
         self_copy = PlanetImage(
             name=self.name,
@@ -36,20 +51,18 @@ class PlanetImage():
             width=self.width,
             frame_count=self.frame_count,
             frame=random_frame,
-            angle=random_angle
+            angle=random_angle,
+            flip_h=flip_h,
+            flip_v=flip_v
         )
 
         return self_copy
 
     def get_image(self) -> Image.Image:
-        if self.frame:
-            random_frame = self.frame
-        else:
-            random_frame = self.random_frame()
-        if self.angle:
-            random_angle = self.angle
-        else:
-            random_angle = self.random_angle()
+        random_frame = self.frame if self.frame else self.random_frame()
+        random_angle = self.angle if self.angle else self.random_angle()
+        flip_h = self.flip_h if self.flip_h else random.choice([True, False])
+        flip_v = self.flip_v if self.flip_v else random.choice([True, False])
 
         with Image.open(self.path) as gif:
             gif.seek(random_frame)

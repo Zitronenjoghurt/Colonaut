@@ -2,12 +2,14 @@ import random
 import src.utils.physics as phy
 from typing import Optional
 from src.constants.locale_translator import LocaleTranslator
+from src.planet_generation.planet_image import PlanetImageLibrary, PlanetImage
 from src.planet_generation.planet_type import PlanetType
 from src.planet_generation.unit_value import UnitValue
 from src.utils.gibberish import gibber
 from src.utils.validator import validate_of_type
 
 LT = LocaleTranslator.get_instance()
+PLANET_IMAGE_LIBRARY = PlanetImageLibrary.get_instance()
 
 class Planet():
     # Which properties will be shown in the data window
@@ -45,6 +47,8 @@ class Planet():
         
         for tag in possible_tags:
             self.handle_possible_tag(tag)
+
+        self.image: Optional[PlanetImage] = PLANET_IMAGE_LIBRARY.get_by_tags(self.tags)
 
         self.mass.validate_of_class("mass")
         self.volume.validate_of_class("volume")

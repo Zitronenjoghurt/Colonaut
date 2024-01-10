@@ -29,5 +29,9 @@
             {"min": 3e9, "max": 7e9},
             {"min": 1e10, "max": 1e12}
         ]
+    },
+    "clouds": {
+        "weights": [95, 5],
+        "values": [false, true]
     }
 }

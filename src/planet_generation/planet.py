@@ -5,6 +5,7 @@ from src.constants.locale_translator import LocaleTranslator
 from src.planet_generation.planet_type import PlanetType
 from src.planet_generation.unit_value import UnitValue
 from src.utils.gibberish import gibber
+from src.utils.validator import validate_of_type
 
 LT = LocaleTranslator.get_instance()
 
@@ -12,20 +13,38 @@ class Planet():
     # Which properties will be shown in the data window
     DATA_PROPERTIES = ["temperature", "radius", "density", "rot_period", "orb_period", "mass", "volume"]
 
-    def __init__(self, temperature: UnitValue, radius: UnitValue, density: UnitValue, rot_period: UnitValue, orb_period: UnitValue) -> None:
+    def __init__(
+            self, 
+            temperature: UnitValue, 
+            radius: UnitValue, 
+            density: UnitValue, 
+            rot_period: UnitValue, 
+            orb_period: UnitValue, 
+            clouds: bool, 
+            tags: list[str], 
+            possible_tags: list[str]
+        ) -> None:
         temperature.validate_of_class("temperature")
         radius.validate_of_class("length")
         density.validate_of_class("density")
         rot_period.validate_of_class("time")
         orb_period.validate_of_class("time")
+        validate_of_type(clouds, bool)
+        validate_of_type(tags, list)
+        validate_of_type(possible_tags, list)
 
         self.temperature = temperature
         self.radius = radius
         self.density = density
         self.rot_period = rot_period
         self.orb_period = orb_period
+        self.clouds = clouds
         self.mass = phy.sphere_mass(radius=radius, density=density)
         self.volume = phy.sphere_volume(radius=radius)
+        self.tags = tags
+        
+        for tag in possible_tags:
+            self.handle_possible_tag(tag)
 
         self.mass.validate_of_class("mass")
         self.volume.validate_of_class("volume")
@@ -34,23 +53,33 @@ class Planet():
         properties = self.get_properties()
         string = "\n".join([f"{property[0]}: {property[1]}" for property in properties])
         return string
+    
+    def handle_possible_tag(self, tag: str) -> None:
+        match tag:
+            case "clouds":
+                if self.clouds:
+                    self.tags.append(tag)
         
     @staticmethod
-    def from_dict(data: dict) -> 'Planet':
+    def from_dict(data: dict, required_tags: list[str], possible_tags: list[str]) -> 'Planet':
         retrieved_data = {
             "temperature": data.get("temperature", UnitValue.from_zero("temperature")),
             "radius": data.get("radius", UnitValue.from_zero("length")),
             "density": data.get("density", UnitValue.from_zero("density")),
             "rot_period": data.get("rot_period", UnitValue.from_zero("time")),
-            "orb_period": data.get("orb_period", UnitValue.from_zero("time"))
+            "orb_period": data.get("orb_period", UnitValue.from_zero("time")),
+            "clouds": data.get("clouds", False)
         }
+
+        retrieved_data["tags"] = required_tags
+        retrieved_data["possible_tags"] = possible_tags
 
         for key, value in retrieved_data.items():
             if not isinstance(value, UnitValue):
                 try:
                     retrieved_data[key] = UnitValue.from_any(value)
                 except (ValueError, TypeError) as e:
-                    raise ValueError(f"An error occured while trying to process {key} {value}: {e}")
+                    retrieved_data[key] = value
 
         return Planet(**retrieved_data)
     
@@ -91,13 +120,28 @@ WEIGHTS = {
 }
 TOTAL_WEIGHT = sum(WEIGHTS.values())
 
+# Tags all planets of this type will get
+REQUIRED_TAGS = {
+    "ice": ["ice"]
+}
+
+# Tags all planets of this type CAN get depending on specific factors
+POSSIBLE_TAGS = {
+    "ice": ["clouds"]
+}
+
 class PlanetGenerator:
     @staticmethod
     def generate() -> Planet:
         type_name = PlanetGenerator.random_planet_type()
         planet_type = PlanetType.create(type_name=type_name)
         planet_data = planet_type.generate_planetary_data()
-        return Planet.from_dict(data=planet_data)
+
+        return Planet.from_dict(
+            data=planet_data,
+            required_tags=REQUIRED_TAGS[type_name],
+            possible_tags=POSSIBLE_TAGS[type_name]
+        )
 
     @staticmethod
     def random_planet_type() -> str:

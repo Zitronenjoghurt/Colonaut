@@ -14,12 +14,14 @@ class PlanetType():
                  random_radius: Probability, 
                  random_density: Probability, 
                  random_rot_period: Probability,
-                 random_orb_period: Probability) -> None:
+                 random_orb_period: Probability,
+                 clouds: Probability) -> None:
         self.random_temperature = random_temperature
         self.random_radius = random_radius
         self.random_density = random_density
         self.random_rot_period = random_rot_period
         self.random_orb_period = random_orb_period
+        self.clouds = clouds
         
     @staticmethod
     def from_dict(data: dict) -> 'PlanetType':
@@ -28,13 +30,15 @@ class PlanetType():
         density = data.get("density", None)
         rot_period = data.get("rotational_period", None)
         orb_period = data.get("orbital_period", None)
+        clouds = data.get("clouds", False)
 
         planet_type = PlanetType(
             random_temperature = Probability.create(temperature),
             random_radius = Probability.create(radius),
             random_density = Probability.create(density),
             random_rot_period = Probability.create(rot_period),
-            random_orb_period = Probability.create(orb_period)
+            random_orb_period = Probability.create(orb_period),
+            clouds=Probability.create(clouds)
         )
 
         return planet_type
@@ -61,6 +65,7 @@ class PlanetType():
             "radius": UnitValue(self.random_radius.generate(), CONFIG.CONFIG_UNITS["length"]),
             "density": UnitValue(self.random_density.generate(), CONFIG.CONFIG_UNITS["density"]),
             "rot_period": UnitValue(self.random_rot_period.generate(), CONFIG.CONFIG_UNITS["time"]),
-            "orb_period": UnitValue(self.random_orb_period.generate(), CONFIG.CONFIG_UNITS["time"])
+            "orb_period": UnitValue(self.random_orb_period.generate(), CONFIG.CONFIG_UNITS["time"]),
+            "clouds": self.clouds.generate()
         }
         return data

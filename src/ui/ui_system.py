@@ -36,8 +36,10 @@ class UISystem(BaseEventSubscriber):
         self.screens["main_menu"].lift()
         
         subscriptions = {
+            Event.TYPES.UI_CLOSE_PLANET_REPORT_WINDOW: self.close_planet_report_window,
             Event.TYPES.UI_CLOSE_SYSTEM_WINDOW: self.close_system_window,
             Event.TYPES.UI_FINISH_JUMP: self.finish_jump,
+            Event.TYPES.UI_OPEN_PLANET_REPORT_WINDOW: self.open_planet_report_window,
             Event.TYPES.UI_OPEN_SYSTEM_WINDOW: self.open_system_window,
             Event.TYPES.UI_START_PLANET_VIEW_EMERGENCY: self.on_activate_planet_view_emergency,
             Event.TYPES.UI_STOP_PLANET_VIEW_EMERGENCY: self.on_deactivate_planet_view_emergency,
@@ -122,6 +124,14 @@ class UISystem(BaseEventSubscriber):
 
     def close_system_window(self) -> Response:
         self.screens["planet_view"].close_system_window()
+        return Response.create()
+    
+    def open_planet_report_window(self) -> Response:
+        self.screens["planet_view"].open_planet_report_window()
+        return Response.create()
+    
+    def close_planet_report_window(self) -> Response:
+        self.screens["planet_view"].close_planet_report_window()
         return Response.create()
     
     def update_system_dashboard(self) -> Response:

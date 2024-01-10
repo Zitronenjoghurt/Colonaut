@@ -1,10 +1,12 @@
 import customtkinter as ctk
-from typing import Optional
-import src.ui.components as Components
-from src.ui.dialogue import DialogueLibrary
+from src.constants.locale_translator import LocaleTranslator
 from src.events.event import Event
 from src.events.response import Response
+import src.ui.components as Components
+from src.ui.dialogue import DialogueLibrary
 from src.ui.screen import Screen
+
+LT = LocaleTranslator.get_instance()
 
 class PlanetViewScreen(Screen):
     def __init__(self, ui_system):
@@ -13,22 +15,28 @@ class PlanetViewScreen(Screen):
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=2)
         self.columnconfigure(2, weight=1)
-        self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
+        self.rowconfigure(0, weight=1, minsize=450)
+        self.rowconfigure(1, weight=1, minsize=450)
 
         self.data_list = Components.DataList(self, [], width=400, height=450)
-        self.data_list.grid(row=0, column=0, pady=(60, 0), padx=(10, 0), sticky="nw")
+        self.data_list.grid(row=0, column=0, pady=(60, 10), padx=15, sticky="nsew")
 
         self.can_jump = False
         self.action_buttons = ctk.CTkFrame(self, width=400, height=450)
-        self.action_buttons.grid(row=1, column=0, sticky="sw", padx=(10,0), pady=(0, 60))
+        self.action_buttons.grid(row=1, column=0, sticky="nsew", pady=(10, 60), padx=15)
         self.action_buttons.grid_propagate(False)
+
+        self.planet_report_button = ctk.CTkButton(self.action_buttons, text=LT.get(LT.KEYS.PLANET_REPORT), state='disabled', command=self.open_planet_report_window)
+        self.planet_report_button.pack()
 
         self.system_dashboard = Components.ShipSystemDashboard(self, {})
         self.system_dashboard.grid(row=0, column=2, rowspan=2, pady=(60, 60), padx=(15, 15), sticky="nsew")
 
         self.system_window = Components.SystemWindow(self)
         self.system_window.grid(row=0, column=1, rowspan=2, pady=60, sticky="nsew")
+
+        self.planet_report_window = Components.PlanetReportWindow(self)
+        self.planet_report_window.grid(row=0, column=1, rowspan=2, pady=60, sticky="nsew")
 
         self.ship_console = Components.ShipConsole(self)
         self.ship_console.grid(row=0, column=1, rowspan=2, pady=60, sticky="nsew")
@@ -64,6 +72,7 @@ class PlanetViewScreen(Screen):
             self.system_dashboard.update_dashboard(ship_data)
 
     def jump(self) -> None:
+        self.planet_report_button.configure(state="disabled")
         if self.can_jump:
             self.can_jump = False
             jump_dialogue = self.dialogue_library.get_dialogue_by_name("ship_jump")
@@ -75,6 +84,7 @@ class PlanetViewScreen(Screen):
     def finish_jump(self) -> None:
         self.update_data()
         self.can_jump = True
+        self.planet_report_button.configure(state="normal")
 
     def on_keypress(self, event) -> None:
         super().on_keypress(event)
@@ -107,6 +117,12 @@ class PlanetViewScreen(Screen):
     def close_system_window(self) -> None:
         self.ship_console.lift()
 
+    def open_planet_report_window(self) -> None:
+        self.planet_report_window.lift()
+
+    def close_planet_report_window(self) -> None:
+        self.ship_console.lift()
+
     def start_emergency_animation(self) -> None:
         self.emergency = True
         self.fade_to_red()
@@ -115,7 +131,7 @@ class PlanetViewScreen(Screen):
         self.emergency = False
         self.configure(fg_color=self.default_fg_color)
 
-    def fade_to_red(self, step=0):
+    def fade_to_red(self, step=0) -> None:
         if not self.emergency:
             return
         if step <= 125:
@@ -125,7 +141,7 @@ class PlanetViewScreen(Screen):
         else:
             self.fade_to_black()
 
-    def fade_to_black(self, step=125):
+    def fade_to_black(self, step=125) -> None:
         if not self.emergency:
             return
         if step >= 0:

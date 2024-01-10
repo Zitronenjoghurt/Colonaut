@@ -58,6 +58,7 @@ class Locales:
     ADDITIONAL_INFORMATION = "additional_information"
     INSPIRED_BY_SEEDSHIP = "inspired_by_seedship"
     OPTIONS = "options"
+    PLANET_REPORT = "planet_report"
     QUIT = "quit"
     START_GAME = "start_game"
     STATS = "stats"

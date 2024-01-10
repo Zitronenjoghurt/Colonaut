@@ -18,10 +18,12 @@ class PlanetImage():
 
     def get_image(self) -> Image.Image:
         random_frame = random.randint(0, self.frame_count - 1)
+        random_angle = random.randint(0, 360)
         with Image.open(self.path) as gif:
             gif.seek(random_frame)
             if gif.mode == 'P':
                 gif = gif.convert('RGB')
+            gif = gif.rotate(random_angle)
             return gif.copy()
         
     def get_ctk_image(self, height: Optional[int] = None, width: Optional[int] = None) -> CTkImage:

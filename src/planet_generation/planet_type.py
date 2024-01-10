@@ -7,6 +7,8 @@ CONFIG = Config.get_instance()
 PLANET_TYPES_FILE_PATH = construct_path("src/data/planet_types/{type_name}.json")
 
 class PlanetType():
+    LIBRARY = {}
+
     def __init__(self, 
                  random_temperature: Probability, 
                  random_radius: Probability, 
@@ -39,6 +41,9 @@ class PlanetType():
 
     @staticmethod
     def create(type_name: str) -> 'PlanetType':
+        if type_name in PlanetType.LIBRARY:
+            return PlanetType.LIBRARY[type_name]
+        
         file_path = PLANET_TYPES_FILE_PATH.format(type_name=type_name)
         
         try:
@@ -46,7 +51,9 @@ class PlanetType():
         except FileNotFoundError:
             raise ValueError(f"Planet type {type_name} does not exist.")
         
-        return PlanetType.from_dict(data=type_dict)
+        planet_type = PlanetType.from_dict(data=type_dict)
+        PlanetType.LIBRARY[type_name] = planet_type
+        return planet_type
     
     def generate_planetary_data(self) -> dict[str, UnitValue]:
         data = {

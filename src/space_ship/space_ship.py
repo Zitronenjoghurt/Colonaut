@@ -8,7 +8,7 @@ from src.events.response import Response
 from src.events.event_subscriber import BaseEventSubscriber
 
 class SpaceShip(BaseEventSubscriber):
-    def __init__(self, systems: Optional[dict[str, ShipSystem]] = None) -> None:
+    def __init__(self, systems: Optional[dict[str, ShipSystem]] = None, scanner_results: Optional[list[str]] = None) -> None:
         subscriptions = {
             Event.TYPES.SHIP_RETRIEVE_SYSTEM: self.get_system,
             Event.TYPES.SHIP_DAMAGE_SYSTEM: self.damage_system,
@@ -20,6 +20,8 @@ class SpaceShip(BaseEventSubscriber):
         super().__init__(subscriptions=subscriptions)
         if systems is None:
             systems = {}
+        if scanner_results is None:
+            scanner_results = []
         sorted_systems: list[tuple[str, ShipSystem]] = sorted(systems.items(), key=lambda system: system[1].WORK_ORDER_PRIORITY, reverse=True)
         self.systems: dict[str, ShipSystem] = dict(sorted_systems)
 
@@ -28,7 +30,7 @@ class SpaceShip(BaseEventSubscriber):
         self._systems_dashboard_order = dict(sorted_systems)
 
         # The unveiled planet data types
-        self.scanner_results: list[str] = []
+        self.scanner_results: list[str] = scanner_results
 
         # The status log contain all messages that are printed to the console after the jump
         self.status_log: list[str] = []
@@ -39,11 +41,13 @@ class SpaceShip(BaseEventSubscriber):
         if systems_data is None:
             raise ValueError("Space ship data has no specified systems.")
         
+        scanner_results = data.get("scanner_results", None)
+        
         systems = {}
         for system_name, system_dict in systems_data.items():
             system = ShipSystemFactory.create_from_dict(system_name=system_name, data=system_dict)
             systems[system_name] = system
-        return SpaceShip(systems=systems)
+        return SpaceShip(systems=systems, scanner_results=scanner_results)
 
     def to_dict(self) -> Response:
         systems = {}
@@ -51,7 +55,8 @@ class SpaceShip(BaseEventSubscriber):
             systems[system.NAME] = system.to_dict().get_data()
         
         result = {
-            "systems": systems
+            "systems": systems,
+            "scanner_results": self.scanner_results
         }
         return Response.create(result)
     

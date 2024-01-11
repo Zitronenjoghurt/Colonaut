@@ -24,7 +24,8 @@ class Planet():
             orb_period: UnitValue, 
             clouds: bool, 
             tags: list[str], 
-            possible_tags: list[str]
+            possible_tags: list[str],
+            image: Optional[PlanetImage] = None
         ) -> None:
         temperature.validate_of_class("temperature")
         radius.validate_of_class("length")
@@ -48,7 +49,10 @@ class Planet():
         for tag in possible_tags:
             self.handle_possible_tag(tag)
 
-        self.image: Optional[PlanetImage] = PLANET_IMAGE_LIBRARY.get_by_tags(self.tags)
+        if image is None:
+            image = PLANET_IMAGE_LIBRARY.get_by_tags(self.tags)
+
+        self.image: Optional[PlanetImage] = image
 
         self.mass.validate_of_class("mass")
         self.volume.validate_of_class("volume")
@@ -65,27 +69,49 @@ class Planet():
                     self.tags.append(tag)
         
     @staticmethod
-    def from_dict(data: dict, required_tags: list[str], possible_tags: list[str]) -> 'Planet':
+    def from_dict(data: dict, possible_tags: Optional[list[str]] = None) -> 'Planet':
+        if possible_tags is None:
+            possible_tags = []
+
         retrieved_data = {
             "temperature": data.get("temperature", UnitValue.from_zero("temperature")),
             "radius": data.get("radius", UnitValue.from_zero("length")),
             "density": data.get("density", UnitValue.from_zero("density")),
             "rot_period": data.get("rot_period", UnitValue.from_zero("time")),
             "orb_period": data.get("orb_period", UnitValue.from_zero("time")),
-            "clouds": data.get("clouds", False)
+            "clouds": data.get("clouds", False),
+            "tags": data.get("tags", [])
         }
 
-        retrieved_data["tags"] = required_tags
-        retrieved_data["possible_tags"] = possible_tags
-
+        unit_values = ["temperature", "radius", "density", "rot_period", "orb_period"]
         for key, value in retrieved_data.items():
-            if not isinstance(value, UnitValue):
+            if key in unit_values and not isinstance(value, UnitValue):
                 try:
                     retrieved_data[key] = UnitValue.from_any(value)
                 except (ValueError, TypeError) as e:
-                    retrieved_data[key] = value
+                    raise ValueError(f"An error occured while initializing planet, trying to transform key {key} with value {value} to UnitValue: {e}")
+        
+        image_data = data.get("image", None)
+        if image_data:
+            retrieved_data["image"] = PlanetImage.from_dict(image_data)
+        retrieved_data["possible_tags"] = possible_tags
 
         return Planet(**retrieved_data)
+    
+    def to_dict(self) -> dict:
+        image = self.image if not self.image else self.image.to_dict()
+
+        data = {
+            "temperature": str(self.temperature),
+            "radius": str(self.radius),
+            "density": str(self.density),
+            "rot_period": str(self.rot_period),
+            "orb_period": str(self.orb_period),
+            "clouds": self.clouds,
+            "tags": self.tags,
+            "image": image
+        }
+        return data
     
     def get_properties(self, revealed_data: Optional[list[str]] = None) -> list[tuple[str, str]]:
         properties = []
@@ -147,9 +173,10 @@ class PlanetGenerator:
         planet_type = PlanetType.create(type_name=type_name)
         planet_data = planet_type.generate_planetary_data()
 
+        planet_data["tags"] = REQUIRED_TAGS[type_name]
+
         return Planet.from_dict(
             data=planet_data,
-            required_tags=REQUIRED_TAGS[type_name],
             possible_tags=POSSIBLE_TAGS[type_name]
         )
 

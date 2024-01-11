@@ -5,7 +5,7 @@ from PIL import Image
 from src.utils.file_operations import construct_path, file_to_dict
 
 PLANET_IMAGE_INDEX = construct_path("src/data/planet_image_index.json")
-PLANET_IMAGE_SOURCE = construct_path("src/assets/planets/{name}.gif")
+PLANET_IMAGE_SOURCE = "src/assets/planets/{name}.gif"
 
 class PlanetImage():
     def __init__(
@@ -30,6 +30,56 @@ class PlanetImage():
         self.angle = angle
         self.flip_h = flip_h
         self.flip_v = flip_v
+
+    @staticmethod
+    def from_dict(data: dict) -> 'PlanetImage':
+        retrieved_data = {
+            "name": data.get("name", None),
+            "tags": data.get("tags", None),
+            "path": data.get("path", None),
+            "height": data.get("height", None),
+            "width": data.get("width", None),
+            "frame_count": data.get("frame_count", None)
+        }
+
+        for key, value in retrieved_data.items():
+            if value is None:
+                raise ValueError(f"An error occured while initializing the planet image: missing {key} data")
+            
+        frame = data.get("frame", None)
+        angle = data.get("angle", None)
+        flip_h = data.get("flip_h", None)
+        flip_v = data.get("flip_v", None)
+
+        planet_image = PlanetImage(
+            name=retrieved_data["name"],
+            tags=retrieved_data["tags"],
+            path=retrieved_data["path"],
+            height=retrieved_data["height"],
+            width=retrieved_data["width"],
+            frame_count=retrieved_data["frame_count"],
+            frame=frame,
+            angle=angle,
+            flip_h=flip_h,
+            flip_v=flip_v
+        )
+
+        return planet_image
+
+    def to_dict(self) -> dict:
+        data = {
+            "name": self.name,
+            "tags": self.tags,
+            "path": self.path,
+            "height": self.height,
+            "width": self.width,
+            "frame_count": self.frame_count,
+            "frame": self.frame,
+            "angle": self.angle,
+            "flip_h": self.flip_h,
+            "flip_v": self.flip_v
+        }
+        return data
 
     def random_frame(self) -> int:
         return random.randint(0, self.frame_count - 1)
@@ -64,7 +114,7 @@ class PlanetImage():
         flip_h = self.flip_h if self.flip_h else random.choice([True, False])
         flip_v = self.flip_v if self.flip_v else random.choice([True, False])
 
-        with Image.open(self.path) as gif:
+        with Image.open(construct_path(self.path)) as gif:
             gif.seek(random_frame)
             if gif.mode == 'P':
                 gif = gif.convert('RGB')
@@ -106,7 +156,7 @@ class PlanetImageLibrary():
 
     def _load_image(self, name: str, tags: list[str]) -> PlanetImage:
         path = PLANET_IMAGE_SOURCE.format(name=name)
-        gif = Image.open(path)
+        gif = Image.open(construct_path(path))
 
         frame_count = 0
         while True:

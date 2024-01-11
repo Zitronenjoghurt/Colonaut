@@ -1,6 +1,8 @@
+from typing import Optional
 import src.utils.validator as validator
 from src.constants.config import Config
 from src.events.event import Event
+from src.planet_generation.planet import Planet
 from src.events.response import Response
 from src.space_ship.space_ship import SpaceShip
 from src.save_state.save_state import SaveState
@@ -13,11 +15,12 @@ class GameState(SaveState):
     SAVE_FILE_PATH = CONFIG.GAME_STATE_FILE_PATH + "game_state." + CONFIG.SAVE_FILE_MODE
     DEFAULT_SAVE_FILE_PATH = construct_path("src/data/default_game_state.json")
 
-    def __init__(self, ship: SpaceShip, matter: int) -> None:
+    def __init__(self, ship: SpaceShip, matter: int, planet: Optional[Planet]) -> None:
         if self._instance is not None:
             raise RuntimeError("Tried to initialize two instances of GameState.")
         self.ship = ship
         self.matter = matter
+        self.planet = planet
 
         subscriptions = {
             Event.TYPES.GAME_STATE_RETRIEVE_MATTER: self.retrieve_matter,
@@ -47,22 +50,34 @@ class GameState(SaveState):
         for key, value in retrieved_data.items():
             if value is None:
                 raise RuntimeError(f"An error occured while loading the game state save file: missing {key} data.")
+        
+        planet_data = data.get("planet", None)
+        planet = None
         try:
             ship = SpaceShip.from_dict(retrieved_data["ship"])
+            if planet_data:
+                planet = Planet.from_dict(planet_data)
             validator.validate_int(data["matter"], "matter", 0)
         except Exception as e:
             raise RuntimeError(f"An error occured while loading the save file: {e}")
         
         return GameState(
             ship=ship,
+            planet=planet,
             matter=retrieved_data["matter"]
         )
     
     def save(self) -> None:
         ship_data = self.ship.to_dict().get_data()
 
+        if self.planet:
+            planet_data = self.planet.to_dict()
+        else:
+            planet_data = None
+
         data = {
             "ship": ship_data,
+            "planet": planet_data,
             "matter": self.matter
         }
 

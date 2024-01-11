@@ -109,6 +109,7 @@ class PlanetViewScreen(Screen):
     def start_game(self) -> None:
         self.can_jump = True
         self.ship_console.clear()
+        self.update_data()
 
     def open_system_window(self, system_name: str, force_update: bool = False) -> None:
         self.system_window.update_data(system_name=system_name, force_update=force_update)

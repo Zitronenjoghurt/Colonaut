@@ -59,7 +59,7 @@ class PlanetType():
         PlanetType.LIBRARY[type_name] = planet_type
         return planet_type
     
-    def generate_planetary_data(self) -> dict[str, UnitValue]:
+    def generate_planetary_data(self) -> dict:
         data = {
             "temperature": UnitValue(self.random_temperature.generate(), CONFIG.CONFIG_UNITS["temperature"]),
             "radius": UnitValue(self.random_radius.generate(), CONFIG.CONFIG_UNITS["length"]),

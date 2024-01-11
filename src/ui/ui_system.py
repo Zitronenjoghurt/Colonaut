@@ -4,9 +4,12 @@ import tkinter.font as tkFont
 import src.ui.screens as Screens
 from tkinter import messagebox
 from src.constants.custom_fonts import REGULAR_FONT_REGISTRY, BOLD_FONT_REGISTRY
+from src.constants.locale_translator import LocaleTranslator
 from src.events.event import Event
 from src.events.event_subscriber import BaseEventSubscriber
 from src.events.response import Response
+
+LT = LocaleTranslator.get_instance()
 
 class UISystem(BaseEventSubscriber):
     def __init__(self) -> None:
@@ -78,7 +81,7 @@ class UISystem(BaseEventSubscriber):
             self.switch_screen(last_screen, False)
     
     def on_quit(self) -> None:
-        if messagebox.askyesno(title="Quit?", message="Do you really want to quit the game?"):
+        if messagebox.askyesno(title=LT.get(LT.KEYS.QUIT)+"?", message=LT.get(LT.KEYS.REALLY_QUIT)):
             self.root.destroy()
 
     def on_keypress(self, event):

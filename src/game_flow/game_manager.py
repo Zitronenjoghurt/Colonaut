@@ -21,6 +21,7 @@ class GameManager(BaseEventSubscriber):
             Event.TYPES.GAME_FLOW_FINISH_INTRO: self.finish_intro,
             Event.TYPES.GAME_FLOW_FINISH_TUTORIAL: self.finish_tutorial,
             Event.TYPES.GAME_FLOW_JUMP: self.jump,
+            Event.TYPES.GAME_SAVE_STATE: self.save_state,
             Event.TYPES.RETRIEVE_PLANET_DATA: self.retrieve_planet_data
         }
         super().__init__(subscriptions=subscriptions)

@@ -5,6 +5,7 @@ class EventTypes:
     GAME_FLOW_FINISH_INTRO = "game_flow_finish_intro"
     GAME_FLOW_FINISH_TUTORIAL = "game_flow_finish_tutorial"
     GAME_FLOW_JUMP = "game_flow_jump"
+    GAME_SAVE_STATE = "game_save_state"
     GAME_STATE_RETRIEVE_MATTER = "game_state_retrieve_matter"
     GAME_STATE_SUBTRACT_MATTER = "game_state_subtract_matter"
     GAME_OVER_NO_ENERGY = "game_over_no_energy"

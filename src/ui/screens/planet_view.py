@@ -86,6 +86,9 @@ class PlanetViewScreen(Screen):
         self.can_jump = True
         self.planet_report_button.configure(state="normal")
 
+        save_state_event = Event(Event.TYPES.GAME_SAVE_STATE)
+        self.ui_system.publish_event(save_state_event)
+
     def on_keypress(self, event) -> None:
         super().on_keypress(event)
         if event.keysym in ['j', 'J']:

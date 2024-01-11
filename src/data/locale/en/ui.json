@@ -4,6 +4,7 @@
     "options": "Options",
     "planet_report": "Planet Report",
     "quit": "Quit",
+    "really_quit": "Do you really want to quit the game?\nIt is automatically saved after every jump.",
     "start_game": "Start Game",
     "stats": "Stats"
 }

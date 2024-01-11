@@ -60,6 +60,7 @@ class Locales:
     OPTIONS = "options"
     PLANET_REPORT = "planet_report"
     QUIT = "quit"
+    REALLY_QUIT = "really_quit"
     START_GAME = "start_game"
     STATS = "stats"
 

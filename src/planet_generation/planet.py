@@ -173,11 +173,11 @@ class PlanetGenerator:
         planet_type = PlanetType.create(type_name=type_name)
         planet_data = planet_type.generate_planetary_data()
 
-        planet_data["tags"] = REQUIRED_TAGS[type_name]
+        planet_data["tags"] = REQUIRED_TAGS[type_name].copy()
 
         return Planet.from_dict(
             data=planet_data,
-            possible_tags=POSSIBLE_TAGS[type_name]
+            possible_tags=POSSIBLE_TAGS[type_name].copy()
         )
 
     @staticmethod

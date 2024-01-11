@@ -93,7 +93,7 @@ class SystemWindow(ctk.CTkFrame):
         self.system_label.pack(pady=(25, 0))
 
         self.close_button = ctk.CTkButton(self, fg_color="#bd2626", hover_color="#eb2d2d", text="X", font=("Geist Mono", 22, "bold"), width=30, height=30, command=self.on_exit)
-        self.close_button.place(x=930, y=15)
+        self.close_button.place(x=920, y=15)
 
         matter_frame = ctk.CTkFrame(self, height=50, width=100)
         matter_frame.place(x=15, y=15)

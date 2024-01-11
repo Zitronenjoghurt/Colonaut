@@ -126,7 +126,7 @@ class Planet():
     
     def get_report(self, revealed_data: Optional[list[str]] = None) -> dict:
         data = {
-            "image": None if not self.image else self.image.get_ctk_image(100, 100)
+            "image": None if not self.image else self.image.get_ctk_image(200, 200)
         }
         return data
     

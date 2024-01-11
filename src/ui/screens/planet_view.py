@@ -55,6 +55,7 @@ class PlanetViewScreen(Screen):
         planet_data = planet_data_response.get_data(Response.TYPES.PLANET_DATA)
         if planet_data:
             self.data_list.update_data(planet_data)
+            self.planet_report_button.configure(state="normal")
 
         ship_data = ship_status_response.get_data(Response.TYPES.SHIP_DATA)
         if ship_data:
@@ -84,7 +85,6 @@ class PlanetViewScreen(Screen):
     def finish_jump(self) -> None:
         self.update_data()
         self.can_jump = True
-        self.planet_report_button.configure(state="normal")
 
         save_state_event = Event(Event.TYPES.GAME_SAVE_STATE)
         self.ui_system.publish_event(save_state_event)
@@ -122,6 +122,7 @@ class PlanetViewScreen(Screen):
         self.ship_console.lift()
 
     def open_planet_report_window(self) -> None:
+        self.planet_report_window.update_data()
         self.planet_report_window.lift()
 
     def close_planet_report_window(self) -> None:

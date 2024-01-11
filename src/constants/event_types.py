@@ -10,6 +10,7 @@ class EventTypes:
     GAME_STATE_SUBTRACT_MATTER = "game_state_subtract_matter"
     GAME_OVER_NO_ENERGY = "game_over_no_energy"
     RETRIEVE_PLANET_DATA = "retrieve_planet_data"
+    RETRIEVE_PLANET_REPORT = "retrieve_planet_report"
     RETRIEVE_SHIP_STATUS = "retrieve_ship_status"
     RETRIEVE_SYSTEM_UPGRADES = "retrieve_system_upgrades"
     RETRIEVE_SYSTEM_WINDOW_DATA = "retrieve_system_window_data"

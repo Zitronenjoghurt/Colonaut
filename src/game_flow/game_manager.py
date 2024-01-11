@@ -22,7 +22,8 @@ class GameManager(BaseEventSubscriber):
             Event.TYPES.GAME_FLOW_FINISH_TUTORIAL: self.finish_tutorial,
             Event.TYPES.GAME_FLOW_JUMP: self.jump,
             Event.TYPES.GAME_SAVE_STATE: self.save_state,
-            Event.TYPES.RETRIEVE_PLANET_DATA: self.retrieve_planet_data
+            Event.TYPES.RETRIEVE_PLANET_DATA: self.retrieve_planet_data,
+            Event.TYPES.RETRIEVE_PLANET_REPORT: self.retrieve_planet_report
         }
         super().__init__(subscriptions=subscriptions)
 
@@ -66,6 +67,14 @@ class GameManager(BaseEventSubscriber):
         else:
             planet_data = []
         return Response.create(planet_data, Response.TYPES.PLANET_DATA)
+    
+    def retrieve_planet_report(self) -> Response:
+        revealed_data = self.game_state.ship.scanner_results
+        if self.game_state.planet:
+            planet_report = self.game_state.planet.get_report(revealed_data)
+        else:
+            planet_report = {}
+        return Response.create(planet_report, Response.TYPES.PLANET_REPORT)
     
     def finish_intro(self) -> Response:
         self.global_state.finished_intro = True

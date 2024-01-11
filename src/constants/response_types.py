@@ -3,6 +3,7 @@ class ResponseTypes:
     BATTERY_DRAWN_ENERGY_LOG = "battery_drawn_energy_log"
     DIALOGUE_EVENT_RESPONSE = "dialogue_event_response"
     PLANET_DATA = "planet_data"
+    PLANET_REPORT = "planet_report"
     SCANNER_RESULT = "scanner_result"
     SHIP_DATA = "ship_data"
     SHIP_STATUS_LOG = "ship_status_log"

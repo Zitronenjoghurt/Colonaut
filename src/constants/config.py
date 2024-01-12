@@ -13,14 +13,6 @@ DEFAULT = {
     "decimal_digits": 2,
     "scientific_notation_upper_treshhold": 1e7,
     "scientific_notation_lower_treshold": 1e-2,
-    "config_units": {
-        "temperature": "°K",
-        "density": "kg/m^3",
-        "length": "km",
-        "mass": "kg",
-        "volume": "m^3",
-        "time": "s"
-    },
     "display_units": {
         "temperature": "°C",
         "density": "g/cm^3",
@@ -57,11 +49,6 @@ class Config():
         self.SAVE_FILE_MODE: str = config_data.get("save_file_mode", DEFAULT["save_file_mode"])
         if self.SAVE_FILE_MODE not in SAVE_FILE_MODES:
             self.SAVE_FILE_MODE = DEFAULT["save_file_mode"]
-        
-        self.CONFIG_UNITS: dict[str, str] = config_data.get("config_units", DEFAULT["config_units"])
-        for unit_class, unit in DEFAULT["config_units"].items():
-            if self.CONFIG_UNITS.get(unit_class, None) is None:
-                self.CONFIG_UNITS[unit_class] = unit
 
         self.DISPLAY_UNITS: dict[str, str] = config_data.get("display_units", DEFAULT["display_units"])
         for unit_class, unit in DEFAULT["display_units"].items():
@@ -78,7 +65,6 @@ class Config():
             validator.validate_int(self.DEFAULT_SHIP_CONSOLE_LINE_DELAY, "default_ship_console_line_delay", 0)
             validator.validate_style_tag(self.DEFAULT_SHIP_CONSOLE_STYLE_TAG)
             for unit_class in EXISTING_CLASSES:
-                validator.validate_physical_unit_and_class(self.CONFIG_UNITS[unit_class], unit_class)
                 validator.validate_physical_unit_and_class(self.DISPLAY_UNITS[unit_class], unit_class)
         except (ValueError, TypeError, KeyError) as e:
             raise RuntimeError(f"An error occured while initializing the config: {e}\nCheck your config at {CONFIG_FILE_PATH}")

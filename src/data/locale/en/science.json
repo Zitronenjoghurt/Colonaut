@@ -1,5 +1,6 @@
 {
     "density": "Density",
+    "distance_to_star": "Distance to star",
     "mass": "Mass",
     "orb_period": "Orbital Period",
     "radius": "Radius",

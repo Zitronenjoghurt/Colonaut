@@ -1,7 +1,7 @@
 CLASS_UNIT_MAP = {
-    "length": ["mm", "cm", "m", "km"],
+    "length": ["mm", "cm", "m", "km", "AU"],
     "volume": ["mm^3", "cm^3", "m^3", "km^3"],
-    "mass": ["g", "kg", "t"],
+    "mass": ["g", "kg", "t", "MEarth", "MSun"],
     "density": ["g/cm^3", "kg/m^3"],
     "temperature": ["°K", "°C", "°F"],
     "time": ["s", "min", "h", "d", "y"]
@@ -37,17 +37,20 @@ def kelvin_to_fahrenheit(kelvin):
     return (kelvin - 273.15) * 9 / 5 + 32
 
 CONVERSIONS = {
-    "mm": {"cm": linear_conversion(1e-1), "m": linear_conversion(1e-3), "km": linear_conversion(1e-6)},
-    "cm": {"mm": linear_conversion(10), "m": linear_conversion(1e-2), "km": linear_conversion(1e-5)},
-    "m": {"mm": linear_conversion(1e3), "cm": linear_conversion(1e2), "km": linear_conversion(1e-3)},
-    "km": {"mm": linear_conversion(1e6), "cm": linear_conversion(1e5), "m": linear_conversion(1e3)},
+    "mm": {"cm": linear_conversion(1e-1), "m": linear_conversion(1e-3), "km": linear_conversion(1e-6), "AU": linear_conversion(1/1.496e14)},
+    "cm": {"mm": linear_conversion(10), "m": linear_conversion(1e-2), "km": linear_conversion(1e-5), "AU": linear_conversion(1/1.496e13)},
+    "m": {"mm": linear_conversion(1e3), "cm": linear_conversion(1e2), "km": linear_conversion(1e-3), "AU": linear_conversion(1/1.496e11)},
+    "km": {"mm": linear_conversion(1e6), "cm": linear_conversion(1e5), "m": linear_conversion(1e3), "AU": linear_conversion(1/1.496e8)},
+    "AU": {"mm": linear_conversion(1.496e14), "cm": linear_conversion(1.496e13), "m": linear_conversion(1.496e11), "km": linear_conversion(1.496e8)},
     "mm^3": {"cm^3": linear_conversion(1e-3), "m^3": linear_conversion(1e-9), "km^3": linear_conversion(1e-18)},
     "cm^3": {"mm^3": linear_conversion(1e3), "m^3": linear_conversion(1e-6), "km^3": linear_conversion(1e-15)},
     "m^3": {"mm^3": linear_conversion(1e9), "cm^3": linear_conversion(1e6), "km^3": linear_conversion(1e-9)},
     "km^3": {"mm^3": linear_conversion(1e18), "cm^3": linear_conversion(1e15), "m^3": linear_conversion(1e9)},
-    "g": {"kg": linear_conversion(1e-3), "t": linear_conversion(1e-6)},
-    "kg": {"g": linear_conversion(1e3), "t": linear_conversion(1e-3)},
-    "t": {"g": linear_conversion(1e6), "kg": linear_conversion(1e3)},
+    "g": {"kg": linear_conversion(1e-3), "t": linear_conversion(1e-6), "MEarth": linear_conversion(1/5.972e27), "MSun": linear_conversion(1/1.989e33)},
+    "kg": {"g": linear_conversion(1e3), "t": linear_conversion(1e-3), "MEarth": linear_conversion(1/5.972e24), "MSun": linear_conversion(1/1.989e30)},
+    "t": {"g": linear_conversion(1e6), "kg": linear_conversion(1e3), "MEarth": linear_conversion(1/5.972e21), "MSun": linear_conversion(1/1.989e27)},
+    "MEarth": {"g": linear_conversion(5.972e27), "kg": linear_conversion(5.972e24), "t": linear_conversion(5.972e21), "MSun": linear_conversion(1/333000)},
+    "MSun": {"g": linear_conversion(1.989e33), "kg": linear_conversion(1.989e30), "t": linear_conversion(1.989e27), "MEarth": linear_conversion(333000)},
     "g/cm^3": {"kg/m^3": linear_conversion(1e3)},
     "kg/m^3": {"g/cm^3": linear_conversion(1e-3)},
     "°K": {"°C": kelvin_to_celcius, "°F": kelvin_to_fahrenheit},

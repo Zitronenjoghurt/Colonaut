@@ -1,9 +1,10 @@
+from pytest import approx
 from src.planet_generation.unit_value import UnitValue
 
 VALUES = [
-    {"mm": 1000000, "cm": 100000, "m": 1000, "km": 1},
+    {"mm": 1.496e14, "cm": 1.496e13, "m": 1.496e11, "km": 1.496e8, "AU": 1},
     {"mm^3": 1e18, "cm^3": 1e15, "m^3": 1e9, "km^3": 1},
-    {"g": 1000000, "kg": 1000, "t": 1},
+    {"g": 5.972e27, "kg": 5.972e24, "t": 5.972e21, "MEarth": 1, "MSun": 1/333000},
     {"g/cm^3": 1, "kg/m^3": 1000},
     {"°K": 273.15, "°C": 0, "°F": 32},
     {"°K": 233.15, "°C": -40, "°F": -40},
@@ -33,7 +34,7 @@ def test_conversion():
             unit_value = UnitValue(value=value, unit=unit)
             for test_unit in test_units:
                 test_value = unit_value.convert(test_unit).get_value()
-                assert round(test_value, 2) == unit_values[test_unit]
+                assert test_value == approx(unit_values[test_unit], rel=2e-4)
 
 def test_convert_conveniently():
     a = UnitValue(59, "s")

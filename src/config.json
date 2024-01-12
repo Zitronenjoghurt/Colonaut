@@ -5,16 +5,8 @@
     },
     "save_file_mode": "json",
     "decimal_digits": 2,
-    "scientific_notation_upper_treshhold": 1e7,
+    "scientific_notation_upper_treshold": 1e7,
     "scientific_notation_lower_treshold": 1e-2,
-    "config_units": {
-        "temperature": "°K",
-        "density": "kg/m^3",
-        "length": "km",
-        "mass": "kg",
-        "volume": "m^3",
-        "time": "s"
-    },
     "display_units": {
         "temperature": "°C",
         "density": "g/cm^3",
@@ -23,7 +15,7 @@
         "volume": "m^3",
         "time": "h"
     },
-    "display_units_conveniently": ["time"],
+    "display_units_conveniently": ["time", "length", "mass"],
     "default_ship_console_char_delay": 17,
     "default_ship_console_line_delay": 150,
     "default_ship_console_style_tag": "computer"

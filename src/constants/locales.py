@@ -36,6 +36,7 @@ class Locales:
 
     # Science
     DENSITY = "density"
+    DISTANCE_TO_STAR = "distance_to_star"
     MASS = "mass"
     ORB_PERIOD = "orb_period"
     RADIUS = "radius"

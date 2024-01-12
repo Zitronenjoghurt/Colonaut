@@ -35,6 +35,7 @@ class Locales:
     SOLAR_PANEL = "solar_panel"
 
     # Science
+    AXIAL_TILT = "axial_tilt"
     DENSITY = "density"
     DISTANCE_TO_STAR = "distance_to_star"
     MASS = "mass"

@@ -4,7 +4,8 @@ CLASS_UNIT_MAP = {
     "mass": ["g", "kg", "t", "Earth", "Sun"],
     "density": ["g/cm^3", "kg/m^3"],
     "temperature": ["°K", "°C", "°F"],
-    "time": ["s", "min", "h", "d", "y"]
+    "time": ["s", "min", "h", "d", "y"],
+    "angle": ["°"]
 }
 
 EXISTING_CLASSES = [unit_class for unit_class in CLASS_UNIT_MAP.keys()]

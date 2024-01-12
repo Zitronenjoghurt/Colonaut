@@ -5,7 +5,8 @@
         "density": "kg/m^3",
         "rot_period": "s",
         "distance_to_star": "AU",
-        "star_mass": "Sun"
+        "star_mass": "Sun",
+        "axial_tilt": "°"
     },
     "temperature": {"min": 10, "max": 270},
     "radius": {"min": 1000, "max": 20000},
@@ -42,6 +43,15 @@
             {"min": 1, "max": 3},
             {"min": 3, "max": 10},
             {"min": 10, "max": 100}
+        ]
+    },
+    "axial_tilt": {
+        "weights": [2, 73, 10, 5],
+        "values": [
+            {"min": 0, "max": 3},
+            {"min": 3, "max": 30},
+            {"min": 30, "max": 60},
+            {"min": 60, "max": 89}
         ]
     },
     "clouds": {

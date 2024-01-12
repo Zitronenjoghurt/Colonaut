@@ -19,7 +19,8 @@ DEFAULT = {
         "length": "km",
         "mass": "kg",
         "volume": "m^3",
-        "time": "h"
+        "time": "h",
+        "angle": "°"
     },
     "display_units_convenience_treshold": {
         "time": 1,

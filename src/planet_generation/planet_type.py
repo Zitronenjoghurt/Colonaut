@@ -13,7 +13,8 @@ PROPERTY_UNIT_CLASSES = {
     "density": "density",
     "rot_period": "time",
     "distance_to_star": "length",
-    "star_mass": "mass"
+    "star_mass": "mass",
+    "axial_tilt": "angle"
 }
 
 class PlanetType():
@@ -28,6 +29,7 @@ class PlanetType():
                  random_rot_period: Probability,
                  random_distance_to_star: Probability,
                  random_star_mass: Probability,
+                 random_axial_tilt: Probability,
                  clouds: Probability) -> None:
         self.validate_units(units)
         self.units = units
@@ -38,6 +40,7 @@ class PlanetType():
         self.random_rot_period = random_rot_period
         self.random_distance_to_star = random_distance_to_star
         self.random_star_mass = random_star_mass
+        self.random_axial_tilt = random_axial_tilt
         self.clouds = clouds
 
     @staticmethod
@@ -58,6 +61,7 @@ class PlanetType():
         rot_period = data.get("rot_period", None)
         distance_to_star = data.get("distance_to_star", None)
         star_mass = data.get("star_mass", None)
+        axial_tilt = data.get("axial_tilt", None)
         clouds = data.get("clouds", False)
 
         planet_type = PlanetType(
@@ -69,6 +73,7 @@ class PlanetType():
             random_rot_period = Probability.create(rot_period),
             random_distance_to_star=Probability.create(distance_to_star),
             random_star_mass=Probability.create(star_mass),
+            random_axial_tilt=Probability.create(axial_tilt),
             clouds=Probability.create(clouds)
         )
 
@@ -103,6 +108,7 @@ class PlanetType():
             "rot_period": UnitValue(self.random_rot_period.generate(), self.get_unit("rot_period")),
             "distance_to_star": UnitValue(self.random_distance_to_star.generate(), self.get_unit("distance_to_star")),
             "star_mass": UnitValue(self.random_star_mass.generate(), self.get_unit("star_mass")),
+            "axial_tilt": UnitValue(self.random_axial_tilt.generate(), self.get_unit("axial_tilt")),
             "clouds": self.clouds.generate()
         }
         return data

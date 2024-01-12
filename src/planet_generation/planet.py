@@ -13,7 +13,7 @@ PLANET_IMAGE_LIBRARY = PlanetImageLibrary.get_instance()
 
 class Planet():
     # Which properties will be shown in the data window
-    DATA_PROPERTIES = ["temperature", "radius", "density", "rot_period", "orb_period", "mass", "volume", "distance_to_star"]
+    DATA_PROPERTIES = ["temperature", "radius", "density", "axial_tilt", "rot_period", "orb_period", "mass", "volume", "distance_to_star"]
 
     def __init__(
             self, 
@@ -23,6 +23,7 @@ class Planet():
             rot_period: UnitValue,
             distance_to_star: UnitValue,
             star_mass: UnitValue,
+            axial_tilt: UnitValue,
             clouds: bool, 
             tags: list[str], 
             possible_tags: list[str],
@@ -34,6 +35,7 @@ class Planet():
         rot_period.validate_of_class("time")
         distance_to_star.validate_of_class("length")
         star_mass.validate_of_class("mass")
+        axial_tilt.validate_of_class("angle")
         validate_of_type(clouds, bool)
         validate_of_type(tags, list)
         validate_of_type(possible_tags, list)
@@ -45,6 +47,7 @@ class Planet():
         self.orb_period = phy.orbital_period(distance_to_star=distance_to_star, mass_star=star_mass)
         self.distance_to_star = distance_to_star
         self.star_mass = star_mass
+        self.axial_tilt = axial_tilt
         self.clouds = clouds
         self.mass = phy.sphere_mass(radius=radius, density=density)
         self.volume = phy.sphere_volume(radius=radius)
@@ -85,11 +88,12 @@ class Planet():
             "rot_period": data.get("rot_period", UnitValue.from_zero("time")),
             "distance_to_star": data.get("distance_to_star", UnitValue.from_zero("length")),
             "star_mass": data.get("star_mass", UnitValue.from_zero("mass")),
+            "axial_tilt": data.get("axial_tilt", UnitValue.from_zero("angle")),
             "clouds": data.get("clouds", False),
             "tags": data.get("tags", [])
         }
 
-        unit_values = ["temperature", "radius", "density", "rot_period", "distance_to_star", "star_mass"]
+        unit_values = ["temperature", "radius", "density", "rot_period", "distance_to_star", "star_mass", "axial_tilt"]
         for key, value in retrieved_data.items():
             if key in unit_values and not isinstance(value, UnitValue):
                 try:
@@ -112,9 +116,9 @@ class Planet():
             "radius": str(self.radius),
             "density": str(self.density),
             "rot_period": str(self.rot_period),
-            "orb_period": str(self.orb_period),
             "distance_to_star": str(self.distance_to_star),
             "star_mass": str(self.star_mass),
+            "axial_tilt": str(self.axial_tilt),
             "clouds": self.clouds,
             "tags": self.tags,
             "image": image

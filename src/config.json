@@ -15,7 +15,11 @@
         "volume": "m^3",
         "time": "h"
     },
-    "display_units_conveniently": ["time", "length", "mass"],
+    "display_units_convenience_treshold": {
+        "time": 1,
+        "mass": 1e-2,
+        "length": 1e-2
+    },
     "default_ship_console_char_delay": 17,
     "default_ship_console_line_delay": 150,
     "default_ship_console_style_tag": "computer"

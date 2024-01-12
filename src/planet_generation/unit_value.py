@@ -14,7 +14,7 @@ class UnitValue():
 
     def __str__(self) -> str:
         unit_class = UNIT_CLASS_MAP.get(self.unit, "")
-        if unit_class in CONFIG.DISPLAY_UNITS_CONVENIENTLY:
+        if CONFIG.is_unit_class_displayed_conveniently(unit_class=unit_class):
             converted_value = self.convert_conveniently()
         else:
             converted_value = self.convert(CONFIG.DISPLAY_UNITS[unit_class])
@@ -97,6 +97,7 @@ class UnitValue():
     def convert_conveniently(self) -> 'UnitValue':
         unit_class = UNIT_CLASS_MAP.get(self.unit, "")
         units = CLASS_UNIT_MAP.get(unit_class, [])
+        convenience_treshold = CONFIG.get_display_unit_convenience_treshold(unit_class=unit_class)
 
         unit_conversions = {}
         for unit in units:
@@ -106,7 +107,7 @@ class UnitValue():
         smallest_value_above_one = float('inf')
         for unit, unit_value in unit_conversions.items():
             value = unit_value.value
-            if value >= 1 and value < smallest_value_above_one:
+            if value >= convenience_treshold and value < smallest_value_above_one:
                 smallest_value_above_one = value
                 most_convenient_unit = unit
 

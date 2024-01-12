@@ -21,7 +21,11 @@ DEFAULT = {
         "volume": "m^3",
         "time": "h"
     },
-    "display_units_conveniently": ["time"],
+    "display_units_convenience_treshold": {
+        "time": 1,
+        "mass": 1e-2,
+        "length": 1e-2
+    },
     "default_ship_console_char_delay": 17,
     "default_ship_console_line_delay": 150,
     "default_ship_console_style_tag": "computer"
@@ -41,7 +45,7 @@ class Config():
         self.DECIMAL_DIGITS: int = config_data.get("decimal_digits", DEFAULT["decimal_digits"])
         self.SCIENTIFIC_NOTATION_UPPER_TRESHOLD: float = config_data.get("scientific_notation_upper_treshold", DEFAULT["scientific_notation_upper_treshhold"])
         self.SCIENTIFIC_NOTATION_LOWER_TRESHOLD: float = config_data.get("scientific_notation_lower_treshold", DEFAULT["scientific_notation_lower_treshold"])
-        self.DISPLAY_UNITS_CONVENIENTLY: list[str] = config_data.get("display_units_conveniently", DEFAULT["display_units_conveniently"])
+        self.DISPLAY_UNITS_CONVENIENCE_THRESHOLD: dict[str, int|float] = config_data.get("display_units_convenience_treshold", DEFAULT["display_units_convenience_treshold"])
         self.DEFAULT_SHIP_CONSOLE_CHAR_DELAY: int = config_data.get("default_ship_console_char_delay", DEFAULT["default_ship_console_char_delay"])
         self.DEFAULT_SHIP_CONSOLE_LINE_DELAY: int = config_data.get("default_ship_console_line_delay", DEFAULT["default_ship_console_line_delay"])
         self.DEFAULT_SHIP_CONSOLE_STYLE_TAG: str = config_data.get("default_ship_console_style_tag", DEFAULT["default_ship_console_style_tag"])
@@ -66,6 +70,8 @@ class Config():
             validator.validate_style_tag(self.DEFAULT_SHIP_CONSOLE_STYLE_TAG)
             for unit_class in EXISTING_CLASSES:
                 validator.validate_physical_unit_and_class(self.DISPLAY_UNITS[unit_class], unit_class)
+            for unit_class in self.DISPLAY_UNITS_CONVENIENCE_THRESHOLD:
+                validator.validate_physical_unit_class(unit_class=unit_class)
         except (ValueError, TypeError, KeyError) as e:
             raise RuntimeError(f"An error occured while initializing the config: {e}\nCheck your config at {CONFIG_FILE_PATH}")
 
@@ -74,3 +80,13 @@ class Config():
         if Config._instance is None:
             Config._instance = Config()
         return Config._instance
+    
+    def is_unit_class_displayed_conveniently(self, unit_class: str) -> bool:
+        if unit_class in self.DISPLAY_UNITS_CONVENIENCE_THRESHOLD:
+            return True
+        return False
+    
+    def get_display_unit_convenience_treshold(self, unit_class: str) -> float:
+        if unit_class not in self.DISPLAY_UNITS_CONVENIENCE_THRESHOLD:
+            return 1
+        return self.DISPLAY_UNITS_CONVENIENCE_THRESHOLD[unit_class]

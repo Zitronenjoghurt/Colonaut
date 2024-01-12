@@ -2,7 +2,7 @@ from src.space_ship.ship_system import SensorShipSystem
 
 class Accelerometer(SensorShipSystem):
     NAME = "accelerometer"
-    REVEALED_DATA = ["mass"]
+    REVEALED_DATA = ["mass", "star_mass"]
 
 class InfraredSpectrometer(SensorShipSystem):
     NAME = "infrared_spectrometer"

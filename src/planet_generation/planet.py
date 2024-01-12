@@ -13,7 +13,7 @@ PLANET_IMAGE_LIBRARY = PlanetImageLibrary.get_instance()
 
 class Planet():
     # Which properties will be shown in the data window
-    DATA_PROPERTIES = ["temperature", "radius", "density", "rot_period", "orb_period", "distance_to_star", "star_mass", "mass", "volume"]
+    DATA_PROPERTIES = ["temperature", "radius", "density", "rot_period", "orb_period", "mass", "volume", "distance_to_star"]
 
     def __init__(
             self, 

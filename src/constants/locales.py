@@ -41,6 +41,7 @@ class Locales:
     ORB_PERIOD = "orb_period"
     RADIUS = "radius"
     ROT_PERIOD = "rot_period"
+    STAR_MASS = "star_mass"
     TEMPERATURE = "temperature"
     VOLUME = "volume"
 

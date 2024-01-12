@@ -1,10 +1,11 @@
 {
     "density": "Density",
-    "distance_to_star": "Distance to star",
-    "mass": "Mass",
+    "distance_to_star": "Distance->Star",
+    "mass": "Planet Mass",
     "orb_period": "Orbital Period",
     "radius": "Radius",
     "rot_period": "Rotational Period",
+    "star_mass": "Star Mass",
     "temperature": "Temperature",
     "volume": "Volume"
 }

@@ -5,7 +5,7 @@
         "density": "kg/m^3",
         "rot_period": "s",
         "distance_to_star": "AU",
-        "star_mass": "MSun"
+        "star_mass": "Sun"
     },
     "temperature": {"min": 10, "max": 270},
     "radius": {"min": 1000, "max": 20000},

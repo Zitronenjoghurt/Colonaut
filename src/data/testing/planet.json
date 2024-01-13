@@ -2,6 +2,5 @@
     "temperature": {"value": 10, "unit": "°K"},
     "radius": "6000km",
     "density": "3000kg/m^3",
-    "rot_period": "20min",
-    "orb_period": "5d"
+    "rot_period": "20min"
 }

@@ -8,7 +8,8 @@ VALUES = [
     {"g/cm^3": 1, "kg/m^3": 1000},
     {"°K": 273.15, "°C": 0, "°F": 32},
     {"°K": 233.15, "°C": -40, "°F": -40},
-    {"s": 63115200, "min": 1051920, "h": 17532, "d": 730.5, "y": 2}
+    {"s": 63115200, "min": 1051920, "h": 17532, "d": 730.5, "y": 2},
+    {"km/h": 3600, "m/s": 1000, "km/s": 1}
 ]
 
 def test_str():
@@ -19,12 +20,12 @@ def test_str():
     e = UnitValue(1e-2, "°C")
     f = UnitValue(1e-3, "kg")
 
-    assert str(a) == "1e+07km"
+    assert str(a) == "0.07AU"
     assert str(b) == "1000000km"
     assert str(c) == "100000g/cm^3"
     assert str(d) == "0.1m^3"
     assert str(e) == "0.01°C"
-    assert str(f) == "1e-03kg"
+    assert str(f) == "1g"
 
 def test_conversion():
     for unit_values in VALUES:

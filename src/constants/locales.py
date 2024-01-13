@@ -39,6 +39,7 @@ class Locales:
     DENSITY = "density"
     DISTANCE_TO_STAR = "distance_to_star"
     ESCAPE_VELOCITY = "escape_velocity"
+    ESI = "esi"
     GRAVITY = "gravity"
     MASS = "mass"
     ORB_PERIOD = "orb_period"

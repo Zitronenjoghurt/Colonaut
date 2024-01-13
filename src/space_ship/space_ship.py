@@ -63,6 +63,7 @@ class SpaceShip(BaseEventSubscriber):
     def run(self) -> None:
         self.run_systems()
         self.retrieve_drawn_energy_log()
+        self.check_for_additional_data()
     
     def run_systems(self) -> None:
         self.scanner_results = []
@@ -77,6 +78,17 @@ class SpaceShip(BaseEventSubscriber):
         
         if logs and isinstance(logs, list):
             self.status_log.extend(logs)
+
+    # Depending on the data collected by the scanners, additional data will become available
+    def check_for_additional_data(self) -> None:
+        additional_data = {
+            "esi": ["temperature", "density", "radius", "escape_velocity"]
+        }
+
+        available_data = set(self.scanner_results)
+        for property, requirements in additional_data.items():
+            if set(requirements).issubset(available_data):
+                self.scanner_results.append(property)
     
     def handle_system_response(self, response: Response) -> None:
         scanner_result = response.get_data(Response.TYPES.SCANNER_RESULT)

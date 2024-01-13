@@ -3,6 +3,7 @@
     "density": "Density",
     "distance_to_star": "Distance->Star",
     "escape_velocity": "Escape Velocity",
+    "esi": "ESI",
     "gravity": "Gravity",
     "mass": "Planet Mass",
     "orb_period": "Orbital Period",

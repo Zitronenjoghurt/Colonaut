@@ -1,6 +1,7 @@
 import random
 import src.utils.physics as phy
 from typing import Optional
+from src.constants.config import Config
 from src.constants.locale_translator import LocaleTranslator
 from src.planet_generation.planet_image import PlanetImageLibrary, PlanetImage
 from src.planet_generation.planet_type import PlanetType
@@ -8,12 +9,26 @@ from src.planet_generation.unit_value import UnitValue
 from src.utils.gibberish import gibber
 from src.utils.validator import validate_of_type
 
+CONFIG = Config.get_instance()
 LT = LocaleTranslator.get_instance()
 PLANET_IMAGE_LIBRARY = PlanetImageLibrary.get_instance()
 
 class Planet():
     # Which properties will be shown in the data window
-    DATA_PROPERTIES = ["temperature", "radius", "density", "axial_tilt", "rot_period", "orb_period", "mass", "volume", "gravity", "escape_velocity", "distance_to_star"]
+    DATA_PROPERTIES = [
+        "temperature", 
+        "radius", 
+        "density", 
+        "axial_tilt", 
+        "rot_period", 
+        "orb_period", 
+        "mass", 
+        "volume", 
+        "gravity", 
+        "escape_velocity", 
+        "esi",
+        "distance_to_star"
+    ]
 
     def __init__(
             self, 
@@ -53,6 +68,7 @@ class Planet():
         self.volume = phy.sphere_volume(radius=radius)
         self.gravity = phy.gravity(planet_radius=radius, planet_mass=self.mass)
         self.escape_velocity = phy.escape_velocity(planet_radius=radius, planet_mass=self.mass)
+        self.esi = round(phy.esi(radius=radius, density=density, escape_velocity=self.escape_velocity, surface_temperature=temperature), CONFIG.DECIMAL_DIGITS)
         self.tags = tags
         
         for tag in possible_tags:

@@ -79,7 +79,7 @@ def test_sensors(space_ship: SpaceShip):
     neutron_densitometer: ShipSystems.NeutronDensitometer = space_ship.get_system("neutron_densitometer").get_data()
     radio_telemetry: ShipSystems.RadioTelemetry = space_ship.get_system("radio_telemetry").get_data()
 
-    assert_response_data(accelerometer.get_revealed_data(), ["mass", "star_mass"])
+    assert_response_data(accelerometer.get_revealed_data(), ["mass", "star_mass", "escape_velocity", "gravity"])
     assert_response_data(infrared_spectrometer.get_revealed_data(), ["temperature"])
     assert_response_data(laser_altimeter.get_revealed_data(), ["radius", "volume", "axial_tilt"])
     assert_response_data(neutron_densitometer.get_revealed_data(), ["density"])
@@ -87,7 +87,7 @@ def test_sensors(space_ship: SpaceShip):
 
 def test_scanner_results(space_ship: SpaceShip):
     space_ship.run()
-    assert set(space_ship.scanner_results) == set(['mass', 'star_mass', 'temperature', 'radius', 'volume', 'axial_tilt', 'density', 'orb_period', 'rot_period', 'distance_to_star'])
+    assert set(space_ship.scanner_results) == set(['mass', 'star_mass', 'temperature', 'radius', 'volume', 'axial_tilt', 'density', 'orb_period', 'rot_period', 'distance_to_star', 'esi', 'escape_velocity', 'gravity'])
 
     accelerometer: ShipSystems.Accelerometer = space_ship.get_system("accelerometer").get_data()
     accelerometer.reveal_chance = 0

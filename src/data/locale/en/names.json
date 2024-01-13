@@ -5,6 +5,7 @@
     "infrared_spectrometer": "Infrared Spectrometer",
     "laser_altimeter": "Laser Altimeter",
     "neutron_densitometer": "Neutron Densitometer",
+    "planet_ice": "Ice Planet",
     "radio_telemetry": "Radio Telemetry",
     "solar_panel": "Solar Panel"
 }

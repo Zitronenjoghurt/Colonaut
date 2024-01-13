@@ -91,7 +91,7 @@ class PlanetType():
         except FileNotFoundError:
             raise ValueError(f"Planet type {type_name} does not exist.")
         
-        type_dict["name"] = type_name
+        type_dict["name"] = "planet_"+type_name
 
         planet_type = PlanetType.from_dict(data=type_dict)
         PlanetType.LIBRARY[type_name] = planet_type
@@ -102,6 +102,7 @@ class PlanetType():
     
     def generate_planetary_data(self) -> dict:
         data = {
+            "type": self.name,
             "temperature": UnitValue(self.random_temperature.generate(), self.get_unit("temperature")),
             "radius": UnitValue(self.random_radius.generate(), self.get_unit("radius")),
             "density": UnitValue(self.random_density.generate(), self.get_unit("density")),

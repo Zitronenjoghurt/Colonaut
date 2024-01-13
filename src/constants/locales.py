@@ -31,6 +31,7 @@ class Locales:
     INFRARED_SPECTROMETER = "infrared_spectrometer"
     LASER_ALTIMETER = "laser_altimeter"
     NEUTRON_DENSITOMETER = "neutron_densitometer"
+    PLANET_ICE = "planet_ice"
     RADIO_TELEMETRY = "radio_telemetry"
     SOLAR_PANEL = "solar_panel"
 

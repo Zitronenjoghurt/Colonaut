@@ -31,7 +31,8 @@ class Planet():
     ]
 
     def __init__(
-            self, 
+            self,
+            type: str,
             temperature: UnitValue, 
             radius: UnitValue, 
             density: UnitValue, 
@@ -44,6 +45,7 @@ class Planet():
             possible_tags: list[str],
             image: Optional[PlanetImage] = None
         ) -> None:
+        validate_of_type(type, str)
         temperature.validate_of_class("temperature")
         radius.validate_of_class("length")
         density.validate_of_class("density")
@@ -55,6 +57,7 @@ class Planet():
         validate_of_type(tags, list)
         validate_of_type(possible_tags, list)
 
+        self.type = type
         self.temperature = temperature
         self.radius = radius
         self.density = density
@@ -102,6 +105,7 @@ class Planet():
             possible_tags = []
 
         retrieved_data = {
+            "type": data.get("type", ""),
             "temperature": data.get("temperature", UnitValue.from_zero("temperature")),
             "radius": data.get("radius", UnitValue.from_zero("length")),
             "density": data.get("density", UnitValue.from_zero("density")),
@@ -132,6 +136,7 @@ class Planet():
         image = self.image if not self.image else self.image.to_dict()
 
         data = {
+            "type": self.type,
             "temperature": str(self.temperature),
             "radius": str(self.radius),
             "density": str(self.density),
@@ -158,6 +163,7 @@ class Planet():
     
     def get_report(self, revealed_data: Optional[list[str]] = None) -> dict:
         data = {
+            "type": self.type,
             "image": None if not self.image else self.image.get_ctk_image(200, 200)
         }
         return data

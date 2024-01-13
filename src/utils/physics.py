@@ -23,10 +23,34 @@ def orbital_period(distance_to_star: UnitValue, mass_star: UnitValue) -> UnitVal
     M1 = mass_star.convert("kg").get_value()
 
     if M1 == 0:
-        return UnitValue.from_zero("s")
+        return UnitValue.from_zero("time")
 
     # Mass of the planet is neglegible => M2 = 0
     T = 2 * math.pi * math.sqrt((a**3)/(G*(M1)))
 
-    orb_period = UnitValue(T, "s")
+    orb_period = UnitValue(value=T, unit="s")
     return orb_period
+
+def gravity(planet_radius: UnitValue, planet_mass: UnitValue) -> UnitValue:
+    r = planet_radius.convert("m").get_value()
+    M = planet_mass.convert("kg").get_value()
+
+    if r == 0:
+        return UnitValue.from_zero("acceleration")
+
+    g = (G*M)/(r**2)
+
+    planet_gravity = UnitValue(value=g, unit="m/s^2")
+    return planet_gravity
+
+def escape_velocity(planet_radius: UnitValue, planet_mass: UnitValue) -> UnitValue:
+    r = planet_radius.convert("m").get_value()
+    M = planet_mass.convert("kg").get_value()
+
+    if r == 0:
+        return UnitValue.from_zero("speed")
+    
+    v = math.sqrt((2*G*M)/r)
+
+    v_escape = UnitValue(value=v, unit="m/s")
+    return v_escape

@@ -2,6 +2,8 @@
     "axial_tilt": "Axial Tilt",
     "density": "Density",
     "distance_to_star": "Distance->Star",
+    "escape_velocity": "Escape Velocity",
+    "gravity": "Gravity",
     "mass": "Planet Mass",
     "orb_period": "Orbital Period",
     "radius": "Radius",

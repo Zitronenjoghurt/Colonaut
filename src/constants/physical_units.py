@@ -5,7 +5,9 @@ CLASS_UNIT_MAP = {
     "density": ["g/cm^3", "kg/m^3"],
     "temperature": ["°K", "°C", "°F"],
     "time": ["s", "min", "h", "d", "y"],
-    "angle": ["°"]
+    "angle": ["°"],
+    "acceleration": ["m/s^2"],
+    "speed": ["km/h", "m/s", "km/s"]
 }
 
 EXISTING_CLASSES = [unit_class for unit_class in CLASS_UNIT_MAP.keys()]
@@ -61,5 +63,8 @@ CONVERSIONS = {
     "min": {"s": linear_conversion(60), "h": linear_conversion(1/60), "d": linear_conversion(1/1440), "y": linear_conversion(1/525960)},
     "h": {"s": linear_conversion(3600), "min": linear_conversion(60), "d": linear_conversion(1/24), "y": linear_conversion(1/8766)},
     "d": {"s": linear_conversion(86400), "min": linear_conversion(1440), "h": linear_conversion(24), "y": linear_conversion(1/365.25)},
-    "y": {"s": linear_conversion(31557600), "min": linear_conversion(525960), "h": linear_conversion(8766), "d": linear_conversion(365.25)}
+    "y": {"s": linear_conversion(31557600), "min": linear_conversion(525960), "h": linear_conversion(8766), "d": linear_conversion(365.25)},
+    "km/h": {"m/s": linear_conversion(1/3.6), "km/s": linear_conversion(1/3600)},
+    "m/s": {"km/h": linear_conversion(3.6), "km/s": linear_conversion(1/1000)},
+    "km/s": {"km/h": linear_conversion(3600), "m/s": linear_conversion(1000)}
 }

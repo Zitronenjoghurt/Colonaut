@@ -38,6 +38,8 @@ class Locales:
     AXIAL_TILT = "axial_tilt"
     DENSITY = "density"
     DISTANCE_TO_STAR = "distance_to_star"
+    ESCAPE_VELOCITY = "escape_velocity"
+    GRAVITY = "gravity"
     MASS = "mass"
     ORB_PERIOD = "orb_period"
     RADIUS = "radius"

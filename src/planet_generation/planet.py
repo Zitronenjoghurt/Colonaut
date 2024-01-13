@@ -13,7 +13,7 @@ PLANET_IMAGE_LIBRARY = PlanetImageLibrary.get_instance()
 
 class Planet():
     # Which properties will be shown in the data window
-    DATA_PROPERTIES = ["temperature", "radius", "density", "axial_tilt", "rot_period", "orb_period", "mass", "volume", "distance_to_star"]
+    DATA_PROPERTIES = ["temperature", "radius", "density", "axial_tilt", "rot_period", "orb_period", "mass", "volume", "gravity", "escape_velocity", "distance_to_star"]
 
     def __init__(
             self, 
@@ -51,6 +51,8 @@ class Planet():
         self.clouds = clouds
         self.mass = phy.sphere_mass(radius=radius, density=density)
         self.volume = phy.sphere_volume(radius=radius)
+        self.gravity = phy.gravity(planet_radius=radius, planet_mass=self.mass)
+        self.escape_velocity = phy.escape_velocity(planet_radius=radius, planet_mass=self.mass)
         self.tags = tags
         
         for tag in possible_tags:
@@ -64,6 +66,8 @@ class Planet():
         self.orb_period.validate_of_class("time")
         self.mass.validate_of_class("mass")
         self.volume.validate_of_class("volume")
+        self.gravity.validate_of_class("acceleration")
+        self.escape_velocity.validate_of_class("speed")
 
     def __str__(self) -> str:
         properties = self.get_properties()

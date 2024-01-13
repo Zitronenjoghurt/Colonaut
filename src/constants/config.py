@@ -20,12 +20,15 @@ DEFAULT = {
         "mass": "kg",
         "volume": "m^3",
         "time": "h",
-        "angle": "°"
+        "angle": "°",
+        "acceleration": "m/s^2",
+        "speed": "km/s"
     },
     "display_units_convenience_treshold": {
         "time": 1,
         "mass": 1e-2,
-        "length": 1e-2
+        "length": 1e-2,
+        "acceleration": 0.1
     },
     "default_ship_console_char_delay": 17,
     "default_ship_console_line_delay": 150,

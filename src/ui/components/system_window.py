@@ -13,7 +13,6 @@ LT = LocaleTranslator.get_instance()
 
 CURRENCY_ICON_PATH = construct_path("src/assets/icons/currency.png")
 CURRENCY_ICON = Image.open(CURRENCY_ICON_PATH)
-CURRENCY_ICON = CURRENCY_ICON.resize((14, 21))
 
 UPGRADE_BOX_COUNT = 4
 
@@ -37,7 +36,7 @@ class UpgradeBox(ctk.CTkFrame):
         self.additional_text = ctk.CTkLabel(self, text="", text_color='lightgray', font=("Geist Mono", 16))
         self.additional_text.pack(pady=(5, 0))
 
-        currency_icon = ImageTk.PhotoImage(CURRENCY_ICON)
+        currency_icon = ctk.CTkImage(CURRENCY_ICON)
         self.upgrade_button = ctk.CTkButton(self, text="", fg_color='#1e5421', hover_color='#28802c', font=("Geist Mono", 26), image=currency_icon, compound='right', command=self.on_upgrade)
         self.upgrade_button.pack(pady=15)
 

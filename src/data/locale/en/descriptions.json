@@ -5,6 +5,7 @@
     "infrared_spectrometer_description": "As the name suggests, this sensor uses an infrared sensor plate to observe the planet in the infrared spectrum. This will make us able to determine the average planet temperature.",
     "laser_altimeter_description": "This sensor is emmiting lasers from different angles in the direction of the observed planet. The distance data can be used to determine the planets radius and volume.",
     "neutron_densitometer_description": "Your programming does not mention how this sensor exactly works. From its name you can derive that it has something to do with neutrons (or neutrinos?). It will determine the average density of a planet.",
+    "planet_ice_description": "Ice planets are usually very cold... and full of ice. In the deeper depths liquid water will be under so much pressure that it forms HOT ICE. This makes ice planets more dense than just pure water.",
     "radio_telemetry_description": "This is a simple radio atenna which is able to observe the planets rotation and orbit. The computer will extrapolate the collected data to determine the rotational and orbital periods over days and years.",
     "solar_panel_description": "The huge solar panel array attached to the hull will use the energy emmited from the stars we visit to charge the battery and ultimately fuel EVERYTHING. It is the powerhouse of the space ship."
 }

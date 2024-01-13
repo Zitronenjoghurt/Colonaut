@@ -13,6 +13,7 @@ class Locales:
     INFRARED_SPECTROMETER_DESCRIPTION = "infrared_spectrometer_description"
     LASER_ALTIMETER_DESCRIPTION = "laser_altimeter_description"
     NEUTRON_DENSITOMETER_DESCRIPTION = "neutron_densitometer_description"
+    PLANET_ICE_DESCRIPTION = "planet_ice_description"
     RADIO_TELEMETRY_DESCRIPTION = "radio_telemetry_description"
     SOLAR_PANEL_DESCRIPTION = "solar_panel_description"
 

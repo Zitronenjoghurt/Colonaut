@@ -18,7 +18,9 @@ class PlanetReportWindow(ctk.CTkFrame):
         secondary_background = 'gray20'
 
         self.columnconfigure(0, weight=0, minsize=250)
-        self.columnconfigure(1, weight=1)
+        self.columnconfigure(1, weight=0, minsize=250)
+        self.columnconfigure(2, weight=0, minsize=250)
+        self.columnconfigure(3, weight=0, minsize=250)
         self.rowconfigure(0, weight=0, minsize=50)
         self.rowconfigure(1, weight=0, minsize=250)
         self.rowconfigure(2, weight=1)
@@ -27,19 +29,26 @@ class PlanetReportWindow(ctk.CTkFrame):
         self.close_button = ctk.CTkButton(self, fg_color="#bd2626", hover_color="#eb2d2d", text="X", font=("Geist Mono", 22, "bold"), width=30, height=30, command=self.on_exit)
         self.close_button.place(x=920, y=15)
 
-        self.type_frame = ctk.CTkFrame(self, height=50, width=250)
-        self.type_frame.grid_propagate(False)
-        self.type_frame.grid(row=0, column=0, sticky="nsew", padx=25, pady=(25, 5))
+        type_frame = ctk.CTkFrame(self, height=50, width=250)
+        type_frame.grid_propagate(False)
+        type_frame.grid(row=0, column=0, sticky="nsew", padx=(25, 5), pady=(25, 5))
 
-        self.type_label = ctk.CTkLabel(self.type_frame, text="", font=("ELNATH", 22))
+        self.type_label = ctk.CTkLabel(type_frame, text="", font=("ELNATH", 22))
         self.type_label.pack(expand=True, fill='both', padx=5, pady=5)
 
-        self.image_frame = ctk.CTkFrame(self, height=250, width=250)
-        self.image_frame.grid_propagate(False)
-        self.image_frame.grid(row=1, column=0, sticky="nsew", padx=25, pady=(5, 25))
+        image_frame = ctk.CTkFrame(self, height=250, width=250)
+        image_frame.grid_propagate(False)
+        image_frame.grid(row=1, column=0, sticky="nsew", padx=(25, 5), pady=(5, 25))
 
-        self.planet_image = ctk.CTkLabel(self.image_frame, text="", height=200, width=200)
+        self.planet_image = ctk.CTkLabel(image_frame, text="", height=200, width=200)
         self.planet_image.pack(padx=25, pady=25)
+
+        type_description_frame = ctk.CTkFrame(self, height=300, width=250)
+        type_description_frame.grid_propagate(False)
+        type_description_frame.grid(row=0, column=1, sticky="nsew", padx=(5, 25), pady=25, rowspan=2)
+
+        self.type_description = ctk.CTkLabel(type_description_frame, text="", font=("Geist Mono", 18), justify='left', wraplength=250)
+        self.type_description.pack(expand=True, fill='x', padx=15, pady=15, anchor="n")
     
     def update_data(self) -> None:
         planet_report_event = Event(Event.TYPES.RETRIEVE_PLANET_REPORT)
@@ -55,6 +64,7 @@ class PlanetReportWindow(ctk.CTkFrame):
         type: str = planet_report.get("type", None)
         if isinstance(type, str):
             self.type_label.configure(text=LT.get(type))
+            self.type_description.configure(text=LT.get(type+"_description"))
     
     def on_exit(self) -> None:
         close_system_window = Event(Event.TYPES.UI_CLOSE_PLANET_REPORT_WINDOW)

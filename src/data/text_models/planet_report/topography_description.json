@@ -1,0 +1,8 @@
+{
+    "replace_values": {},
+    "templates": [
+        {
+            "text": "The topography of the {planet_type} we orbit is mostly {topography_texture_1} and {topography_texture_2}."
+        }
+    ]
+}

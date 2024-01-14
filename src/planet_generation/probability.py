@@ -52,10 +52,8 @@ class WeightedSelector(RandomSelector):
         if len(weights) != len(values):
             raise ValueError("An error occured while initializing weighted selector: the amount of weights and values has to be the same.")
         for i, value in enumerate(values):
-            if isinstance(value, dict):
-                values[i] = MinMaxSelector.create(data=value)
-            elif isinstance(value, list):
-                values[i] = ListSelector.create(data=value)
+            if isinstance(value, dict) or isinstance(value, list):
+                values[i] = Probability.create(data=value)
         return WeightedSelector(weights=weights, values=values)
     
     def select(self):
@@ -69,8 +67,8 @@ class WeightedSelector(RandomSelector):
 
         if result is None:
             raise RuntimeError("Weighted random selector did not yield any value.")
-        if isinstance(result, RandomSelector):
-            return result.select()
+        if isinstance(result, Probability):
+            return result.generate()
         return result
     
 class ListSelector(RandomSelector):
@@ -89,6 +87,20 @@ class ListSelector(RandomSelector):
     def select(self):
         return random.choice(self.values)
     
+class ListMultipleSelector(ListSelector):
+    def __init__(self, values: list, count: int) -> None:
+        self.count = count
+        super().__init__(values)
+
+    @staticmethod
+    def create(data: dict) -> 'ListMultipleSelector':
+        values = data.get("values", [])
+        count = data.get("count", 1)
+        return ListMultipleSelector(values=values, count=count)
+
+    def select(self):
+        return random.sample(self.values, self.count)
+
 class SingleSelector(RandomSelector):
     def __init__(self, value = None) -> None:
         self.value = value
@@ -115,8 +127,10 @@ class Probability():
         if isinstance(data, list):
             selector = ListSelector(data)
         elif isinstance(data, dict):
-            if data.get("min") is not None or data.get("max") is not None:
+            if data.get("min") is not None and data.get("max") is not None:
                 selector = MinMaxSelector.create(data)
+            elif data.get("count") is not None and data.get("values") is not None:
+                selector = ListMultipleSelector.create(data)
             else:
                 selector = WeightedSelector.create(data)
         else:

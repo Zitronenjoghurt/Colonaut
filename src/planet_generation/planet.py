@@ -5,6 +5,7 @@ from src.constants.config import Config
 from src.constants.locale_translator import LocaleTranslator
 from src.planet_generation.planet_image import PlanetImageLibrary, PlanetImage
 from src.planet_generation.planet_type import PlanetType
+from src.planet_generation.surface import Surface
 from src.planet_generation.unit_value import UnitValue
 from src.utils.gibberish import gibber
 from src.utils.validator import validate_of_type
@@ -40,7 +41,8 @@ class Planet():
             distance_to_star: UnitValue,
             star_mass: UnitValue,
             axial_tilt: UnitValue,
-            clouds: bool, 
+            surface: Surface,
+            clouds: bool,
             tags: list[str], 
             possible_tags: list[str],
             image: Optional[PlanetImage] = None
@@ -53,6 +55,7 @@ class Planet():
         distance_to_star.validate_of_class("length")
         star_mass.validate_of_class("mass")
         axial_tilt.validate_of_class("angle")
+        validate_of_type(surface, Surface)
         validate_of_type(clouds, bool)
         validate_of_type(tags, list)
         validate_of_type(possible_tags, list)
@@ -72,6 +75,7 @@ class Planet():
         self.gravity = phy.gravity(planet_radius=radius, planet_mass=self.mass)
         self.escape_velocity = phy.escape_velocity(planet_radius=radius, planet_mass=self.mass)
         self.esi = round(phy.esi(radius=radius, density=density, escape_velocity=self.escape_velocity, surface_temperature=temperature), CONFIG.DECIMAL_DIGITS)
+        self.surface = surface
         self.tags = tags
         
         for tag in possible_tags:
@@ -128,6 +132,16 @@ class Planet():
         image_data = data.get("image", None)
         if image_data:
             retrieved_data["image"] = PlanetImage.from_dict(image_data)
+
+        surface_data = data.get("surface", None)
+        if surface_data:
+            if isinstance(surface_data, Surface):
+                retrieved_data["surface"] = surface_data
+            elif isinstance(surface_data, dict):
+                retrieved_data["surface"] = Surface.from_dict(surface_data)
+        else:
+            retrieved_data["surface"] = Surface([], [])
+
         retrieved_data["possible_tags"] = possible_tags
 
         return Planet(**retrieved_data)
@@ -145,6 +159,7 @@ class Planet():
             "star_mass": str(self.star_mass),
             "axial_tilt": str(self.axial_tilt),
             "clouds": self.clouds,
+            "surface": self.surface.to_dict(),
             "tags": self.tags,
             "image": image
         }

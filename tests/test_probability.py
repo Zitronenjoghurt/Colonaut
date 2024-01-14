@@ -1,5 +1,5 @@
 import pytest
-from src.planet_generation.probability import Probability, MinMaxSelector, WeightedSelector, ListSelector, SingleSelector
+from src.planet_generation.probability import Probability, MinMaxSelector, WeightedSelector, ListSelector, ListMultipleSelector, SingleSelector
 
 RANDOM_TEST_RUNS = 10000
 
@@ -22,6 +22,14 @@ def list_prob():
     return Probability.create(data=data)
 
 @pytest.fixture
+def list_multiple():
+    data = {
+        "values": [1, 2, 3],
+        "count": 3
+    }
+    return Probability.create(data=data)
+
+@pytest.fixture
 def single_prob():
     data = 1
     return Probability.create(data=data)
@@ -34,9 +42,9 @@ def test_init(minmax_prob: Probability, weighted_prob: Probability, list_prob: P
     assert isinstance(weighted_prob.selector, WeightedSelector)
     assert weighted_prob.selector.weights == [25, 25, 50]
     assert weighted_prob.selector.values[0] == 2
-    assert weighted_prob.selector.values[1].min == 1
-    assert weighted_prob.selector.values[1].max == 3
-    assert weighted_prob.selector.values[2].values == [1, 2, 3]
+    assert weighted_prob.selector.values[1].selector.min == 1
+    assert weighted_prob.selector.values[1].selector.max == 3
+    assert weighted_prob.selector.values[2].selector.values == [1, 2, 3]
 
     assert isinstance(list_prob.selector, ListSelector)
     assert list_prob.selector.values == [1, 2, 3]
@@ -60,6 +68,11 @@ def test_list(list_prob: Probability):
     for _ in range(RANDOM_TEST_RUNS):
         random_value = list_prob.generate()
         assert random_value in [1, 2, 3]
+
+def test_list_multiple(list_multiple: Probability):
+    for _ in range(RANDOM_TEST_RUNS):
+        random_values = list_multiple.generate()
+        assert set(random_values) == set([1, 2, 3])
 
 def test_single(single_prob: Probability):
     for _ in range(RANDOM_TEST_RUNS):

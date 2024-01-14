@@ -57,5 +57,29 @@
     "clouds": {
         "weights": [95, 5],
         "values": [false, true]
+    },
+    "surface": {
+        "texture": {
+            "values": ["smooth", "cold", "slippery", "glossy", "crystalline", "brittle", "shiny", "glassy", "sharp", "clear", "glacial"],
+            "count": 2
+        },
+        "topography": {
+            "values": [
+                "glacial_valleys", 
+                "ice_plains", 
+                "frost_mountains", 
+                "cryovolcanoes", 
+                "ice_caves", 
+                "frozen_lakes",
+                "frozen_seas", 
+                "crevasse_fields", 
+                "ice_cliffs",
+                "ice_dunes",
+                "subsurface_oceans",
+                "snow_fields",
+                "icebergs"
+            ],
+            "count": 2
+        }
     }
 }

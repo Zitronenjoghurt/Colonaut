@@ -1,5 +1,6 @@
 from src.constants.config import Config
 from src.planet_generation.probability import Probability
+from src.planet_generation.surface import RandomSurface
 from src.planet_generation.unit_value import UnitValue
 from src.utils.file_operations import construct_path, file_to_dict
 from src.utils import validator
@@ -30,6 +31,7 @@ class PlanetType():
                  random_distance_to_star: Probability,
                  random_star_mass: Probability,
                  random_axial_tilt: Probability,
+                 random_surface: RandomSurface,
                  clouds: Probability) -> None:
         self.validate_units(units)
         self.units = units
@@ -41,6 +43,7 @@ class PlanetType():
         self.random_distance_to_star = random_distance_to_star
         self.random_star_mass = random_star_mass
         self.random_axial_tilt = random_axial_tilt
+        self.random_surface = random_surface
         self.clouds = clouds
 
     @staticmethod
@@ -62,20 +65,25 @@ class PlanetType():
         distance_to_star = data.get("distance_to_star", None)
         star_mass = data.get("star_mass", None)
         axial_tilt = data.get("axial_tilt", None)
+        surface = data.get("surface", None)
         clouds = data.get("clouds", False)
-
-        planet_type = PlanetType(
-            units=units,
-            name=name,
-            random_temperature = Probability.create(temperature),
-            random_radius = Probability.create(radius),
-            random_density = Probability.create(density),
-            random_rot_period = Probability.create(rot_period),
-            random_distance_to_star=Probability.create(distance_to_star),
-            random_star_mass=Probability.create(star_mass),
-            random_axial_tilt=Probability.create(axial_tilt),
-            clouds=Probability.create(clouds)
-        )
+        
+        try:
+            planet_type = PlanetType(
+                units=units,
+                name=name,
+                random_temperature = Probability.create(temperature),
+                random_radius = Probability.create(radius),
+                random_density = Probability.create(density),
+                random_rot_period = Probability.create(rot_period),
+                random_distance_to_star=Probability.create(distance_to_star),
+                random_star_mass=Probability.create(star_mass),
+                random_axial_tilt=Probability.create(axial_tilt),
+                random_surface=RandomSurface.create(surface),
+                clouds=Probability.create(clouds)
+            )
+        except Exception as e:
+            raise RuntimeError(f"An error occured while creating planet type from dictionary: {e}")
 
         return planet_type
 
@@ -110,6 +118,7 @@ class PlanetType():
             "distance_to_star": UnitValue(self.random_distance_to_star.generate(), self.get_unit("distance_to_star")),
             "star_mass": UnitValue(self.random_star_mass.generate(), self.get_unit("star_mass")),
             "axial_tilt": UnitValue(self.random_axial_tilt.generate(), self.get_unit("axial_tilt")),
+            "surface": self.random_surface.generate(),
             "clouds": self.clouds.generate()
         }
         return data

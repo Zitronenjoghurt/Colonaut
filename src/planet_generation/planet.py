@@ -47,7 +47,8 @@ class Planet():
             clouds: bool,
             tags: list[str], 
             possible_tags: list[str],
-            image: Optional[PlanetImage] = None
+            image: Optional[PlanetImage] = None,
+            topography_description: Optional[str] = None
         ) -> None:
         validate_of_type(type, str)
         temperature.validate_of_class("temperature")
@@ -96,6 +97,7 @@ class Planet():
 
         self.text_model_data = {}
         self._prepare_text_model_data()
+        self.topography_description = self._generate_topography_description() if topography_description is None else topography_description
 
     def __str__(self) -> str:
         properties = self.get_properties()
@@ -123,6 +125,7 @@ class Planet():
             "star_mass": data.get("star_mass", UnitValue.from_zero("mass")),
             "axial_tilt": data.get("axial_tilt", UnitValue.from_zero("angle")),
             "clouds": data.get("clouds", False),
+            "topography_description": data.get("topography_description", None),
             "tags": data.get("tags", [])
         }
 
@@ -166,7 +169,8 @@ class Planet():
             "clouds": self.clouds,
             "surface": self.surface.to_dict(),
             "tags": self.tags,
-            "image": image
+            "image": image,
+            "topography_description": self.topography_description
         }
         return data
     
@@ -184,13 +188,10 @@ class Planet():
     def get_report(self, revealed_data: Optional[list[str]] = None) -> dict:
         data = {
             "type": self.type,
-            "image": None if not self.image else self.image.get_ctk_image(200, 200)
+            "image": None if not self.image else self.image.get_ctk_image(200, 200),
+            "topography": self.get_topography_description()
         }
         return data
-    
-    def generate_topography_description(self) -> str:
-        model = TML.get_model(model_name="topography_description")
-        return model.generate(**self.text_model_data)
     
     def get_temperature(self) -> UnitValue:
         return self.temperature
@@ -213,6 +214,9 @@ class Planet():
     def get_volume(self) -> UnitValue:
         return self.volume
     
+    def get_topography_description(self) -> str:
+        return self.topography_description
+    
     def _prepare_text_model_data(self) -> None:
         data = {
             "planet_type": [LT.get(self.type).lower()], 
@@ -233,6 +237,10 @@ class Planet():
             data["topography_feature_2_name"] = [LT.get(self.surface.topography[1]).lower()]
         
         self.text_model_data = data
+
+    def _generate_topography_description(self) -> str:
+        model = TML.get_model(model_name="topography_description")
+        return model.generate(**self.text_model_data)
 
 WEIGHTS = {
     "ice": 100

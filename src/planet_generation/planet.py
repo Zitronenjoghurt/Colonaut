@@ -7,12 +7,14 @@ from src.planet_generation.planet_image import PlanetImageLibrary, PlanetImage
 from src.planet_generation.planet_type import PlanetType
 from src.planet_generation.surface import Surface
 from src.planet_generation.unit_value import UnitValue
+from src.text_generation.text_model import TextModelLibrary
 from src.utils.gibberish import gibber
 from src.utils.validator import validate_of_type
 
 CONFIG = Config.get_instance()
 LT = LocaleTranslator.get_instance()
 PLANET_IMAGE_LIBRARY = PlanetImageLibrary.get_instance()
+TML = TextModelLibrary.get_instance()
 
 class Planet():
     # Which properties will be shown in the data window
@@ -91,6 +93,9 @@ class Planet():
         self.volume.validate_of_class("volume")
         self.gravity.validate_of_class("acceleration")
         self.escape_velocity.validate_of_class("speed")
+
+        self.text_model_data = {}
+        self._prepare_text_model_data()
 
     def __str__(self) -> str:
         properties = self.get_properties()
@@ -183,6 +188,10 @@ class Planet():
         }
         return data
     
+    def generate_topography_description(self) -> str:
+        model = TML.get_model(model_name="topography_description")
+        return model.generate(**self.text_model_data)
+    
     def get_temperature(self) -> UnitValue:
         return self.temperature
     
@@ -203,6 +212,27 @@ class Planet():
     
     def get_volume(self) -> UnitValue:
         return self.volume
+    
+    def _prepare_text_model_data(self) -> None:
+        data = {
+            "planet_type": [LT.get(self.type).lower()], 
+            "topography_texture_1": [""],
+            "topography_texture_2": [""],
+            "topography_feature_1_name": [""],
+            "topography_feature_2_name": [""],
+            "topography_feature_1_description": ["{description}"],
+            "topography_feature_2_description": ["{description}"]
+        }
+
+        if len(self.surface.texture) >= 2:
+            data["topography_texture_1"] = [self.surface.texture[0]]
+            data["topography_texture_2"] = [self.surface.texture[1]]
+
+        if len(self.surface.topography) >= 2:
+            data["topography_feature_1_name"] = [LT.get(self.surface.topography[0]).lower()]
+            data["topography_feature_2_name"] = [LT.get(self.surface.topography[1]).lower()]
+        
+        self.text_model_data = data
 
 WEIGHTS = {
     "ice": 100

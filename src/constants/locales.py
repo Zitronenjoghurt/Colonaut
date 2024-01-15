@@ -62,6 +62,21 @@ class Locales:
     REVEAL_CHANCE = "reveal_chance"
     SUCCESS_RATE = "success_rate"
 
+    # TOPOGRAPHY
+    CREVASSE_FIELDS = "crevasse_fields"
+    CRYOVOLCANOES = "cryovolcanoes"
+    FROST_MOUNTAINS = "frost_mountains"
+    FROZEN_LAKES = "frozen_lakes"
+    FROZEN_SEAS = "frozen_seas"
+    GLACIAL_VALLES = "glacial_valleys"
+    ICEBERGS = "icebergs"
+    ICE_CAVES = "ice_caves"
+    ICE_DUNES = "ice_dunes"
+    ICE_CLIFFS = "ice_cliffs"
+    ICE_PLAINS = "ice_plains"
+    SNOW_FIELDS = "snow_fields"
+    SUBSURFACE_OCEANS = "subsurface_oceans"
+
     # UI
     ADDITIONAL_INFORMATION = "additional_information"
     INSPIRED_BY_SEEDSHIP = "inspired_by_seedship"

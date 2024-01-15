@@ -1,8 +1,12 @@
 {
-    "replace_values": {},
+    "replace_values": {
+        "data": ["data", "visuals", "visual details", "images", "observations"],
+        "prominent": ["prominent", "distinguished", "important", "frequent"],
+        "topography": ["topography", "surface", "terrain", "landscape"]
+    },
     "templates": [
         {
-            "text": "The topography of the {planet_type} we orbit is mostly {topography_texture_1} and {topography_texture_2}."
+            "text": "From the {data} we can derive that the {topography} of the {planet_type} we orbit must feel {topography_texture_1} and {topography_texture_2}. The most {prominent} features are {topography_feature_1_name}. {topography_feature_1_description}. But while less {prominent}, there are also {topography_feature_2_name} which are scattered throughout the planet."
         }
     ]
 }

@@ -2,12 +2,12 @@ from numbers import Number
 from typing import Any
 
 class Range():
-    def __init__(self, min, max) -> None:
+    def __init__(self, min: int|float, max: int|float) -> None:
         if not isinstance(min, Number):
             raise ValueError("Provided minimum value is not a number")
         if not isinstance(max, Number):
             raise ValueError("Provided maximum value is not a number")
-        if min > max: # type: ignore
+        if min > max:
             min, max = max, min
 
         self.min = min
@@ -74,15 +74,34 @@ class Range():
         }
         return data
     
-    def is_in_range(self, value, inclusive: bool = True) -> bool:
+    def is_in_range(self, value: int|float, inclusive: bool = True) -> bool:
         if not isinstance(value, Number):
             raise ValueError("Provided value is not a number")
         
         if inclusive:
-            lower_boundary = value >= self.min # type: ignore
-            upper_boundary = value <= self.max # type: ignore
+            lower_boundary = value >= self.min
+            upper_boundary = value <= self.max
         else:
-            lower_boundary = value > self.min # type: ignore
-            upper_boundary = value < self.max # type: ignore
+            lower_boundary = value > self.min
+            upper_boundary = value < self.max
 
         return lower_boundary and upper_boundary
+    
+    def get_difference(self) -> float:
+        return self.max - self.min
+    
+    # Return a value representing how far away from the range the provided value is
+    def get_relative_distance_to(self, value: int|float) -> float:
+        if not isinstance(value, Number):
+            raise ValueError("Provided value is not a number")
+        if self.is_in_range(value=value):
+            return 0
+
+        difference = self.get_difference()
+        if value > self.max:
+            distance = value - self.max
+        else:
+            distance = self.min - value
+
+        relative_distance = abs(distance)/difference
+        return relative_distance

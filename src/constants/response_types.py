@@ -2,7 +2,7 @@ class ResponseTypes:
     AMOUNT_MATTER = "amount_matter"
     BATTERY_DRAWN_ENERGY_LOG = "battery_drawn_energy_log"
     DIALOGUE_EVENT_RESPONSE = "dialogue_event_response"
-    HABITABILITY_RESULTS = "habitability_results"
+    HABITATION_REPORT = "habitation_report"
     PLANET_DATA = "planet_data"
     PLANET_REPORT = "planet_report"
     SCANNER_RESULT = "scanner_result"

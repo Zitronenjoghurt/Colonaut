@@ -194,6 +194,14 @@ class Planet():
             "image": None if not self.image else self.image.get_ctk_image(200, 200),
             "topography": self.get_topography_description()
         }
+
+        if revealed_data is None:
+            revealed_data = []
+        for property in revealed_data:
+            if not hasattr(self, property):
+                continue
+            data[property] = getattr(self, property)
+
         return data
     
     def get_temperature(self) -> UnitValue:

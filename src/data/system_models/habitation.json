@@ -8,13 +8,31 @@
             {"value": 300, "cost": 100}
         ],
         "temperature_tolerance": [
-            {"value": 10, "cost": 0}
+            {"value": 10}
+        ],
+        "min_temperature": [
+            {"value": -250}
+        ],
+        "base_temperature": [
+            {"value": 15}
+        ],
+        "max_temperature": [
+            {"value": 500}
         ],
         "gravity_tolerance": [
-            {"value": 10, "cost": 0}
+            {"value": 10}
+        ],
+        "min_gravity": [
+            {"value": 0}
+        ],
+        "base_gravity": [
+            {"value": 9.81}
+        ],
+        "max_gravity": [
+            {"value": 50}
         ],
         "power_usage": [
-            {"value": 10, "cost": 0}
+            {"value": 10}
         ]
     }
 }

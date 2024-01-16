@@ -1,0 +1,20 @@
+{
+    "standard": {
+        "max_hp": [
+            {"value": 100, "cost": 0},
+            {"value": 150, "cost": 50},
+            {"value": 200, "cost": 100},
+            {"value": 250, "cost": 100},
+            {"value": 300, "cost": 100}
+        ],
+        "temperature_tolerance": [
+            {"value": 10, "cost": 0}
+        ],
+        "gravity_tolerance": [
+            {"value": 10, "cost": 0}
+        ],
+        "power_usage": [
+            {"value": 10, "cost": 0}
+        ]
+    }
+}

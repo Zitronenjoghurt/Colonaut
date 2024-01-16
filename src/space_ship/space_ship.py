@@ -14,6 +14,7 @@ class SpaceShip(BaseEventSubscriber):
             Event.TYPES.SHIP_DAMAGE_SYSTEM: self.damage_system,
             Event.TYPES.SHIP_UPGRADE_SYSTEM: self.upgrade_system,
             Event.TYPES.RETRIEVE_SHIP_STATUS: self.get_status,
+            Event.TYPES.SHIP_RETRIEVE_SCANNER_RESULTS: self.get_scanner_results,
             Event.TYPES.RETRIEVE_SYSTEM_UPGRADES: self.get_system_upgrades,
             Event.TYPES.RETRIEVE_SYSTEM_WINDOW_DATA: self.get_system_window_data
         }
@@ -26,7 +27,7 @@ class SpaceShip(BaseEventSubscriber):
         self.systems: dict[str, ShipSystem] = dict(sorted_systems)
 
         # Ship system dashboard order priority
-        sorted_systems : list[tuple[str, ShipSystem]] = sorted(systems.items(), key=lambda system: system[1].DASHBOARD_ORDER_PRIORITY, reverse=True)
+        sorted_systems: list[tuple[str, ShipSystem]] = sorted(systems.items(), key=lambda system: system[1].DASHBOARD_ORDER_PRIORITY, reverse=True)
         self._systems_dashboard_order = dict(sorted_systems)
 
         # The unveiled planet data types
@@ -145,6 +146,9 @@ class SpaceShip(BaseEventSubscriber):
         system: ShipSystem = self.get_system(system_name=system_name).get_data()
         return system.get_system_window_data()
     
+    def get_scanner_results(self) -> Response:
+        return Response.create(self.scanner_results, Response.TYPES.SHIP_SCANNER_RESULTS)
+    
     """
     Possible errors:
     - ShipSystemNotFoundError
@@ -153,6 +157,10 @@ class SpaceShip(BaseEventSubscriber):
         system: ShipSystem = self.get_system(system_name=system_name).get_data()
         return system.get_upgrades()
     
+    """
+    Possible errors:
+    - RuntimeError
+    """
     def upgrade_system(self, system_name: str, property: str) -> Response:
         system: ShipSystem = self.get_system(system_name=system_name).get_data()
         try:

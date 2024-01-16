@@ -9,6 +9,7 @@ class Locales:
     # Descriptions
     ACCELEROMETER_DESCRIPTION = "accelerometer_description"
     BATTERY_DESCRIPTION = "battery_description"
+    HABITATION_DESCRIPTION = "habitation_description"
     HULL_DESCRIPTION = "hull_description"
     INFRARED_SPECTROMETER_DESCRIPTION = "infrared_spectrometer_description"
     LASER_ALTIMETER_DESCRIPTION = "laser_altimeter_description"
@@ -28,6 +29,7 @@ class Locales:
     # Names
     ACCELEROMETER = "accelerometer"
     BATTERY = "battery"
+    HABITATION = "habitation"
     HULL = "hull"
     INFRARED_SPECTROMETER = "infrared_spectrometer"
     LASER_ALTIMETER = "laser_altimeter"
@@ -37,18 +39,21 @@ class Locales:
     SOLAR_PANEL = "solar_panel"
 
     # Science
+    AVERAGE_TOLERANCE = "average_tolerance"
     AXIAL_TILT = "axial_tilt"
     DENSITY = "density"
     DISTANCE_TO_STAR = "distance_to_star"
     ESCAPE_VELOCITY = "escape_velocity"
     ESI = "esi"
     GRAVITY = "gravity"
+    GRAVITY_TOLERANCE = "gravity_tolerance"
     MASS = "mass"
     ORB_PERIOD = "orb_period"
     RADIUS = "radius"
     ROT_PERIOD = "rot_period"
     STAR_MASS = "star_mass"
     TEMPERATURE = "temperature"
+    TEMPERATURE_TOLERANCE = "temperature_tolerance"
     VOLUME = "volume"
 
     # Stats

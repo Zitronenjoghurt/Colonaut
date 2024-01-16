@@ -13,7 +13,7 @@ LT = LocaleTranslator.get_instance()
 class SolarPanelSystem(ShipSystem):
     NAME = "solar_panel"
     DASHBOARD_ORDER_PRIORITY = 80
-    WORK_ORDER_PRIORITY = -10
+    WORK_ORDER_PRIORITY = -90
 
     def __init__(self, upgrade_model: UpgradeModel, max_hp: int, charge_capacity: int, power_usage: int = 0, hp: Optional[int] = None) -> None:
         subscriptions = {

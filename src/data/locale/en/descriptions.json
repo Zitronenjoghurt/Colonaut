@@ -1,6 +1,7 @@
 {
     "accelerometer_description": "The accelerometer messures your relative acceleration in space. This data can be used to calculate the gravitational pull and mass of a planet.",
     "battery_description": "The battery is an essential component of the spaceship, tasked with storing the generated energy and distributing it to every system.",
+    "habitation_description": "The habitation module is one of, if not THE most important module needed for colonizing new planets. Using the results from the scanner systems it will determine how habitable a planet is. It includes different types of extendable structures which will build up a self-sustaining habitat for our human colonists.",
     "hull_description": "The ships outer shell built from dense metals. It will defend the ships inner workings with its life...",
     "infrared_spectrometer_description": "As the name suggests, this sensor uses an infrared sensor plate to observe the planet in the infrared spectrum. This will make us able to determine the average planet temperature.",
     "laser_altimeter_description": "This sensor is emmiting lasers from different angles in the direction of the observed planet. The distance data can be used to determine the planets radius and volume.",

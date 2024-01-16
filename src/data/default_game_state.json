@@ -4,6 +4,7 @@
             "hull": {},
             "battery": {},
             "solar_panel": {},
+            "habitation": {},
             "accelerometer": {},
             "infrared_spectrometer": {},
             "laser_altimeter": {},

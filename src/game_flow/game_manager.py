@@ -60,10 +60,10 @@ class GameManager(BaseEventSubscriber):
         self.game_state.ship.run()
         return Response.create()
     
-    def retrieve_planet_data(self) -> Response:
+    def retrieve_planet_data(self, do_gibber: bool = True) -> Response:
         revealed_data = self.game_state.ship.scanner_results
         if self.game_state.planet:
-            planet_data = self.game_state.planet.get_properties(revealed_data)
+            planet_data = self.game_state.planet.get_properties(revealed_data=revealed_data, do_gibber=do_gibber)
         else:
             planet_data = []
         return Response.create(planet_data, Response.TYPES.PLANET_DATA)

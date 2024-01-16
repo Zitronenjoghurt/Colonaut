@@ -16,6 +16,7 @@ class EventTypes:
     RETRIEVE_SYSTEM_WINDOW_DATA = "retrieve_system_window_data"
     SHIP_DAMAGE_SYSTEM = "ship_damage_system"
     SHIP_RETRIEVE_SYSTEM = "ship_retrieve_system"
+    SHIP_RETRIEVE_SCANNER_RESULTS = "ship_retrieve_scanner_results"
     SHIP_UPGRADE_SYSTEM = "ship_upgrade_system"
     SOLAR_PANEL_RETRIEVE_CHARGE_CAPACITY = "solar_panel_retrieve_charge_capacity"
     UI_CLOSE_PLANET_REPORT_WINDOW = "ui_close_planet_report_window"

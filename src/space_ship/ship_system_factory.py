@@ -7,6 +7,7 @@ class ShipSystemFactory():
     REGISTRY = {
         "accelerometer": ShipSystems.Accelerometer,
         "battery": ShipSystems.BatterySystem,
+        "habitation": ShipSystems.HabitationSystem,
         "hull": ShipSystems.HullSystem,
         "infrared_spectrometer": ShipSystems.InfraredSpectrometer,
         "laser_altimeter": ShipSystems.LaserAltimeter,

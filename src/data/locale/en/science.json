@@ -1,15 +1,18 @@
 {
+    "average_tolerance": "avg. Tolerance",
     "axial_tilt": "Axial Tilt",
     "density": "Density",
     "distance_to_star": "Distance->Star",
     "escape_velocity": "Escape Velocity",
     "esi": "ESI",
     "gravity": "Gravity",
+    "gravity_tolerance": "Gravity Tolerance",
     "mass": "Planet Mass",
     "orb_period": "Orbital Period",
     "radius": "Radius",
     "rot_period": "Rotational Period",
     "star_mass": "Star Mass",
     "temperature": "Temperature",
+    "temperature_tolerance": "Thermal Tolerance",
     "volume": "Volume"
 }

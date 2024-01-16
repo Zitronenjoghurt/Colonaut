@@ -1,6 +1,7 @@
 {
     "accelerometer": "Accelerometer",
     "battery": "Battery",
+    "habitation": "Habitation",
     "hull": "Hull",
     "infrared_spectrometer": "Infrared Spectrometer",
     "laser_altimeter": "Laser Altimeter",

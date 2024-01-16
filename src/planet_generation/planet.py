@@ -174,11 +174,14 @@ class Planet():
         }
         return data
     
-    def get_properties(self, revealed_data: Optional[list[str]] = None) -> list[tuple[str, str]]:
+    def get_properties(self, revealed_data: Optional[list[str]] = None, do_gibber: bool = True) -> list[tuple[str, str]]:
         properties = []
         for property in self.DATA_PROPERTIES:
             if isinstance(revealed_data, list) and property not in revealed_data:
-                value = gibber(12)
+                if do_gibber:
+                    value = gibber(12)
+                else:
+                    continue
             else:
                 value = getattr(self, property)
             property = (property, str(value))

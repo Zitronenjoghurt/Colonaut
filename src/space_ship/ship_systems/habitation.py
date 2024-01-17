@@ -1,3 +1,4 @@
+import math
 from typing import Optional
 from src.constants.config import Config
 from src.events.event import Event
@@ -13,6 +14,9 @@ CONFIG = Config.get_instance()
 # Ranges for sustainable human survival without extensive equipment
 HUMAN_TEMPERATURE_RANGE = Range(min=10, max=30)
 HUMAN_GRAVITY_RANGE = Range(min=8.9, max=10.8)
+
+# Score parameters
+BASE_SCORE = 1000
 
 class HabitationSystem(ShipSystem):
     NAME = "habitation"
@@ -107,11 +111,36 @@ class HabitationSystem(ShipSystem):
         temperature = planet_report.get("temperature", None)
         if isinstance(temperature, UnitValue):
             temperature = temperature.convert("°C")
-            report["temperature_score"] = HUMAN_TEMPERATURE_RANGE.get_relative_distance_to(value=temperature.get_value())
+            
+            human_distance = HUMAN_TEMPERATURE_RANGE.get_relative_distance_to(value=temperature.get_value())
+            human_score = self.calculate_score(human_distance)
+            report["human_temperature_score"] = human_score
+            report["human_temperature_percentage"] = human_score / BASE_SCORE * 100
+
+            habitat_distance = self.get_temperature_range().get_relative_distance_to(value=temperature.get_value())
+            habitat_score = self.calculate_score(habitat_distance)
+            report["habitat_temperature_score"] = habitat_score
+            report["habitat_temperature_percentage"] = habitat_score / BASE_SCORE * 100
         
         gravity = planet_report.get("gravity", None)
         if isinstance(gravity, UnitValue):
             gravity = gravity.convert("m/s^2")
-            report["gravity_score"] = HUMAN_GRAVITY_RANGE.get_relative_distance_to(value=gravity.get_value())
+
+            human_distance = HUMAN_GRAVITY_RANGE.get_relative_distance_to(value=gravity.get_value())
+            human_score = self.calculate_score(human_distance)
+            report["human_gravity_score"] = human_score
+            report["human_gravity_percentage"] = human_score / BASE_SCORE * 100
+
+            habitat_distance = self.get_gravity_range().get_relative_distance_to(value=gravity.get_value())
+            habitat_score = self.calculate_score(habitat_distance)
+            report["habitat_gravity_score"] = habitat_score
+            report["habitat_gravity_percentage"] = habitat_score / BASE_SCORE * 100
 
         return Response.create(data=report, response_type=Response.TYPES.HABITATION_REPORT)
+    
+    @staticmethod
+    def calculate_score(distance: float) -> float:
+        score = BASE_SCORE - BASE_SCORE * math.log(distance*0.75 + 1)
+        if score < 0:
+            score = 0
+        return score

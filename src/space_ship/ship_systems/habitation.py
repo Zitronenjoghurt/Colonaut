@@ -6,14 +6,37 @@ from src.events.response import Response
 from src.planet_generation.unit_value import UnitValue
 from src.space_ship.ship_system import ShipSystem
 from src.space_ship.upgrade_model import UpgradeModel
-from src.utils.maths import linear_interpolation
+from src.utils.maths import clam, linear_interpolation
 from src.utils.range import Range
 
 CONFIG = Config.get_instance()
 
-# Ranges for sustainable human survival without extensive equipment
-HUMAN_TEMPERATURE_RANGE = Range(min=10, max=30)
-HUMAN_GRAVITY_RANGE = Range(min=8.9, max=10.8)
+HABITABILITY_CONFIG = {
+    "temperature": {
+        # Ranges for sustainable human survival without extensive equipment
+        "min_human_range": 10,
+        "max_human_range": 30,
+        # If youre that far away from the sustainable parameters, youll have a score of exact 0
+        "score_max_distance": 20,
+        # If youre that far away from the sustainable parameters, youll have a percentage of 0%
+        "percentage_max_distance": 40
+    },
+    "gravity": {
+        "min_human_range": 8.9,
+        "max_human_range": 10.8,
+        "score_max_distance": 1.5,
+        "percentage_max_distance": 2
+    }
+}
+
+HUMAN_TEMPERATURE_RANGE = Range(
+    min=HABITABILITY_CONFIG["temperature"]["min_human_range"], 
+    max=HABITABILITY_CONFIG["temperature"]["max_human_range"]
+)
+HUMAN_GRAVITY_RANGE = Range(
+    min=HABITABILITY_CONFIG["gravity"]["min_human_range"], 
+    max=HABITABILITY_CONFIG["gravity"]["max_human_range"]
+)
 
 # Score parameters
 BASE_SCORE = 1000
@@ -112,35 +135,44 @@ class HabitationSystem(ShipSystem):
         if isinstance(temperature, UnitValue):
             temperature = temperature.convert("°C")
             
-            human_distance = HUMAN_TEMPERATURE_RANGE.get_relative_distance_to(value=temperature.get_value())
-            human_score = self.calculate_score(human_distance)
+            human_distance = HUMAN_TEMPERATURE_RANGE.get_distance_to(value=temperature.get_value())
+            human_score, human_percentage = self.calculate_score_percentage(human_distance, "temperature")
             report["human_temperature_score"] = human_score
-            report["human_temperature_percentage"] = human_score / BASE_SCORE * 100
+            report["human_temperature_percentage"] = human_percentage
 
-            habitat_distance = self.get_temperature_range().get_relative_distance_to(value=temperature.get_value())
-            habitat_score = self.calculate_score(habitat_distance)
+            habitat_distance = self.get_temperature_range().get_distance_to(value=temperature.get_value())
+            habitat_score, habitat_percentage = self.calculate_score_percentage(habitat_distance, "temperature")
             report["habitat_temperature_score"] = habitat_score
-            report["habitat_temperature_percentage"] = habitat_score / BASE_SCORE * 100
+            report["habitat_temperature_percentage"] = habitat_percentage
         
         gravity = planet_report.get("gravity", None)
         if isinstance(gravity, UnitValue):
             gravity = gravity.convert("m/s^2")
 
             human_distance = HUMAN_GRAVITY_RANGE.get_relative_distance_to(value=gravity.get_value())
-            human_score = self.calculate_score(human_distance)
+            human_score, human_percentage = self.calculate_score_percentage(human_distance, "gravity")
             report["human_gravity_score"] = human_score
-            report["human_gravity_percentage"] = human_score / BASE_SCORE * 100
+            report["human_gravity_percentage"] = human_percentage
 
             habitat_distance = self.get_gravity_range().get_relative_distance_to(value=gravity.get_value())
-            habitat_score = self.calculate_score(habitat_distance)
+            habitat_score, habitat_percentage = self.calculate_score_percentage(habitat_distance, "gravity")
             report["habitat_gravity_score"] = habitat_score
-            report["habitat_gravity_percentage"] = habitat_score / BASE_SCORE * 100
+            report["habitat_gravity_percentage"] = habitat_percentage
 
         return Response.create(data=report, response_type=Response.TYPES.HABITATION_REPORT)
     
     @staticmethod
-    def calculate_score(distance: float) -> float:
-        score = BASE_SCORE - BASE_SCORE * math.log(distance*0.75 + 1)
-        if score < 0:
-            score = 0
-        return score
+    def calculate_score_percentage(distance: float, property: str) -> tuple[float, float]:
+        try:
+            score_max_distance = HABITABILITY_CONFIG[property]["score_max_distance"]
+            percentage_max_distance = HABITABILITY_CONFIG[property]["percentage_max_distance"]
+        except Exception as e:
+            raise RuntimeError(f"An error occured while retrieving the habitability configuration for property '{property}': {e}")
+        
+        score = (score_max_distance - distance)/score_max_distance * BASE_SCORE
+        percentage = (percentage_max_distance - distance)/percentage_max_distance * 100
+
+        score = clam(score, 0, BASE_SCORE)
+        percentage = clam(percentage, 0, 100)
+
+        return score, percentage

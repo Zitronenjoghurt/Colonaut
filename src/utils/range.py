@@ -90,18 +90,23 @@ class Range():
     def get_difference(self) -> float:
         return self.max - self.min
     
-    # Return a value representing how far away from the range the provided value is
-    def get_relative_distance_to(self, value: int|float) -> float:
+    def get_distance_to(self, value: int|float) -> float:
         if not isinstance(value, Number):
             raise ValueError("Provided value is not a number")
         if self.is_in_range(value=value):
             return 0
-
-        difference = self.get_difference()
+        
         if value > self.max:
             distance = value - self.max
         else:
             distance = self.min - value
 
+        return distance
+    
+    # Return a value representing how far away from the range the provided value is
+    def get_relative_distance_to(self, value: int|float) -> float:
+        distance = self.get_distance_to(value=value)
+
+        difference = self.get_difference()
         relative_distance = abs(distance)/difference
         return relative_distance

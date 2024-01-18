@@ -19,3 +19,19 @@ def test_is_in_range(range: Range):
     assert range.is_in_range(300, inclusive=False) == True
     assert range.is_in_range(500) == True
     assert range.is_in_range(500, inclusive=False) == False
+
+def test_get_difference(range: Range):
+    assert range.get_difference() == 700
+
+def test_get_distance_to(range: Range):
+    assert range.get_distance_to(100) == 0
+    assert range.get_distance_to(-200) == 0
+    assert range.get_distance_to(600) == 100
+    assert range.get_distance_to(-500) == 300
+
+def test_get_relative_distance_to(range: Range):
+    assert range.get_relative_distance_to(500) == 0
+    assert range.get_relative_distance_to(1200) == 1
+    assert range.get_relative_distance_to(1900) == 2
+    assert range.get_relative_distance_to(-900) == 1
+    assert range.get_relative_distance_to(-1600) == 2

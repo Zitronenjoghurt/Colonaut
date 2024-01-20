@@ -51,14 +51,14 @@ class PlanetReportWindow(ctk.CTkFrame):
         habitability_frame.grid_propagate(False)
         habitability_frame.grid(row=2, column=0, rowspan=2, sticky="nsew", padx=(25, 5), pady=(5, 25))
 
-        self.temperature_box = HabitabilityBox(habitability_frame)
+        self.temperature_box = HabitabilityBox(habitability_frame, title=LT.get(LT.KEYS.TEMPERATURE))
         self.temperature_box.pack(fill='x', padx=10, pady=(15, 10), anchor='n')
 
-        self.gravity_box = HabitabilityBox(habitability_frame)
+        self.gravity_box = HabitabilityBox(habitability_frame, title=LT.get(LT.KEYS.GRAVITY))
         self.gravity_box.pack(fill='x', padx=10, pady=10, anchor='n')
         
         # placeholder for the future
-        self.whatever_box = HabitabilityBox(habitability_frame)
+        self.whatever_box = HabitabilityBox(habitability_frame, title="Placeholder")
         self.whatever_box.pack(fill='x', padx=10, pady=(10, 15), anchor='n')
 
         atmosphere_frame = ctk.CTkFrame(self, height=300, width=250)
@@ -70,6 +70,10 @@ class PlanetReportWindow(ctk.CTkFrame):
         resource_frame.grid(row=3, column=1, sticky="nsew", padx=(5, 5), pady=(5, 25))
     
     def update_data(self) -> None:
+        self.update_planet_report()
+        self.update_habitation_report()
+
+    def update_planet_report(self) -> None:
         planet_report_event = Event(Event.TYPES.RETRIEVE_PLANET_REPORT)
         planet_report_response = EVENT_BUS.publish(planet_report_event)
         planet_report = planet_report_response.get_data(Response.TYPES.PLANET_REPORT)
@@ -84,7 +88,23 @@ class PlanetReportWindow(ctk.CTkFrame):
         if isinstance(type, str):
             self.type_label.configure(text=LT.get(type))
             self.type_description.configure(text=LT.get(type+"_description"))
-    
+
+    def update_habitation_report(self) -> None:
+        habitation_report_event = Event(Event.TYPES.HABITATION_RETRIEVE_REPORT)
+        habitation_report_response = EVENT_BUS.publish(habitation_report_event)
+        habitation_report = habitation_report_response.get_data(Response.TYPES.HABITATION_REPORT)
+
+        if not habitation_report:
+            return
+        
+        human_temperature_percentage = habitation_report.get("human_temperature_percentage", None)
+        habitat_temperature_percentage = habitation_report.get("habitat_temperature_percentage", None)
+        self.temperature_box.update_data(human_temperature_percentage, habitat_temperature_percentage)
+
+        human_gravity_percentage = habitation_report.get("human_gravity_percentage", None)
+        habitat_gravity_percentage = habitation_report.get("habitat_gravity_percentage", None)
+        self.gravity_box.update_data(human_gravity_percentage, habitat_gravity_percentage)
+
     def on_exit(self) -> None:
         close_system_window = Event(Event.TYPES.UI_CLOSE_PLANET_REPORT_WINDOW)
         EVENT_BUS.publish(close_system_window)

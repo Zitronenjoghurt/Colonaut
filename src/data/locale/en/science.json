@@ -6,13 +6,13 @@
     "escape_velocity": "Escape Velocity",
     "esi": "ESI",
     "gravity": "Gravity",
-    "gravity_tolerance": "Gravity Tolerance",
+    "gravity_tolerance": "Gravity Tol.",
     "mass": "Planet Mass",
     "orb_period": "Orbital Period",
     "radius": "Radius",
     "rot_period": "Rotational Period",
     "star_mass": "Star Mass",
     "temperature": "Temperature",
-    "temperature_tolerance": "Thermal Tolerance",
+    "temperature_tolerance": "Thermal Tol.",
     "volume": "Volume"
 }

@@ -4,12 +4,13 @@ from src.planet_generation.unit_value import UnitValue
 VALUES = [
     {"mm": 1.496e14, "cm": 1.496e13, "m": 1.496e11, "km": 1.496e8, "AU": 1},
     {"mm^3": 1e18, "cm^3": 1e15, "m^3": 1e9, "km^3": 1},
-    {"g": 5.972e27, "kg": 5.972e24, "t": 5.972e21, "Earth": 1, "Sun": 1/333000},
+    {"grm": 5.972e27, "kg": 5.972e24, "t": 5.972e21, "Earth": 1, "Sun": 1/333000},
     {"g/cm^3": 1, "kg/m^3": 1000},
     {"°K": 273.15, "°C": 0, "°F": 32},
     {"°K": 233.15, "°C": -40, "°F": -40},
     {"s": 63115200, "min": 1051920, "h": 17532, "d": 730.5, "y": 2},
-    {"km/h": 3600, "m/s": 1000, "km/s": 1}
+    {"km/h": 3600, "m/s": 1000, "km/s": 1},
+    {"m/s^2": 9.81, "g": 1}
 ]
 
 def test_str():
@@ -25,7 +26,7 @@ def test_str():
     assert str(c) == "100000g/cm^3"
     assert str(d) == "0.1m^3"
     assert str(e) == "0.01°C"
-    assert str(f) == "1g"
+    assert str(f) == "1grm"
 
 def test_conversion():
     for unit_values in VALUES:

@@ -1,12 +1,12 @@
 CLASS_UNIT_MAP = {
     "length": ["mm", "cm", "m", "km", "AU"],
     "volume": ["mm^3", "cm^3", "m^3", "km^3"],
-    "mass": ["g", "kg", "t", "Earth", "Sun"],
+    "mass": ["grm", "kg", "t", "Earth", "Sun"],
     "density": ["g/cm^3", "kg/m^3"],
     "temperature": ["°K", "°C", "°F"],
     "time": ["s", "min", "h", "d", "y"],
     "angle": ["°"],
-    "acceleration": ["m/s^2"],
+    "acceleration": ["m/s^2", "g"],
     "speed": ["km/h", "m/s", "km/s"]
 }
 
@@ -49,11 +49,11 @@ CONVERSIONS = {
     "cm^3": {"mm^3": linear_conversion(1e3), "m^3": linear_conversion(1e-6), "km^3": linear_conversion(1e-15)},
     "m^3": {"mm^3": linear_conversion(1e9), "cm^3": linear_conversion(1e6), "km^3": linear_conversion(1e-9)},
     "km^3": {"mm^3": linear_conversion(1e18), "cm^3": linear_conversion(1e15), "m^3": linear_conversion(1e9)},
-    "g": {"kg": linear_conversion(1e-3), "t": linear_conversion(1e-6), "Earth": linear_conversion(1/5.972e27), "Sun": linear_conversion(1/1.989e33)},
-    "kg": {"g": linear_conversion(1e3), "t": linear_conversion(1e-3), "Earth": linear_conversion(1/5.972e24), "Sun": linear_conversion(1/1.989e30)},
-    "t": {"g": linear_conversion(1e6), "kg": linear_conversion(1e3), "Earth": linear_conversion(1/5.972e21), "Sun": linear_conversion(1/1.989e27)},
-    "Earth": {"g": linear_conversion(5.972e27), "kg": linear_conversion(5.972e24), "t": linear_conversion(5.972e21), "Sun": linear_conversion(1/333000)},
-    "Sun": {"g": linear_conversion(1.989e33), "kg": linear_conversion(1.989e30), "t": linear_conversion(1.989e27), "Earth": linear_conversion(333000)},
+    "grm": {"kg": linear_conversion(1e-3), "t": linear_conversion(1e-6), "Earth": linear_conversion(1/5.972e27), "Sun": linear_conversion(1/1.989e33)},
+    "kg": {"grm": linear_conversion(1e3), "t": linear_conversion(1e-3), "Earth": linear_conversion(1/5.972e24), "Sun": linear_conversion(1/1.989e30)},
+    "t": {"grm": linear_conversion(1e6), "kg": linear_conversion(1e3), "Earth": linear_conversion(1/5.972e21), "Sun": linear_conversion(1/1.989e27)},
+    "Earth": {"grm": linear_conversion(5.972e27), "kg": linear_conversion(5.972e24), "t": linear_conversion(5.972e21), "Sun": linear_conversion(1/333000)},
+    "Sun": {"grm": linear_conversion(1.989e33), "kg": linear_conversion(1.989e30), "t": linear_conversion(1.989e27), "Earth": linear_conversion(333000)},
     "g/cm^3": {"kg/m^3": linear_conversion(1e3)},
     "kg/m^3": {"g/cm^3": linear_conversion(1e-3)},
     "°K": {"°C": kelvin_to_celcius, "°F": kelvin_to_fahrenheit},
@@ -66,5 +66,7 @@ CONVERSIONS = {
     "y": {"s": linear_conversion(31557600), "min": linear_conversion(525960), "h": linear_conversion(8766), "d": linear_conversion(365.25)},
     "km/h": {"m/s": linear_conversion(1/3.6), "km/s": linear_conversion(1/3600)},
     "m/s": {"km/h": linear_conversion(3.6), "km/s": linear_conversion(1/1000)},
-    "km/s": {"km/h": linear_conversion(3600), "m/s": linear_conversion(1000)}
+    "km/s": {"km/h": linear_conversion(3600), "m/s": linear_conversion(1000)},
+    "m/s^2": {"g": linear_conversion(1/9.81)},
+    "g": {"m/s^2": linear_conversion(9.81)}
 }

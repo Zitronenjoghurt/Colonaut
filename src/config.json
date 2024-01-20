@@ -15,7 +15,7 @@
         "volume": "m^3",
         "time": "h",
         "angle": "°",
-        "acceleration": "m/s^2",
+        "acceleration": "g",
         "speed": "km/s"
     },
     "display_units_convenience_treshold": {

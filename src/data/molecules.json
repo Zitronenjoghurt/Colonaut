@@ -2,6 +2,8 @@
     "hydrogen": {
         "symbol": "H",
         "melting_point": "13.99°K",
-        "boiling_point": "20.271°K"
+        "boiling_point": "20.271°K",
+        "exist_weight": 5000,
+        "concentration_weight": {"min": 100, "max": 200}
     }
 }

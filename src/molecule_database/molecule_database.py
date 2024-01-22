@@ -23,8 +23,8 @@ class MoleculeDatabase():
                 molecule = Molecule.from_dict(molecule_data)
             except ValueError as e:
                 raise RuntimeError(f"An error occured while initializing molecule database: {e}")
-            self.molecules_by_name[molecule_name] = molecule
-            self.molecules_by_symbol[molecule.get_symbol()] = molecule
+            self.molecules_by_name[molecule_name.lower()] = molecule
+            self.molecules_by_symbol[molecule.get_symbol().lower()] = molecule
         
     @staticmethod
     def get_instance() -> 'MoleculeDatabase':
@@ -33,6 +33,7 @@ class MoleculeDatabase():
         return MoleculeDatabase._instance
     
     def get_molecule(self, name_or_symbol: str) -> Molecule:
+        name_or_symbol = name_or_symbol.lower()
         if name_or_symbol in self.molecules_by_name:
             return self.molecules_by_name[name_or_symbol]
         if name_or_symbol in self.molecules_by_symbol:

@@ -1,7 +1,8 @@
-from src.molecule_database.element import Element
+from src.molecule_database.aggregate_states import AggregateState
+from src.molecule_database.molecule import Molecule
 from src.utils.file_operations import construct_path, file_to_dict
 
-ELEMENTS_FILE_PATH = construct_path("src/data/elements.json")
+MOLECULES_FILE_PATH = construct_path("src/data/molecules.json")
 
 class MoleculeDatabase():
     _instance = None
@@ -9,22 +10,31 @@ class MoleculeDatabase():
     def __init__(self) -> None:
         if MoleculeDatabase._instance is not None:
             raise RuntimeError("Tried to initialize multiple instances of MoleculeDatabase.")
-        self.elements = {}
-        self._load_elements()
+        self.molecules_by_name = {}
+        self.molecules_by_symbol = {}
+        self._load_molecules()
 
-    def _load_elements(self) -> None:
-        data = file_to_dict(ELEMENTS_FILE_PATH)
+    def _load_molecules(self) -> None:
+        data = file_to_dict(MOLECULES_FILE_PATH)
 
-        for element_name, element_data in data.items():
-            element_data["name"] = element_name
+        for molecule_name, molecule_data in data.items():
+            molecule_data["name"] = molecule_name
             try:
-                element = Element.from_dict(element_data)
+                molecule = Molecule.from_dict(molecule_data)
             except ValueError as e:
                 raise RuntimeError(f"An error occured while initializing molecule database: {e}")
-            self.elements[element_name] = element
+            self.molecules_by_name[molecule_name] = molecule
+            self.molecules_by_symbol[molecule.get_symbol()] = molecule
         
     @staticmethod
     def get_instance() -> 'MoleculeDatabase':
         if MoleculeDatabase._instance is None:
             MoleculeDatabase._instance = MoleculeDatabase()
         return MoleculeDatabase._instance
+    
+    def get_molecule(self, name_or_symbol: str) -> Molecule:
+        if name_or_symbol in self.molecules_by_name:
+            return self.molecules_by_name[name_or_symbol]
+        if name_or_symbol in self.molecules_by_symbol:
+            return self.molecules_by_symbol[name_or_symbol]
+        raise ValueError(f"Molecule with name or symbol {name_or_symbol} does not exist in current molecule database.")

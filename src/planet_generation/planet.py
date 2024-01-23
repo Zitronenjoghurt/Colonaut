@@ -78,6 +78,7 @@ class Planet():
         self.gravity = phy.gravity(planet_radius=radius, planet_mass=self.mass)
         self.escape_velocity = phy.escape_velocity(planet_radius=radius, planet_mass=self.mass)
         self.esi = round(phy.esi(radius=radius, density=density, escape_velocity=self.escape_velocity, surface_temperature=temperature), CONFIG.DECIMAL_DIGITS)
+        self.min_attracted_molecular_mass = phy.min_attracted_molecular_mass(self.escape_velocity, self.temperature)
         self.surface = surface
         self.tags = tags
         
@@ -94,6 +95,7 @@ class Planet():
         self.volume.validate_of_class("volume")
         self.gravity.validate_of_class("acceleration")
         self.escape_velocity.validate_of_class("speed")
+        self.min_attracted_molecular_mass.validate_of_class("atomic_mass")
 
         self.text_model_data = {}
         self._prepare_text_model_data()

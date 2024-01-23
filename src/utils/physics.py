@@ -1,7 +1,9 @@
 import math
 from src.planet_generation.unit_value import UnitValue
 
-G = 6.6743e-11
+G = 6.6743e-11 # Gravitational constant
+k = 1.38e-23   # Boltzman constant
+
 ESI_WEIGHTS = {
     "radius": 0.57,
     "density": 1.07,
@@ -91,3 +93,17 @@ def esi(radius: UnitValue, density: UnitValue, escape_velocity: UnitValue, surfa
     
     final_esi = esi_product**(1/4)
     return final_esi
+
+# Calculates the minimum molecular mass for molecules the planet can keep in its atmosphere
+# The lighter the molecule, the harder it is to keep in the atmosphere
+def min_attracted_molecular_mass(escape_velocity: UnitValue, average_temperature: UnitValue) -> UnitValue:
+    v_esc = escape_velocity.convert("m/s").get_value()
+    T = average_temperature.convert("°K").get_value()
+
+    # The formula was derived from rearranging the formula for calculating the average speed of a gas molecule to solve for m
+    # Then we put in the escape velocity of the planet * 0.2 for the gas molecule speed and end up with this formula
+    m_kg = (3*k*T)/(0.2*v_esc)**2
+
+    m_u = m_kg * 6.022e+26
+
+    return UnitValue(m_u, "u")

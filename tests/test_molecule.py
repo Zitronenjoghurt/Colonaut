@@ -8,6 +8,7 @@ def water():
     data = {
         "name": "water",
         "symbol": "H20",
+        "atomic_mass": "18.02u",
         "melting_point": "0°C",
         "boiling_point": "100°C",
         "exist_weight": 100,
@@ -18,6 +19,7 @@ def water():
 def test_init(water: Molecule):
     assert water.get_name() == "water"
     assert water.get_symbol() == "H20"
+    assert water.get_atomic_mass().get_value() == 18.02
     assert water.get_melting_point().convert("°C").get_value() == 0
     assert water.get_boiling_point().convert("°C").get_value() == 100
     assert water.get_exist_weight() == 100

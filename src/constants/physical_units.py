@@ -2,6 +2,7 @@ CLASS_UNIT_MAP = {
     "length": ["mm", "cm", "m", "km", "AU"],
     "volume": ["mm^3", "cm^3", "m^3", "km^3"],
     "mass": ["grm", "kg", "t", "Earth", "Sun"],
+    "atomic_mass": ["u"],
     "density": ["g/cm^3", "kg/m^3"],
     "temperature": ["°K", "°C", "°F"],
     "time": ["s", "min", "h", "d", "y"],

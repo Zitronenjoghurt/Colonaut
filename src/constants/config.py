@@ -18,6 +18,7 @@ DEFAULT = {
         "density": "g/cm^3",
         "length": "km",
         "mass": "kg",
+        "atomic_mass": "u",
         "volume": "m^3",
         "time": "h",
         "angle": "°",

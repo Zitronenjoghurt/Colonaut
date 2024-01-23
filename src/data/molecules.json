@@ -1,6 +1,7 @@
 {
     "hydrogen": {
         "symbol": "H",
+        "atomic_mass": "1.008u",
         "melting_point": "13.99°K",
         "boiling_point": "20.271°K",
         "exist_weight": 5000,

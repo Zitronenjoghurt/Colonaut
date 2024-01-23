@@ -8,7 +8,8 @@ class Molecule():
     def __init__(
             self, 
             name: str, 
-            symbol: str, 
+            symbol: str,
+            atomic_mass: UnitValue,
             melting_point: UnitValue, 
             boiling_point: UnitValue, 
             exist_weight: int,
@@ -16,6 +17,7 @@ class Molecule():
         ) -> None:
         validate_of_type(name, str, "name")
         validate_of_type(symbol, str, "symbol")
+        atomic_mass.validate_of_class("atomic_mass")
         melting_point.validate_of_class("temperature")
         boiling_point.validate_of_class("temperature")
         validate_of_type(exist_weight, Number, "exist_weight")
@@ -23,6 +25,7 @@ class Molecule():
 
         self.name = name
         self.symbol = symbol
+        self.atomic_mass = atomic_mass
         self.melting_point = melting_point.convert("°K")
         self.boiling_point = boiling_point.convert("°K")
         self.exist_weight = exist_weight
@@ -33,12 +36,16 @@ class Molecule():
         retrieved_data = {
             "name": data.get("name", None),
             "symbol": data.get("symbol", None),
+            "atomic_mass": None,
             "melting_point": None,
             "boiling_point": None,
             "exist_weight": data.get("exist_weight", None),
             "concentration_weight": None
         }
 
+        atomic_mass = data.get("atomic_mass", None)
+        if isinstance(atomic_mass, (dict, str)):
+            retrieved_data["atomic_mass"] = UnitValue.from_any(atomic_mass)
         melting_point = data.get("melting_point", None)
         if isinstance(melting_point, (str, dict)):
             retrieved_data["melting_point"] = UnitValue.from_any(melting_point)
@@ -60,6 +67,9 @@ class Molecule():
     
     def get_symbol(self) -> str:
         return self.symbol
+    
+    def get_atomic_mass(self) -> UnitValue:
+        return self.atomic_mass
     
     def get_melting_point(self) -> UnitValue:
         return self.melting_point

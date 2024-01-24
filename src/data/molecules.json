@@ -7,9 +7,17 @@
         "exist_weight": 5000,
         "concentration_weight": {"min": 100, "max": 200}
     },
+    "helium": {
+        "symbol": "He",
+        "atomic_mass": "4u",
+        "melting_point": "0.95°K",
+        "boiling_point": "4.222°K",
+        "exist_weight": 4000,
+        "concentration_weight": {"min": 20, "max": 50}
+    },
     "nitrogen": {
         "symbol": "N2",
-        "atomic_mass": "14u",
+        "atomic_mass": "28u",
         "melting_point": "63.23°K",
         "boiling_point": "77.355°K",
         "exist_weight": 3000,
@@ -30,5 +38,62 @@
         "boiling_point": "161°K",
         "exist_weight": 500,
         "concentration_weight": {"min": 10, "max": 50}
+    },
+    "carbon_dioxide": {
+        "symbol": "CO2",
+        "atomic_mass": "44u",
+        "melting_point": "194.7°K",
+        "boiling_point": "194.7°K",
+        "exist_weight": 1000,
+        "concentration_weight": {"min": 200, "max": 500},
+        "extra": "CO2 has no liquid form"
+    },
+    "methane": {
+        "symbol": "CH4",
+        "atomic_mass": "16u",
+        "melting_point": "90.694°K",
+        "boiling_point": "111.6°K",
+        "exist_weight": 100,
+        "concentration_weight": {"min": 10, "max": 400}
+    },
+    "water": {
+        "symbol": "H2O",
+        "atomic_mass": "18u",
+        "melting_point": "273.15°K",
+        "boiling_point": "373.13°K",
+        "exist_weight": 1500,
+        "concentration_weight": {"min": 200, "max": 1000}
+    },
+    "amonia": {
+        "symbol": "NH3",
+        "atomic_mass": "17u",
+        "melting_point": "195.4°K",
+        "boiling_point": "239.81°K",
+        "exist_weight": 100,
+        "concentration_weight": {"min": 10, "max": 400}
+    },
+    "sulfur_dioxide": {
+        "symbol": "SO3",
+        "atomic_mass": "64u",
+        "melting_point": "201°K",
+        "boiling_point": "263°K",
+        "exist_weight": 100,
+        "concentration_weight": {"min": 10, "max": 400}
+    },
+    "argon": {
+        "symbol": "Ar",
+        "atomic_mass": "40u",
+        "melting_point": "83.81°K",
+        "boiling_point": "87.302°K",
+        "exist_weight": 200,
+        "concentration_weight": {"min": 10, "max": 100}
+    },
+    "neon": {
+        "symbol": "Ne",
+        "atomic_mass": "20.18u",
+        "melting_point": "24.56°K",
+        "boiling_point": "27.104°K",
+        "exist_weight": 200,
+        "concentration_weight": {"min": 10, "max": 100}
     }
 }

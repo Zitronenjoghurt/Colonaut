@@ -64,7 +64,7 @@
         "exist_weight": 1500,
         "concentration_weight": {"min": 200, "max": 1000}
     },
-    "amonia": {
+    "ammonia": {
         "symbol": "NH3",
         "atomic_mass": "17u",
         "melting_point": "195.4°K",

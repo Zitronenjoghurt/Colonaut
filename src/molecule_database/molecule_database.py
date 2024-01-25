@@ -1,3 +1,4 @@
+import numpy
 from src.molecule_database.aggregate_states import AggregateState
 from src.molecule_database.molecule import Molecule
 from src.utils.file_operations import construct_path, file_to_dict
@@ -42,6 +43,10 @@ class MoleculeDatabase():
             MoleculeDatabase._instance = MoleculeDatabase()
         return MoleculeDatabase._instance
     
+    def molecule_exists(self, name_or_symbol: str) -> bool:
+        name_or_symbol = name_or_symbol.lower()
+        return name_or_symbol in self.molecules_by_name or name_or_symbol in self.molecules_by_symbol
+    
     def get_molecule(self, name_or_symbol: str) -> Molecule:
         name_or_symbol = name_or_symbol.lower()
         if name_or_symbol in self.molecules_by_name:
@@ -71,3 +76,43 @@ class MoleculeDatabase():
             i += 1
         
         return names[:i]
+    
+    def get_exist_weights(self, molecule_names: list[str]) -> list[int]:
+        weights = []
+        for molecule_name in molecule_names:
+            if self.molecule_exists(molecule_name):
+                molecule = self.get_molecule(molecule_name)
+                weights.append(molecule.get_exist_weight())
+            else:
+                weights.append(0)
+        return weights
+    
+    def get_concentration_weights(self, molecule_names: list[str]) -> list[int]:
+        weights = []
+        for molecule_name in molecule_names:
+            if self.molecule_exists(molecule_name):
+                molecule = self.get_molecule(molecule_name)
+                weights.append(molecule.get_concentration_weight())
+            else:
+                weights.append(0)
+        return weights
+    
+    def generate_composition(self, molecule_count: int, min_molecular_mass: float) -> list[tuple[str, float]]:
+        molecule_names = self.get_molecules_with_mass_above(min_molecular_mass)
+        exist_weights = self.get_exist_weights(molecule_names)
+
+        if molecule_count < len(molecule_names) and molecule_count > 0:
+            total_weight = sum(exist_weights)
+            probabilities = [weight/total_weight for weight in exist_weights]
+            selected_molecules = list(numpy.random.choice(molecule_names, size=molecule_count, replace=False, p=probabilities))
+        else:
+            selected_molecules = molecule_names
+
+        concentration_weights = self.get_concentration_weights(selected_molecules)
+        total_concentration_weight = sum(concentration_weights)
+
+        composition = []
+        for name, concentration in zip(selected_molecules, concentration_weights):
+            composition.append((name, concentration/total_concentration_weight*100))
+        
+        return composition

@@ -1,8 +1,9 @@
 import numpy
-from src.molecule_database.aggregate_states import AggregateState
+from src.constants.config import Config
 from src.molecule_database.molecule import Molecule
 from src.utils.file_operations import construct_path, file_to_dict
 
+CONFIG = Config.get_instance()
 MOLECULES_FILE_PATH = construct_path("src/data/molecules.json")
 
 class MoleculeDatabase():
@@ -113,6 +114,7 @@ class MoleculeDatabase():
 
         composition = []
         for name, concentration in zip(selected_molecules, concentration_weights):
-            composition.append((name, concentration/total_concentration_weight*100))
+            concentration = round(concentration/total_concentration_weight*100, CONFIG.DECIMAL_DIGITS)
+            composition.append((name, concentration))
         
-        return composition
+        return sorted(composition, key=lambda x: x[1], reverse=True)

@@ -3,6 +3,7 @@ import src.utils.physics as phy
 from typing import Optional
 from src.constants.config import Config
 from src.constants.locale_translator import LocaleTranslator
+from src.planet_generation.atmosphere import Atmosphere, random_atmposphere
 from src.planet_generation.planet_image import PlanetImageLibrary, PlanetImage
 from src.planet_generation.planet_type import PlanetType
 from src.planet_generation.surface import Surface
@@ -47,6 +48,7 @@ class Planet():
             clouds: bool,
             tags: list[str], 
             possible_tags: list[str],
+            atmosphere: Optional[Atmosphere] = None,
             image: Optional[PlanetImage] = None,
             topography_description: Optional[str] = None
         ) -> None:
@@ -85,9 +87,12 @@ class Planet():
         for tag in possible_tags:
             self.handle_possible_tag(tag)
 
+        if atmosphere is None:
+            atmosphere = random_atmposphere(self.min_attracted_molecular_mass.convert("u").get_value())
+        self.atmosphere = atmosphere
+
         if image is None:
             image = PLANET_IMAGE_LIBRARY.get_by_tags(self.tags)
-
         self.image: Optional[PlanetImage] = image
 
         self.orb_period.validate_of_class("time")
@@ -139,6 +144,10 @@ class Planet():
                 except (ValueError, TypeError) as e:
                     raise ValueError(f"An error occured while initializing planet, trying to transform key {key} with value {value} to UnitValue: {e}")
         
+        atmosphere_data = data.get("atmosphere", None)
+        if atmosphere_data:
+            retrieved_data["atmosphere"] = Atmosphere.from_dict(atmosphere_data)
+
         image_data = data.get("image", None)
         if image_data:
             retrieved_data["image"] = PlanetImage.from_dict(image_data)
@@ -171,6 +180,7 @@ class Planet():
             "clouds": self.clouds,
             "surface": self.surface.to_dict(),
             "tags": self.tags,
+            "atmosphere": self.atmosphere.to_dict(),
             "image": image,
             "topography_description": self.topography_description
         }

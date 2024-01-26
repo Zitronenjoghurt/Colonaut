@@ -4,16 +4,22 @@
         "atomic_mass": "2u",
         "melting_point": "13.99°K",
         "boiling_point": "20.271°K",
-        "exist_weight": 5000,
-        "concentration_weight": {"min": 100, "max": 200}
+        "exist_weight": 250,
+        "concentration_weight": {"min": 10, "max": 1000}
     },
     "helium": {
         "symbol": "He",
         "atomic_mass": "4u",
         "melting_point": "0.95°K",
         "boiling_point": "4.222°K",
-        "exist_weight": 4000,
-        "concentration_weight": {"min": 20, "max": 50}
+        "exist_weight": 2000,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 50},
+                {"min": 500, "max": 1000}
+            ]
+        }
     },
     "nitrogen": {
         "symbol": "N2",
@@ -21,7 +27,7 @@
         "melting_point": "63.23°K",
         "boiling_point": "77.355°K",
         "exist_weight": 3000,
-        "concentration_weight": {"min": 200, "max": 400}
+        "concentration_weight": {"min": 20, "max": 1000}
     },
     "oxygen": {
         "symbol": "O2",
@@ -29,7 +35,7 @@
         "melting_point": "54.36°K",
         "boiling_point": "90.188°K",
         "exist_weight": 2500,
-        "concentration_weight": {"min": 200, "max": 400}
+        "concentration_weight": {"min": 50, "max": 1000}
     },
     "ozone": {
         "symbol": "O3",
@@ -37,7 +43,7 @@
         "melting_point": "81°K",
         "boiling_point": "161°K",
         "exist_weight": 500,
-        "concentration_weight": {"min": 10, "max": 50}
+        "concentration_weight": {"min": 10, "max": 200}
     },
     "carbon_dioxide": {
         "symbol": "CO2",
@@ -45,7 +51,7 @@
         "melting_point": "194.7°K",
         "boiling_point": "194.7°K",
         "exist_weight": 1000,
-        "concentration_weight": {"min": 200, "max": 500},
+        "concentration_weight": {"min": 20, "max": 1000},
         "extra": "CO2 has no liquid form"
     },
     "methane": {
@@ -61,8 +67,8 @@
         "atomic_mass": "18u",
         "melting_point": "273.15°K",
         "boiling_point": "373.13°K",
-        "exist_weight": 1500,
-        "concentration_weight": {"min": 200, "max": 1000}
+        "exist_weight": 250,
+        "concentration_weight": {"min": 10, "max": 300}
     },
     "ammonia": {
         "symbol": "NH3",
@@ -70,7 +76,14 @@
         "melting_point": "195.4°K",
         "boiling_point": "239.81°K",
         "exist_weight": 100,
-        "concentration_weight": {"min": 10, "max": 400}
+        "concentration_weight": {
+            "weights": [10000, 100, 1],
+            "values":[
+                {"min": 10, "max": 400},
+                {"min": 500, "max": 1000},
+                {"min": 1000, "max": 5000}
+            ]
+        }
     },
     "sulfur_dioxide": {
         "symbol": "SO3",
@@ -78,22 +91,41 @@
         "melting_point": "201°K",
         "boiling_point": "263°K",
         "exist_weight": 100,
-        "concentration_weight": {"min": 10, "max": 400}
+        "concentration_weight": {
+            "weights": [10000, 100, 1],
+            "values":[
+                {"min": 10, "max": 400},
+                {"min": 500, "max": 1000},
+                {"min": 1000, "max": 5000}
+            ]
+        }
     },
     "argon": {
         "symbol": "Ar",
         "atomic_mass": "40u",
         "melting_point": "83.81°K",
         "boiling_point": "87.302°K",
-        "exist_weight": 200,
-        "concentration_weight": {"min": 10, "max": 100}
+        "exist_weight": 150,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 50},
+                {"min": 50, "max": 200}
+            ]
+        }
     },
     "neon": {
         "symbol": "Ne",
         "atomic_mass": "20.18u",
         "melting_point": "24.56°K",
         "boiling_point": "27.104°K",
-        "exist_weight": 200,
-        "concentration_weight": {"min": 10, "max": 100}
+        "exist_weight": 150,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 50},
+                {"min": 50, "max": 200}
+            ]
+        }
     }
 }

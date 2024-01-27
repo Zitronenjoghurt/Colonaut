@@ -48,7 +48,7 @@ class Atmosphere():
         return composition
  
 def random_atmposphere(min_mass: float) -> Atmosphere:
-    molecule_count = random.randint(5, 8)
+    molecule_count = random.randint(7, 12)
 
     composition = MDB.generate_composition(molecule_count=molecule_count, min_molecular_mass=min_mass)
 

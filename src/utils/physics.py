@@ -101,8 +101,8 @@ def min_attracted_molecular_mass(escape_velocity: UnitValue, average_temperature
     T = average_temperature.convert("°K").get_value()
 
     # The formula was derived from rearranging the formula for calculating the average speed of a gas molecule to solve for m
-    # Then we put in the escape velocity of the planet * 0.2 for the gas molecule speed and end up with this formula
-    m_kg = (3*k*T)/(0.2*v_esc)**2
+    # Then we put in the escape velocity of the planet * 0.1 for the gas molecule speed and end up with this formula
+    m_kg = (3*k*T)/(0.1*v_esc)**2
 
     m_u = m_kg * 6.022e+26
 

@@ -105,7 +105,7 @@
         "atomic_mass": "40u",
         "melting_point": "83.81°K",
         "boiling_point": "87.302°K",
-        "exist_weight": 150,
+        "exist_weight": 50,
         "concentration_weight": {
             "weights": [100, 1],
             "values":[
@@ -119,12 +119,322 @@
         "atomic_mass": "20.18u",
         "melting_point": "24.56°K",
         "boiling_point": "27.104°K",
-        "exist_weight": 150,
+        "exist_weight": 50,
         "concentration_weight": {
             "weights": [100, 1],
             "values":[
                 {"min": 10, "max": 50},
                 {"min": 50, "max": 200}
+            ]
+        }
+    },
+    "carbon_monoxide": {
+        "symbol": "CO",
+        "atomic_mass": "28u",
+        "melting_point": "68.13°K",
+        "boiling_point": "81.6°K",
+        "exist_weight": 800,
+        "concentration_weight": {"min": 20, "max": 1000}
+    },
+    "nitrous_oxide": {
+        "symbol": "N20",
+        "atomic_mass": "44u",
+        "melting_point": "182.29°K",
+        "boiling_point": "184.67°K",
+        "exist_weight": 500,
+        "concentration_weight": {"min": 10, "max": 500}
+    },
+    "krypton": {
+        "symbol": "Kr",
+        "atomic_mass": "83.8u",
+        "melting_point": "115.78°K",
+        "boiling_point": "119.93°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 50},
+                {"min": 50, "max": 200}
+            ]
+        }
+    },
+    "xenon": {
+        "symbol": "Xe",
+        "atomic_mass": "131.3u",
+        "melting_point": "161.4°K",
+        "boiling_point": "165.2°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 50},
+                {"min": 50, "max": 200}
+            ]
+        }
+    },
+    "hydrogen_chloride": {
+        "symbol": "HCl",
+        "atomic_mass": "36.46u",
+        "melting_point": "158.93°K",
+        "boiling_point": "188.1°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "hydrogen_fluoride": {
+        "symbol": "HF",
+        "atomic_mass": "20u",
+        "melting_point": "189.6°K",
+        "boiling_point": "292.6°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "hydrogen_sulfide": {
+        "symbol": "H2S",
+        "atomic_mass": "34u",
+        "melting_point": "187.7°K",
+        "boiling_point": "213.6°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "phosphine": {
+        "symbol": "PH3",
+        "atomic_mass": "34u",
+        "melting_point": "140.3°K",
+        "boiling_point": "185.5°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "sulfur_hexafluoride": {
+        "symbol": "SF6",
+        "atomic_mass": "146u",
+        "melting_point": "209°K",
+        "boiling_point": "222.3°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "nitric_oxide": {
+        "symbol": "NO",
+        "atomic_mass": "30u",
+        "melting_point": "109°K",
+        "boiling_point": "121°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "nitrogen_dioxide": {
+        "symbol": "NO2",
+        "atomic_mass": "46u",
+        "melting_point": "263.8°K",
+        "boiling_point": "294.3°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "methanol": {
+        "symbol": "CH3OH",
+        "atomic_mass": "32u",
+        "melting_point": "175.6°K",
+        "boiling_point": "337.8°K",
+        "exist_weight": 30,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "ethane": {
+        "symbol": "C2H6",
+        "atomic_mass": "30u",
+        "melting_point": "90.4°K",
+        "boiling_point": "184.6°K",
+        "exist_weight": 30,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "propane": {
+        "symbol": "C3H8",
+        "atomic_mass": "44.1u",
+        "melting_point": "85.5°K",
+        "boiling_point": "230.9°K",
+        "exist_weight": 30,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "acethylene": {
+        "symbol": "C2H4",
+        "atomic_mass": "28.05u",
+        "melting_point": "104°K",
+        "boiling_point": "169.5°K",
+        "exist_weight": 30,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "formaldehyde": {
+        "symbol": "CH20",
+        "atomic_mass": "30u",
+        "melting_point": "181°K",
+        "boiling_point": "254°K",
+        "exist_weight": 30,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "hydrogen_peroxide": {
+        "symbol": "H202",
+        "atomic_mass": "34.01u",
+        "melting_point": "272.72°K",
+        "boiling_point": "423.3°K",
+        "exist_weight": 30,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "sodium": {
+        "symbol": "Na",
+        "atomic_mass": "23u",
+        "melting_point": "370.944°K",
+        "boiling_point": "1156.09°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "potassium": {
+        "symbol": "K",
+        "atomic_mass": "39.1u",
+        "melting_point": "336.7°K",
+        "boiling_point": "1030.8°K",
+        "exist_weight": 50,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "lithium": {
+        "symbol": "Li",
+        "atomic_mass": "7u",
+        "melting_point": "453.65°K",
+        "boiling_point": "1603°K",
+        "exist_weight": 100,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "rubidium": {
+        "symbol": "Rb",
+        "atomic_mass": "85.47u",
+        "melting_point": "312.45°K",
+        "boiling_point": "961°K",
+        "exist_weight": 15,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "caesium": {
+        "symbol": "Cs",
+        "atomic_mass": "132.9u",
+        "melting_point": "301.7°K",
+        "boiling_point": "944°K",
+        "exist_weight": 10,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
+            ]
+        }
+    },
+    "iron": {
+        "symbol": "Fe",
+        "atomic_mass": "55.85u",
+        "melting_point": "1811°K",
+        "boiling_point": "3134°K",
+        "exist_weight": 25,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 200},
+                {"min": 200, "max": 1000}
             ]
         }
     }

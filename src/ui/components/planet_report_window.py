@@ -69,7 +69,7 @@ class PlanetReportWindow(ctk.CTkFrame):
         atmosphere_title = ctk.CTkLabel(atmosphere_frame, text=LT.get(LT.KEYS.ATMOSPHERE), font=("ELNATH", 18))
         atmosphere_title.pack(fill='x', pady=(5, 0))
 
-        self.atmosphere_data = DataList(atmosphere_frame, [], fg_color="gray14", font_size=16)
+        self.atmosphere_data = DataList(atmosphere_frame, [], fg_color="gray14", font_size=15)
         self.atmosphere_data.pack(expand=True, fill="both", padx=10, pady=(5, 10))
 
         resource_frame = ctk.CTkFrame(self, height=300, width=250)

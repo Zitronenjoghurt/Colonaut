@@ -55,7 +55,7 @@
         ]
     },
     "has_atmosphere": {
-        "weights": [50, 50],
+        "weights": [100, 0],
         "values": [true, false]
     },
     "clouds": {

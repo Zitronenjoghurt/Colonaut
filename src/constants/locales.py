@@ -39,6 +39,7 @@ class Locales:
     SOLAR_PANEL = "solar_panel"
 
     # Science
+    ATMOSPHERE = "atmosphere"
     AVERAGE_TOLERANCE = "average_tolerance"
     AXIAL_TILT = "axial_tilt"
     DENSITY = "density"
@@ -55,6 +56,20 @@ class Locales:
     TEMPERATURE = "temperature"
     TEMPERATURE_TOLERANCE = "temperature_tolerance"
     VOLUME = "volume"
+
+    # Science > Molecules
+    AMMONIA = "ammonia"
+    ARGON = "argon"
+    CARBON_DIOXIDE = "carbon_dioxide"
+    HELIUM = "helium"
+    HYDROGEN = "hydrogen"
+    NEON = "neon"
+    NITROGEN = "nitrogen"
+    METHANE = "methane"
+    OXYGEN = "oxygen"
+    OZONE = "ozone"
+    SULFUR_DIOXIDE = "sulfur_dioxide"
+    WATER = "water"
 
     # Stats
     CAPACITY = "capacity"

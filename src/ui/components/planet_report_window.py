@@ -3,6 +3,7 @@ from src.constants.locale_translator import LocaleTranslator
 from src.events.event import Event
 from src.events.event_bus import EventBus
 from src.events.response import Response
+from .data_list import DataList
 from .habitability_box import HabitabilityBox
 
 EVENT_BUS = EventBus.get_instance()
@@ -65,6 +66,12 @@ class PlanetReportWindow(ctk.CTkFrame):
         atmosphere_frame.grid_propagate(False)
         atmosphere_frame.grid(row=2, column=1, sticky="nsew", padx=(5, 5), pady=(5, 5))
 
+        atmosphere_title = ctk.CTkLabel(atmosphere_frame, text=LT.get(LT.KEYS.ATMOSPHERE), font=("ELNATH", 18))
+        atmosphere_title.pack(fill='x', pady=(5, 0))
+
+        self.atmosphere_data = DataList(atmosphere_frame, [], fg_color="gray14", font_size=16)
+        self.atmosphere_data.pack(expand=True, fill="both", padx=10, pady=(5, 10))
+
         resource_frame = ctk.CTkFrame(self, height=300, width=250)
         resource_frame.grid_propagate(False)
         resource_frame.grid(row=3, column=1, sticky="nsew", padx=(5, 5), pady=(5, 25))
@@ -84,10 +91,17 @@ class PlanetReportWindow(ctk.CTkFrame):
         image: ctk.CTkImage = planet_report.get("image", None)
         if isinstance(image, ctk.CTkImage):
             self.planet_image.configure(image=image)
+
         type: str = planet_report.get("type", None)
         if isinstance(type, str):
             self.type_label.configure(text=LT.get(type))
             self.type_description.configure(text=LT.get(type+"_description"))
+
+        atmospheric_composition: list[tuple[str, str]] = planet_report.get("atmospheric_composition", None)
+        if isinstance(atmospheric_composition, list):
+            self.atmosphere_data.update_data(atmospheric_composition)
+        else:
+            self.atmosphere_data.update_data([])
 
     def update_habitation_report(self) -> None:
         habitation_report_event = Event(Event.TYPES.HABITATION_RETRIEVE_REPORT)

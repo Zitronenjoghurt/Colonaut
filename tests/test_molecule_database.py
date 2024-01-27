@@ -22,7 +22,7 @@ def test_get_molecule(database: MoleculeDatabase):
     hydrogens = [
         database.get_molecule("hydrogen"),
         database.get_molecule("Hydrogen"),
-        database.get_molecule("h"),
-        database.get_molecule("H")
+        database.get_molecule("h2"),
+        database.get_molecule("H2")
     ]
     assert all(hydrogen is hydrogens[0] for hydrogen in hydrogens)

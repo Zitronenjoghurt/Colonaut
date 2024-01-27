@@ -212,7 +212,8 @@ class Planet():
         data = {
             "type": self.type,
             "image": None if not self.image else self.image.get_ctk_image(200, 200),
-            "topography": self.get_topography_description()
+            "topography": self.get_topography_description(),
+            "atmospheric_composition": self.atmosphere.get_composition()
         }
 
         if revealed_data is None:

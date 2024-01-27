@@ -40,6 +40,12 @@ class Atmosphere():
         }
 
         return data
+    
+    def get_composition(self) -> list[tuple[str, str]]:
+        composition = []
+        for entry in self.composition:
+            composition.append((entry[0], str(entry[1])+"%"))
+        return composition
  
 def random_atmposphere(min_mass: float) -> Atmosphere:
     molecule_count = random.randint(5, 8)

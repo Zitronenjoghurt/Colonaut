@@ -1,4 +1,5 @@
 {
+    "atmosphere": "Atmosphere",
     "average_tolerance": "avg. Tolerance",
     "axial_tilt": "Axial Tilt",
     "density": "Density",
@@ -14,5 +15,18 @@
     "star_mass": "Star Mass",
     "temperature": "Temperature",
     "temperature_tolerance": "Thermal Tol.",
-    "volume": "Volume"
+    "volume": "Volume",
+    
+    "ammonia": "Ammonia",
+    "argon": "Argon",
+    "carbon_dioxide": "Carbon Dioxide",
+    "helium": "Helium",
+    "hydrogen": "Hydrogen",
+    "neon": "Neon",
+    "nitrogen": "Nitrogen",
+    "methane": "Methane",
+    "oxygen": "Oxygen",
+    "ozone": "Ozone",
+    "sulfur_dioxide": "Sulfur Dioxide",
+    "water": "Water"
 }

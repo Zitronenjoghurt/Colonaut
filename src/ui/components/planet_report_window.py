@@ -59,7 +59,7 @@ class PlanetReportWindow(ctk.CTkFrame):
         self.gravity_box.pack(fill='x', padx=10, pady=10, anchor='n')
         
         # placeholder for the future
-        self.whatever_box = HabitabilityBox(habitability_frame, title="Placeholder")
+        self.whatever_box = HabitabilityBox(habitability_frame, title="BREATHABILITY (WIP)")
         self.whatever_box.pack(fill='x', padx=10, pady=(10, 15), anchor='n')
 
         atmosphere_frame = ctk.CTkFrame(self, height=300, width=250)

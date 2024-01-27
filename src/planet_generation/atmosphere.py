@@ -12,6 +12,10 @@ class Atmosphere():
 
     def __str__(self) -> str:
         return "\n".join(f"{molecule}: {concentration}%" for molecule, concentration in self.composition)
+    
+    @staticmethod
+    def create_empty() -> 'Atmosphere':
+        return Atmosphere([])
 
     @staticmethod
     def from_dict(data: dict) -> 'Atmosphere':

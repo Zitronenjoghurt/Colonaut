@@ -54,6 +54,10 @@
             {"min": 60, "max": 89}
         ]
     },
+    "has_atmosphere": {
+        "weights": [50, 50],
+        "values": [true, false]
+    },
     "clouds": {
         "weights": [95, 5],
         "values": [false, true]

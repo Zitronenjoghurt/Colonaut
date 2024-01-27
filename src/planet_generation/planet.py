@@ -45,6 +45,7 @@ class Planet():
             star_mass: UnitValue,
             axial_tilt: UnitValue,
             surface: Surface,
+            has_atmosphere: bool,
             clouds: bool,
             tags: list[str], 
             possible_tags: list[str],
@@ -61,6 +62,7 @@ class Planet():
         star_mass.validate_of_class("mass")
         axial_tilt.validate_of_class("angle")
         validate_of_type(surface, Surface)
+        validate_of_type(has_atmosphere, bool)
         validate_of_type(clouds, bool)
         validate_of_type(tags, list)
         validate_of_type(possible_tags, list)
@@ -74,6 +76,7 @@ class Planet():
         self.distance_to_star = distance_to_star
         self.star_mass = star_mass
         self.axial_tilt = axial_tilt
+        self.has_atmosphere = has_atmosphere
         self.clouds = clouds
         self.mass = phy.sphere_mass(radius=radius, density=density)
         self.volume = phy.sphere_volume(radius=radius)
@@ -88,7 +91,10 @@ class Planet():
             self.handle_possible_tag(tag)
 
         if atmosphere is None:
-            atmosphere = random_atmposphere(self.min_attracted_molecular_mass.convert("u").get_value())
+            if has_atmosphere:
+                atmosphere = random_atmposphere(self.min_attracted_molecular_mass.convert("u").get_value())
+            else:
+                atmosphere = Atmosphere.create_empty()
         self.atmosphere = atmosphere
 
         if image is None:
@@ -131,6 +137,7 @@ class Planet():
             "distance_to_star": data.get("distance_to_star", UnitValue.from_zero("length")),
             "star_mass": data.get("star_mass", UnitValue.from_zero("mass")),
             "axial_tilt": data.get("axial_tilt", UnitValue.from_zero("angle")),
+            "has_atmosphere": data.get("has_atmosphere", False),
             "clouds": data.get("clouds", False),
             "topography_description": data.get("topography_description", None),
             "tags": data.get("tags", [])
@@ -177,6 +184,7 @@ class Planet():
             "distance_to_star": str(self.distance_to_star),
             "star_mass": str(self.star_mass),
             "axial_tilt": str(self.axial_tilt),
+            "has_atmosphere": self.has_atmosphere,
             "clouds": self.clouds,
             "surface": self.surface.to_dict(),
             "tags": self.tags,

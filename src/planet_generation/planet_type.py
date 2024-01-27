@@ -32,6 +32,7 @@ class PlanetType():
                  random_star_mass: Probability,
                  random_axial_tilt: Probability,
                  random_surface: RandomSurface,
+                 has_atmosphere: Probability,
                  clouds: Probability) -> None:
         self.validate_units(units)
         self.units = units
@@ -44,6 +45,7 @@ class PlanetType():
         self.random_star_mass = random_star_mass
         self.random_axial_tilt = random_axial_tilt
         self.random_surface = random_surface
+        self.has_atmosphere = has_atmosphere
         self.clouds = clouds
 
     @staticmethod
@@ -66,6 +68,7 @@ class PlanetType():
         star_mass = data.get("star_mass", None)
         axial_tilt = data.get("axial_tilt", None)
         surface = data.get("surface", None)
+        has_atmosphere = data.get("has_atmosphere", None)
         clouds = data.get("clouds", False)
         
         try:
@@ -80,6 +83,7 @@ class PlanetType():
                 random_star_mass=Probability.create(star_mass),
                 random_axial_tilt=Probability.create(axial_tilt),
                 random_surface=RandomSurface.create(surface),
+                has_atmosphere=Probability.create(has_atmosphere),
                 clouds=Probability.create(clouds)
             )
         except Exception as e:
@@ -119,6 +123,11 @@ class PlanetType():
             "star_mass": UnitValue(self.random_star_mass.generate(), self.get_unit("star_mass")),
             "axial_tilt": UnitValue(self.random_axial_tilt.generate(), self.get_unit("axial_tilt")),
             "surface": self.random_surface.generate(),
+            "has_atmosphere": self.has_atmosphere.generate(),
             "clouds": self.clouds.generate()
         }
+
+        if data["has_atmosphere"] is False:
+            data["clouds"] = False
+
         return data

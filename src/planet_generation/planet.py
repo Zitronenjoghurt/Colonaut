@@ -92,7 +92,7 @@ class Planet():
 
         if atmosphere is None:
             if has_atmosphere:
-                atmosphere = random_atmposphere(self.min_attracted_molecular_mass.convert("u").get_value())
+                atmosphere = random_atmposphere(min_mass=self.min_attracted_molecular_mass.convert("u").get_value(), temperature=temperature)
             else:
                 atmosphere = Atmosphere.create_empty()
         self.atmosphere = atmosphere

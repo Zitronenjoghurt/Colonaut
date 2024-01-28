@@ -1,5 +1,7 @@
 import random
+from typing import Optional
 from src.molecule_database.molecule_database import MoleculeDatabase
+from src.planet_generation.unit_value import UnitValue
 
 MDB = MoleculeDatabase.get_instance()
 
@@ -47,10 +49,10 @@ class Atmosphere():
             composition.append((entry[0], str(entry[1])+"%"))
         return composition
  
-def random_atmposphere(min_mass: float) -> Atmosphere:
+def random_atmposphere(min_mass: float, temperature: Optional[UnitValue] = None) -> Atmosphere:
     molecule_count = random.randint(7, 12)
 
-    composition = MDB.generate_composition(molecule_count=molecule_count, min_molecular_mass=min_mass)
+    composition = MDB.generate_composition(molecule_count=molecule_count, min_molecular_mass=min_mass, temperature=temperature)
 
     atmosphere = Atmosphere(
         composition=composition

@@ -5,7 +5,8 @@
         "melting_point": "13.99°K",
         "boiling_point": "20.271°K",
         "exist_weight": 250,
-        "concentration_weight": {"min": 10, "max": 1000}
+        "concentration_weight": {"min": 10, "max": 1000},
+        "lethal_concentration": "20ppm"
     },
     "helium": {
         "symbol": "He",
@@ -27,7 +28,8 @@
         "melting_point": "63.23°K",
         "boiling_point": "77.355°K",
         "exist_weight": 3000,
-        "concentration_weight": {"min": 20, "max": 1000}
+        "concentration_weight": {"min": 20, "max": 1000},
+        "healthy_concentration": "78.08%"
     },
     "oxygen": {
         "symbol": "O2",
@@ -35,7 +37,8 @@
         "melting_point": "54.36°K",
         "boiling_point": "90.188°K",
         "exist_weight": 2500,
-        "concentration_weight": {"min": 50, "max": 1000}
+        "concentration_weight": {"min": 50, "max": 1000},
+        "healthy_concentration": "20.95%"
     },
     "ozone": {
         "symbol": "O3",
@@ -43,7 +46,8 @@
         "melting_point": "81°K",
         "boiling_point": "161°K",
         "exist_weight": 500,
-        "concentration_weight": {"min": 10, "max": 200}
+        "concentration_weight": {"min": 10, "max": 200},
+        "lethal_concentration": "50ppm"
     },
     "carbon_dioxide": {
         "symbol": "CO2",
@@ -52,7 +56,8 @@
         "boiling_point": "194.7°K",
         "exist_weight": 1000,
         "concentration_weight": {"min": 20, "max": 1000},
-        "extra": "CO2 has no liquid form"
+        "extra": "CO2 has no liquid form",
+        "lethal_concentration": "5000ppm"
     },
     "methane": {
         "symbol": "CH4",
@@ -60,7 +65,8 @@
         "melting_point": "90.694°K",
         "boiling_point": "111.6°K",
         "exist_weight": 100,
-        "concentration_weight": {"min": 10, "max": 400}
+        "concentration_weight": {"min": 10, "max": 400},
+        "lethal_concentration": "1000ppm"
     },
     "water": {
         "symbol": "H2O",
@@ -83,7 +89,8 @@
                 {"min": 500, "max": 1000},
                 {"min": 1000, "max": 5000}
             ]
-        }
+        },
+        "lethal_concentration": "2000ppm"
     },
     "sulfur_dioxide": {
         "symbol": "SO3",
@@ -98,7 +105,8 @@
                 {"min": 500, "max": 1000},
                 {"min": 1000, "max": 5000}
             ]
-        }
+        },
+        "lethal_concentration": "1ppm"
     },
     "argon": {
         "symbol": "Ar",
@@ -134,7 +142,8 @@
         "melting_point": "68.13°K",
         "boiling_point": "81.6°K",
         "exist_weight": 800,
-        "concentration_weight": {"min": 20, "max": 1000}
+        "concentration_weight": {"min": 20, "max": 1000},
+        "lethal_concentration": "10ppm"
     },
     "nitrous_oxide": {
         "symbol": "N20",
@@ -142,7 +151,8 @@
         "melting_point": "182.29°K",
         "boiling_point": "184.67°K",
         "exist_weight": 500,
-        "concentration_weight": {"min": 10, "max": 500}
+        "concentration_weight": {"min": 10, "max": 500},
+        "lethal_concentration": "25ppm"
     },
     "krypton": {
         "symbol": "Kr",
@@ -184,7 +194,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "10ppm"
     },
     "hydrogen_fluoride": {
         "symbol": "HF",
@@ -198,7 +209,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "2ppm"
     },
     "hydrogen_sulfide": {
         "symbol": "H2S",
@@ -212,7 +224,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "5ppm"
     },
     "phosphine": {
         "symbol": "PH3",
@@ -226,7 +239,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "50ppm"
     },
     "sulfur_hexafluoride": {
         "symbol": "SF6",
@@ -240,7 +254,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "800ppm"
     },
     "nitric_oxide": {
         "symbol": "NO",
@@ -254,7 +269,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "15ppm"
     },
     "nitrogen_dioxide": {
         "symbol": "NO2",
@@ -268,7 +284,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "5ppm"
     },
     "methanol": {
         "symbol": "CH3OH",
@@ -282,7 +299,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "150ppm"
     },
     "ethane": {
         "symbol": "C2H6",
@@ -296,7 +314,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "1000ppm"
     },
     "propane": {
         "symbol": "C3H8",
@@ -310,7 +329,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "10000ppm"
     },
     "acethylene": {
         "symbol": "C2H4",
@@ -324,7 +344,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "5ppm"
     },
     "formaldehyde": {
         "symbol": "CH20",
@@ -338,7 +359,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "20ppm"
     },
     "hydrogen_peroxide": {
         "symbol": "H202",
@@ -352,7 +374,8 @@
                 {"min": 10, "max": 200},
                 {"min": 200, "max": 1000}
             ]
-        }
+        },
+        "lethal_concentration": "50ppm"
     },
     "sodium": {
         "symbol": "Na",

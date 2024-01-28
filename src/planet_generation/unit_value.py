@@ -20,6 +20,11 @@ class UnitValue():
             converted_value = self.convert(CONFIG.DISPLAY_UNITS[unit_class])
         return f"{str(converted_value.get_value_formatted())}{converted_value.get_unit()}"
     
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, UnitValue):
+            return False
+        return self.value == other.value and self.unit == other.unit
+    
     @staticmethod
     def from_zero(unit_class: str) -> 'UnitValue':
         validator.validate_physical_unit_class(unit_class=unit_class)

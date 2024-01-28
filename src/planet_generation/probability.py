@@ -20,6 +20,11 @@ class MinMaxSelector(RandomSelector):
         self.min = min
         self.max = max
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, MinMaxSelector):
+            return False
+        return self.min == other.min and self.max == other.max
+
     def __str__(self) -> str:
         return f"(min:{self.min}-max:{self.max})"
 
@@ -39,6 +44,11 @@ class WeightedSelector(RandomSelector):
         self.weights = weights
         self.values = values
         self.total_weight = sum(weights)
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, WeightedSelector):
+            return False
+        return self.weights == other.weights and self.values == other.values
 
     def __str__(self) -> str:
         value_weight_map = {str(value): str(weight) for value, weight in zip(self.values, self.weights)}
@@ -75,6 +85,11 @@ class ListSelector(RandomSelector):
     def __init__(self, values: list) -> None:
         self.values = values
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, ListSelector):
+            return False
+        return self.values == other.values
+
     def __str__(self) -> str:
         return f"({", ".join([str(value) for value in self.values])})"
     
@@ -92,6 +107,11 @@ class ListMultipleSelector(ListSelector):
         self.count = count
         super().__init__(values)
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, ListMultipleSelector):
+            return False
+        return self.values == other.values and self.count == other.count
+
     @staticmethod
     def create(data: dict) -> 'ListMultipleSelector':
         values = data.get("values", [])
@@ -104,6 +124,11 @@ class ListMultipleSelector(ListSelector):
 class SingleSelector(RandomSelector):
     def __init__(self, value = None) -> None:
         self.value = value
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, SingleSelector):
+            return False
+        return self.value == other.value
 
     def __str__(self) -> str:
         return str(self.value)
@@ -118,6 +143,11 @@ class SingleSelector(RandomSelector):
 class Probability():
     def __init__(self, selector: RandomSelector) -> None:
         self.selector = selector
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Probability):
+            return False
+        return self.selector == other.selector
 
     def __str__(self) -> str:
         return str(self.selector)

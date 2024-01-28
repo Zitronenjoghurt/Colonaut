@@ -31,6 +31,19 @@ class Molecule():
         self.exist_weight = exist_weight
         self.concentration_weight = concentration_weight
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Molecule):
+            return False
+        check = [
+            self.name == other.name,
+            self.symbol == other.symbol,
+            self.atomic_mass == other.atomic_mass,
+            self.melting_point == other.melting_point,
+            self.exist_weight == other.exist_weight,
+            self.concentration_weight == other.concentration_weight
+        ]
+        return all(check)
+
     @staticmethod
     def from_dict(data: dict) -> 'Molecule':
         retrieved_data = {

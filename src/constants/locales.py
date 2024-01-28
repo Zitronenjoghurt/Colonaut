@@ -23,6 +23,13 @@ class Locales:
     BATTERY_DISTRIBUTED_ENERGY = "battery_distributed_energy"
     BATTERY_FULLY_CHARGED = "battery_fully_charged"
     BATTERY_WARNING_NET_NEGATIVE_ENERGY = "battery_warning_net_negative_energy"
+    BREATHABILITY_LETHAL_GASES = "breathability_lethal_gases"
+    BREATHABILITY_NO_OXYGEN = "breathability_no_oxygen"
+    BREATHABILITY_OXYGEN_TOO_HIGH = "breathability_oxygen_too_high"
+    BREATHABILITY_OXYGEN_TOO_LOW = "breathability_oxygen_too_low"
+    BREATHABILITY_PERCENTAGE = "breathability_percentage"
+    BREATHABILITY_TOO_COLD = "breathability_too_cold"
+    BREATHABILITY_TOO_HOT = "breathability_too_hot"
     SOLAR_PANEL_COLLECTED_ENERGY = "solar_panel_collected_energy"
     SOLAR_PANEL_NO_BATTERY = "solar_panel_no_battery"
 

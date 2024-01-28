@@ -48,6 +48,9 @@ class Atmosphere():
         for entry in self.composition:
             composition.append((entry[0], str(entry[1])+"%"))
         return composition
+    
+    def get_breathability(self, temperature: Optional[UnitValue] = None) -> None:
+        breathability, message = MDB.check_composition_breathability(composition=self.composition, temperature=temperature)
  
 def random_atmposphere(min_mass: float, temperature: Optional[UnitValue] = None) -> Atmosphere:
     molecule_count = random.randint(7, 12)

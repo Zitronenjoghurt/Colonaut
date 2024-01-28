@@ -28,8 +28,7 @@
         "melting_point": "63.23°K",
         "boiling_point": "77.355°K",
         "exist_weight": 3000,
-        "concentration_weight": {"min": 20, "max": 1000},
-        "healthy_concentration": "78.08%"
+        "concentration_weight": {"min": 20, "max": 1000}
     },
     "oxygen": {
         "symbol": "O2",
@@ -37,8 +36,7 @@
         "melting_point": "54.36°K",
         "boiling_point": "90.188°K",
         "exist_weight": 2500,
-        "concentration_weight": {"min": 50, "max": 1000},
-        "healthy_concentration": "20.95%"
+        "concentration_weight": {"min": 50, "max": 1000}
     },
     "ozone": {
         "symbol": "O3",

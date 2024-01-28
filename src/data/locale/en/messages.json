@@ -3,6 +3,13 @@
     "battery_distributed_energy": "The battery has distributed {drawn_energy} energy",
     "battery_fully_charged": "Battery fully charged",
     "battery_warning_net_negative_energy": "WARNING! WE ARE USING MORE ENERGY THAN WE ARE GENERATING",
+    "breathability_lethal_gases": "The atmosphere contains oxygen, but also lethal concentrations of:",
+    "breathability_no_oxygen": "The atmosphere does not contain any oxygen and is therefore unbreathable...",
+    "breathability_too_cold": "The atmosphere would be too cold to breathe no matter the composition...",
+    "breathability_too_hot": "The atmosphere would be too hot to breathe no matter the composition...",
+    "breathability_oxygen_too_high": "The atmosphere has oxygen and no lethal concentrations of gases, but the concentration of oxygen is too HIGH...",
+    "breathability_oxygen_too_low": "The atmosphere has oxygen and no lethal concentrations of gases, but the concentration of oxygen is too LOW...",
+    "breathability_percentage": "The atmosphere has a breathability of {breathability}%",
     "solar_panel_collected_energy": "Solar panels collected {energy} energy units",
     "solar_panel_no_battery": "Solar panel has no battery to charge"
 }

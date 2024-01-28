@@ -1,6 +1,7 @@
 import numpy
 from typing import Optional
 from src.constants.config import Config
+from src.constants.locale_translator import LocaleTranslator
 from src.molecule_database.aggregate_states import AggregateState
 from src.molecule_database.molecule import Molecule
 from src.planet_generation.unit_value import UnitValue
@@ -8,6 +9,7 @@ from src.utils.file_operations import construct_path, file_to_dict
 from src.utils.validator import validate_of_type
 
 CONFIG = Config.get_instance()
+LT = LocaleTranslator.get_instance()
 MOLECULES_FILE_PATH = construct_path("src/data/molecules.json")
 
 class MoleculeDatabase():
@@ -136,6 +138,53 @@ class MoleculeDatabase():
             else:
                 weights.append(0)
         return weights
+    
+    def check_composition_breathability(self, composition: list[tuple[str, float]], temperature: Optional[UnitValue] = None) -> tuple[float, str]:
+        # Check temperature before everything else
+        if isinstance(temperature, UnitValue):
+            temperature.validate_of_class("temperature")
+            temp = temperature.convert("°C").get_value()
+            if temp < -30:
+                return 0, LT.get(LT.KEYS.BREATHABILITY_TOO_COLD)
+            if temp > 50:
+                return 0, LT.get(LT.KEYS.BREATHABILITY_TOO_HOT)
+
+        names = [entry[0] for entry in composition]
+        concentrations = [entry[1] for entry in composition]
+
+        molecules = self.get_molecules(names_or_symbols=names)
+
+        if "oxygen" not in names:
+            return 0, LT.get(LT.KEYS.BREATHABILITY_NO_OXYGEN)
+        
+        lethal_gases = []
+        for i, molecule in enumerate(molecules):
+            lethal_concentration = molecule.get_lethal_concentration()
+            if not lethal_concentration:
+                continue
+            lethal_concentration = lethal_concentration.convert("%").get_value()
+            if concentrations[i] >= lethal_concentration:
+                lethal_gases.append(names[i])
+
+        if len(lethal_gases) != 0:
+            message = LT.get(LT.KEYS.BREATHABILITY_LETHAL_GASES) + " " + ", ".join([LT.get(name) for name in lethal_gases])
+            return 0, message
+        
+        ideal_oxygen_percentage = 21.0
+        oxygen_index = names.index("oxygen")
+        oxygen_percentage = concentrations[oxygen_index]
+
+        deviation = abs(oxygen_percentage - ideal_oxygen_percentage)
+
+        max_deviation = 10.0
+        breathability = max(0, 100 - (deviation / max_deviation * 100))
+
+        if oxygen_percentage > ideal_oxygen_percentage + max_deviation:
+            return 0, LT.get(LT.KEYS.BREATHABILITY_OXYGEN_TOO_HIGH)
+        if oxygen_percentage < ideal_oxygen_percentage - max_deviation:
+            return 0, LT.get(LT.KEYS.BREATHABILITY_OXYGEN_TOO_LOW)
+
+        return breathability, LT.get(LT.KEYS.BREATHABILITY_PERCENTAGE).format(breathability=breathability)
     
     def select_random_molecules(self, count: int) -> list[str]:
         if count > self.total_molecule_count or count < 0:

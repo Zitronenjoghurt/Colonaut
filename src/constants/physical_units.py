@@ -8,7 +8,8 @@ CLASS_UNIT_MAP = {
     "time": ["s", "min", "h", "d", "y"],
     "angle": ["°"],
     "acceleration": ["m/s^2", "g"],
-    "speed": ["km/h", "m/s", "km/s"]
+    "speed": ["km/h", "m/s", "km/s"],
+    "fractional": ["%", "ppm", "ppb"]
 }
 
 EXISTING_CLASSES = [unit_class for unit_class in CLASS_UNIT_MAP.keys()]
@@ -69,5 +70,8 @@ CONVERSIONS = {
     "m/s": {"km/h": linear_conversion(3.6), "km/s": linear_conversion(1/1000)},
     "km/s": {"km/h": linear_conversion(3600), "m/s": linear_conversion(1000)},
     "m/s^2": {"g": linear_conversion(1/9.81)},
-    "g": {"m/s^2": linear_conversion(9.81)}
+    "g": {"m/s^2": linear_conversion(9.81)},
+    "%": {"ppm": linear_conversion(1e4), "ppb": linear_conversion(1e7)},
+    "ppm": {"%": linear_conversion(1e-4), "ppb": linear_conversion(1e3)},
+    "ppb": {"%": linear_conversion(1e-7), "ppm": linear_conversion(1e-3)}
 }

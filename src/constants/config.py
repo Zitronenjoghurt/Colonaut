@@ -23,13 +23,15 @@ DEFAULT = {
         "time": "h",
         "angle": "°",
         "acceleration": "g",
-        "speed": "km/s"
+        "speed": "km/s",
+        "fractional": "%"
     },
     "display_units_convenience_treshold": {
         "time": 1,
         "mass": 1e-2,
         "length": 1e-2,
-        "speed": 0.1
+        "speed": 0.1,
+        "fractional": 1e-2
     },
     "default_ship_console_char_delay": 17,
     "default_ship_console_line_delay": 150,

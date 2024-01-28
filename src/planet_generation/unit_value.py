@@ -45,7 +45,7 @@ class UnitValue():
     
     @staticmethod
     def from_string(string: str) -> 'UnitValue':
-        match_groups = re.match(r"([0-9.e+-]+)([a-zA-Z/^°]+[a-zA-Z0-9/^°]*)", string)
+        match_groups = re.match(r"([0-9.e+-]+)([a-zA-Z/^°%]+[a-zA-Z0-9/^°%]*)", string)
         if match_groups:
             value = float(match_groups.group(1))
             unit = match_groups.group(2)

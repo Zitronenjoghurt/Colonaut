@@ -18,7 +18,8 @@ def hydrogen_molecule() -> Molecule:
         "melting_point": "13.99°K",
         "boiling_point": "20.271°K",
         "exist_weight": 250,
-        "concentration_weight": {"min": 10, "max": 1000}
+        "concentration_weight": {"min": 10, "max": 1000},
+        "lethal_concentration": "20ppm"
     }
     return Molecule.from_dict(data=data)
 

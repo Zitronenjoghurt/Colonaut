@@ -150,7 +150,7 @@ class MoleculeDatabase():
         if temperature is not None:
             temperature.validate_of_class("temperature")
         
-        selected_molecules = set(self.select_random_molecules(count=molecule_count))
+        selected_molecules = self.select_random_molecules(count=molecule_count)
 
         # Filter the selected molecules based on if they are above the min molecular mass and gaseous at the given temperature
         final_molecules = []

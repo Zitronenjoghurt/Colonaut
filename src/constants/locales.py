@@ -94,6 +94,7 @@ class Locales:
     PHOSPHINE = "phosphine"
     PROPANE = "propane"
     POTASSIUM = "potassium"
+    RADON = "radon"
     RUBIDIUM = "rubidium"
     SODIUM = "sodium"
     SULFUR_DIOXIDE = "sulfur_dioxide"

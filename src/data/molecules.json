@@ -458,5 +458,20 @@
                 {"min": 200, "max": 1000}
             ]
         }
+    },
+    "radon": {
+        "symbol": "Rn",
+        "atomic_mass": "222u",
+        "melting_point": "202°K",
+        "boiling_point": "211.5°K",
+        "exist_weight": 25,
+        "concentration_weight": {
+            "weights": [100, 1],
+            "values":[
+                {"min": 10, "max": 50},
+                {"min": 50, "max": 200}
+            ]
+        },
+        "radioactive": true
     }
 }

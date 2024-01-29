@@ -15,7 +15,8 @@ class Molecule():
             boiling_point: UnitValue, 
             exist_weight: int,
             concentration_weight: Probability,
-            lethal_concentration: Optional[UnitValue]
+            lethal_concentration: Optional[UnitValue],
+            radioactive: bool
         ) -> None:
         validate_of_type(name, str, "name")
         validate_of_type(symbol, str, "symbol")
@@ -24,6 +25,7 @@ class Molecule():
         boiling_point.validate_of_class("temperature")
         validate_of_type(exist_weight, Number, "exist_weight")
         validate_of_type(concentration_weight, Probability, "concentration_weight")
+        validate_of_type(radioactive, bool, "radioactive")
 
         if isinstance(lethal_concentration, UnitValue):
             lethal_concentration.validate_of_class("fractional")
@@ -38,6 +40,7 @@ class Molecule():
         self.exist_weight = exist_weight
         self.concentration_weight = concentration_weight
         self.lethal_concentration = lethal_concentration
+        self.radioactive = radioactive
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Molecule):
@@ -49,7 +52,8 @@ class Molecule():
             self.melting_point == other.melting_point,
             self.exist_weight == other.exist_weight,
             self.concentration_weight == other.concentration_weight,
-            self.lethal_concentration == other.lethal_concentration
+            self.lethal_concentration == other.lethal_concentration,
+            self.radioactive == other.radioactive
         ]
         return all(check)
 
@@ -91,6 +95,8 @@ class Molecule():
             retrieved_data["lethal_concentration"] = UnitValue.from_any(lethal_concentration)
         else:
             retrieved_data["lethal_concentration"] = None
+
+        retrieved_data["radioactive"] = data.get("radioactive", False)
             
         return Molecule(**retrieved_data)
     
@@ -117,6 +123,9 @@ class Molecule():
     
     def get_lethal_concentration(self) -> Optional[UnitValue]:
         return self.lethal_concentration
+    
+    def is_radioactive(self) -> bool:
+        return self.radioactive
     
     def get_state_at(self, temperature: UnitValue) -> AggregateState:
         temperature.validate_of_class("temperature")

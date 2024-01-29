@@ -23,6 +23,7 @@ def test_init(water: Molecule):
     assert water.get_melting_point().convert("°C").get_value() == 0
     assert water.get_boiling_point().convert("°C").get_value() == 100
     assert water.get_exist_weight() == 100
+    assert water.is_radioactive() == False
     concentration_weight = water.get_concentration_weight()
     assert concentration_weight >= 100 and concentration_weight <= 200
 

@@ -15,8 +15,7 @@ class Molecule():
             boiling_point: UnitValue, 
             exist_weight: int,
             concentration_weight: Probability,
-            lethal_concentration: Optional[UnitValue],
-            healthy_concentration: Optional[UnitValue]
+            lethal_concentration: Optional[UnitValue]
         ) -> None:
         validate_of_type(name, str, "name")
         validate_of_type(symbol, str, "symbol")
@@ -30,11 +29,6 @@ class Molecule():
             lethal_concentration.validate_of_class("fractional")
         else:
             lethal_concentration = None
-        
-        if isinstance(healthy_concentration, UnitValue):
-            healthy_concentration.validate_of_class("fractional")
-        else:
-            healthy_concentration = None
 
         self.name = name
         self.symbol = symbol
@@ -44,7 +38,6 @@ class Molecule():
         self.exist_weight = exist_weight
         self.concentration_weight = concentration_weight
         self.lethal_concentration = lethal_concentration
-        self.healthy_concentration = healthy_concentration
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Molecule):
@@ -56,8 +49,7 @@ class Molecule():
             self.melting_point == other.melting_point,
             self.exist_weight == other.exist_weight,
             self.concentration_weight == other.concentration_weight,
-            self.lethal_concentration == other.lethal_concentration,
-            self.healthy_concentration == other.healthy_concentration
+            self.lethal_concentration == other.lethal_concentration
         ]
         return all(check)
 
@@ -99,13 +91,6 @@ class Molecule():
             retrieved_data["lethal_concentration"] = UnitValue.from_any(lethal_concentration)
         else:
             retrieved_data["lethal_concentration"] = None
-
-        # Not every molecule needs this information
-        healthy_concentration = data.get("healthy_concentration", None)
-        if isinstance(healthy_concentration, (str, dict)):
-            retrieved_data["healthy_concentration"] = UnitValue.from_any(healthy_concentration)
-        else:
-            retrieved_data["healthy_concentration"] = None
             
         return Molecule(**retrieved_data)
     
@@ -132,9 +117,6 @@ class Molecule():
     
     def get_lethal_concentration(self) -> Optional[UnitValue]:
         return self.lethal_concentration
-    
-    def get_healthy_concentration(self) -> Optional[UnitValue]:
-        return self.healthy_concentration
     
     def get_state_at(self, temperature: UnitValue) -> AggregateState:
         temperature.validate_of_class("temperature")

@@ -3,6 +3,7 @@ from typing import Optional
 from src.constants.config import Config
 from src.events.event import Event
 from src.events.response import Response
+from src.planet_generation.atmosphere import Atmosphere
 from src.planet_generation.unit_value import UnitValue
 from src.space_ship.ship_system import ShipSystem
 from src.space_ship.upgrade_model import UpgradeModel
@@ -158,6 +159,15 @@ class HabitationSystem(ShipSystem):
             habitat_score, habitat_percentage = self.calculate_score_percentage(habitat_distance, "gravity")
             report["habitat_gravity_score"] = habitat_score
             report["habitat_gravity_percentage"] = habitat_percentage
+
+        atmosphere = planet_report.get("atmosphere", None)
+        if isinstance(atmosphere, Atmosphere) and isinstance(temperature, UnitValue):
+            human_score, _ = atmosphere.get_breathability(temperature=temperature)
+
+            report["human_breathability_percentage"] = human_score
+
+            habitat_score = 0 if atmosphere.is_radioactive() else 100
+            report["habitat_breathability_percentage"] = habitat_score
 
         return Response.create(data=report, response_type=Response.TYPES.HABITATION_REPORT)
     

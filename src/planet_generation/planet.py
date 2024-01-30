@@ -210,10 +210,10 @@ class Planet():
     
     def get_report(self, revealed_data: Optional[list[str]] = None) -> dict:
         data = {
-            "type": self.type,
+            "atmosphere": self.atmosphere,
             "image": None if not self.image else self.image.get_ctk_image(200, 200),
             "topography": self.get_topography_description(),
-            "atmospheric_composition": self.atmosphere.get_composition()
+            "type": self.type
         }
 
         if revealed_data is None:

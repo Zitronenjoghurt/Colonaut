@@ -3,6 +3,7 @@ from src.constants.locale_translator import LocaleTranslator
 from src.events.event import Event
 from src.events.event_bus import EventBus
 from src.events.response import Response
+from src.planet_generation.atmosphere import Atmosphere
 from .data_list import DataList
 from .habitability_box import HabitabilityBox
 
@@ -58,9 +59,8 @@ class PlanetReportWindow(ctk.CTkFrame):
         self.gravity_box = HabitabilityBox(habitability_frame, title=LT.get(LT.KEYS.GRAVITY))
         self.gravity_box.pack(fill='x', padx=10, pady=10, anchor='n')
         
-        # placeholder for the future
-        self.whatever_box = HabitabilityBox(habitability_frame, title="BREATHABILITY (WIP)")
-        self.whatever_box.pack(fill='x', padx=10, pady=(10, 15), anchor='n')
+        self.breathability_box = HabitabilityBox(habitability_frame, title=LT.get(LT.KEYS.BREATHABILITY))
+        self.breathability_box.pack(fill='x', padx=10, pady=(10, 15), anchor='n')
 
         atmosphere_frame = ctk.CTkFrame(self, height=300, width=250)
         atmosphere_frame.grid_propagate(False)
@@ -97,9 +97,9 @@ class PlanetReportWindow(ctk.CTkFrame):
             self.type_label.configure(text=LT.get(type))
             self.type_description.configure(text=LT.get(type+"_description"))
 
-        atmospheric_composition: list[tuple[str, str]] = planet_report.get("atmospheric_composition", None)
-        if isinstance(atmospheric_composition, list):
-            self.atmosphere_data.update_data(atmospheric_composition)
+        atmosphere: Atmosphere = planet_report.get("atmosphere", None)
+        if isinstance(atmosphere, Atmosphere):
+            self.atmosphere_data.update_data(atmosphere.get_composition())
         else:
             self.atmosphere_data.update_data([])
 
@@ -118,6 +118,10 @@ class PlanetReportWindow(ctk.CTkFrame):
         human_gravity_percentage = habitation_report.get("human_gravity_percentage", None)
         habitat_gravity_percentage = habitation_report.get("habitat_gravity_percentage", None)
         self.gravity_box.update_data(human_gravity_percentage, habitat_gravity_percentage)
+
+        human_breathability_percentage = habitation_report.get("human_breathability_percentage", None)
+        habitat_breathability_percentage = habitation_report.get("habitat_breathability_percentage", None)
+        self.breathability_box.update_data(human_breathability_percentage, habitat_breathability_percentage)
 
     def on_exit(self) -> None:
         close_system_window = Event(Event.TYPES.UI_CLOSE_PLANET_REPORT_WINDOW)

@@ -49,6 +49,7 @@ class Locales:
     ATMOSPHERE = "atmosphere"
     AVERAGE_TOLERANCE = "average_tolerance"
     AXIAL_TILT = "axial_tilt"
+    BREATHABILITY = "breathability"
     DENSITY = "density"
     DISTANCE_TO_STAR = "distance_to_star"
     ESCAPE_VELOCITY = "escape_velocity"

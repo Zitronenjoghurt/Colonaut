@@ -139,6 +139,13 @@ class MoleculeDatabase():
                 weights.append(0)
         return weights
     
+    def contains_radioactive_molecule(self, molecule_names: list[str]) -> bool:
+        for molecule_name in molecule_names:
+            molecule = self.get_molecule(molecule_name)
+            if molecule.is_radioactive():
+                return True
+        return False
+    
     def check_composition_breathability(self, composition: list[tuple[str, float]], temperature: Optional[UnitValue] = None) -> tuple[float, str]:
         # Check temperature before everything else
         if isinstance(temperature, UnitValue):

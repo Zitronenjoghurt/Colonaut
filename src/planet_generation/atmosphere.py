@@ -11,6 +11,8 @@ class Atmosphere():
             composition: list[tuple[str, float]]
         ) -> None:
         self.composition = composition
+        self.molecules = [entry[0] for entry in self.composition]
+        self.radioactive = MDB.contains_radioactive_molecule(self.molecules)
 
     def __str__(self) -> str:
         return "\n".join(f"{molecule}: {concentration}%" for molecule, concentration in self.composition)
@@ -43,14 +45,17 @@ class Atmosphere():
 
         return data
     
+    def is_radioactive(self) -> bool:
+        return self.radioactive
+    
     def get_composition(self) -> list[tuple[str, str]]:
         composition = []
         for entry in self.composition:
             composition.append((entry[0], str(entry[1])+"%"))
         return composition
     
-    def get_breathability(self, temperature: Optional[UnitValue] = None) -> None:
-        breathability, message = MDB.check_composition_breathability(composition=self.composition, temperature=temperature)
+    def get_breathability(self, temperature: Optional[UnitValue] = None) -> tuple[float, str]:
+        return MDB.check_composition_breathability(composition=self.composition, temperature=temperature)
  
 def random_atmposphere(min_mass: float, temperature: Optional[UnitValue] = None) -> Atmosphere:
     molecule_count = random.randint(7, 12)
